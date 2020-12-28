@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.population.dao.FamilyMapper">
+  <resultMap id="BaseResultMap" type="com.population.pojo.Family">
+    <id column="fam_id" jdbcType="INTEGER" property="famId" />
+    <result column="family_name" jdbcType="VARCHAR" property="familyName" />
+    <result column="family_number" jdbcType="VARCHAR" property="familyNumber" />
+    <result column="family_sex" jdbcType="INTEGER" property="familySex" />
+    <result column="family_brithday" jdbcType="TIMESTAMP" property="familyBrithday" />
+    <result column="family_vaccine" jdbcType="INTEGER" property="familyVaccine" />
+    <result column="family_learn" jdbcType="INTEGER" property="familyLearn" />
+    <result column="del_id" jdbcType="INTEGER" property="delId" />
+    <result column="personal" jdbcType="INTEGER" property="personal" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="spare_str" jdbcType="VARCHAR" property="spareStr" />
+    <result column="spare_int" jdbcType="INTEGER" property="spareInt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    fam_id, family_name, family_number, family_sex, family_brithday, family_vaccine, 
+    family_learn, del_id, personal, gmt_create, gmt_modified, spare_str, spare_int
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from family
+    where fam_id = #{famId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from family
+    where fam_id = #{famId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.population.pojo.Family">
+    insert into family (fam_id, family_name, family_number, 
+      family_sex, family_brithday, family_vaccine, 
+      family_learn, del_id, personal, 
+      gmt_create, gmt_modified, spare_str, 
+      spare_int)
+    values (#{famId,jdbcType=INTEGER}, #{familyName,jdbcType=VARCHAR}, #{familyNumber,jdbcType=VARCHAR}, 
+      #{familySex,jdbcType=INTEGER}, #{familyBrithday,jdbcType=TIMESTAMP}, #{familyVaccine,jdbcType=INTEGER}, 
+      #{familyLearn,jdbcType=INTEGER}, #{delId,jdbcType=INTEGER}, #{personal,jdbcType=INTEGER}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{spareStr,jdbcType=VARCHAR}, 
+      #{spareInt,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.population.pojo.Family">
+    insert into family
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="famId != null">
+        fam_id,
+      </if>
+      <if test="familyName != null">
+        family_name,
+      </if>
+      <if test="familyNumber != null">
+        family_number,
+      </if>
+      <if test="familySex != null">
+        family_sex,
+      </if>
+      <if test="familyBrithday != null">
+        family_brithday,
+      </if>
+      <if test="familyVaccine != null">
+        family_vaccine,
+      </if>
+      <if test="familyLearn != null">
+        family_learn,
+      </if>
+      <if test="delId != null">
+        del_id,
+      </if>
+      <if test="personal != null">
+        personal,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="spareStr != null">
+        spare_str,
+      </if>
+      <if test="spareInt != null">
+        spare_int,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="famId != null">
+        #{famId,jdbcType=INTEGER},
+      </if>
+      <if test="familyName != null">
+        #{familyName,jdbcType=VARCHAR},
+      </if>
+      <if test="familyNumber != null">
+        #{familyNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="familySex != null">
+        #{familySex,jdbcType=INTEGER},
+      </if>
+      <if test="familyBrithday != null">
+        #{familyBrithday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="familyVaccine != null">
+        #{familyVaccine,jdbcType=INTEGER},
+      </if>
+      <if test="familyLearn != null">
+        #{familyLearn,jdbcType=INTEGER},
+      </if>
+      <if test="delId != null">
+        #{delId,jdbcType=INTEGER},
+      </if>
+      <if test="personal != null">
+        #{personal,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="spareStr != null">
+        #{spareStr,jdbcType=VARCHAR},
+      </if>
+      <if test="spareInt != null">
+        #{spareInt,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.population.pojo.Family">
+    update family
+    <set>
+      <if test="familyName != null">
+        family_name = #{familyName,jdbcType=VARCHAR},
+      </if>
+      <if test="familyNumber != null">
+        family_number = #{familyNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="familySex != null">
+        family_sex = #{familySex,jdbcType=INTEGER},
+      </if>
+      <if test="familyBrithday != null">
+        family_brithday = #{familyBrithday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="familyVaccine != null">
+        family_vaccine = #{familyVaccine,jdbcType=INTEGER},
+      </if>
+      <if test="familyLearn != null">
+        family_learn = #{familyLearn,jdbcType=INTEGER},
+      </if>
+      <if test="delId != null">
+        del_id = #{delId,jdbcType=INTEGER},
+      </if>
+      <if test="personal != null">
+        personal = #{personal,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="spareStr != null">
+        spare_str = #{spareStr,jdbcType=VARCHAR},
+      </if>
+      <if test="spareInt != null">
+        spare_int = #{spareInt,jdbcType=INTEGER},
+      </if>
+    </set>
+    where fam_id = #{famId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.population.pojo.Family">
+    update family
+    set family_name = #{familyName,jdbcType=VARCHAR},
+      family_number = #{familyNumber,jdbcType=VARCHAR},
+      family_sex = #{familySex,jdbcType=INTEGER},
+      family_brithday = #{familyBrithday,jdbcType=TIMESTAMP},
+      family_vaccine = #{familyVaccine,jdbcType=INTEGER},
+      family_learn = #{familyLearn,jdbcType=INTEGER},
+      del_id = #{delId,jdbcType=INTEGER},
+      personal = #{personal,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      spare_str = #{spareStr,jdbcType=VARCHAR},
+      spare_int = #{spareInt,jdbcType=INTEGER}
+    where fam_id = #{famId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.population.dao.EmployingMapper">
+  <resultMap id="BaseResultMap" type="com.population.pojo.Employing">
+    <id column="em_id" jdbcType="INTEGER" property="emId" />
+    <result column="employing_name" jdbcType="VARCHAR" property="employingName" />
+    <result column="unit_type" jdbcType="INTEGER" property="unitType" />
+    <result column="unit_site_provine" jdbcType="VARCHAR" property="unitSiteProvine" />
+    <result column="unit_site_avenue" jdbcType="VARCHAR" property="unitSiteAvenue" />
+    <result column="unit_site_community" jdbcType="VARCHAR" property="unitSiteCommunity" />
+    <result column="unit_site_way" jdbcType="VARCHAR" property="unitSiteWay" />
+    <result column="unit_site_house" jdbcType="VARCHAR" property="unitSiteHouse" />
+    <result column="unit_site_bar" jdbcType="VARCHAR" property="unitSiteBar" />
+    <result column="organization" jdbcType="VARCHAR" property="organization" />
+    <result column="legal_person" jdbcType="VARCHAR" property="legalPerson" />
+    <result column="contract_time" jdbcType="INTEGER" property="contractTime" />
+    <result column="unit_phone" jdbcType="VARCHAR" property="unitPhone" />
+    <result column="insurance" jdbcType="INTEGER" property="insurance" />
+    <result column="unit_social" jdbcType="VARCHAR" property="unitSocial" />
+    <result column="unit_number" jdbcType="VARCHAR" property="unitNumber" />
+    <result column="unit_person" jdbcType="VARCHAR" property="unitPerson" />
+    <result column="industry_sort" jdbcType="INTEGER" property="industrySort" />
+    <result column="grade" jdbcType="INTEGER" property="grade" />
+    <result column="profession_skill" jdbcType="INTEGER" property="professionSkill" />
+    <result column="profession" jdbcType="VARCHAR" property="profession" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="del_id" jdbcType="INTEGER" property="delId" />
+    <result column="spare_str" jdbcType="VARCHAR" property="spareStr" />
+    <result column="spare_int" jdbcType="INTEGER" property="spareInt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    em_id, employing_name, unit_type, unit_site_provine, unit_site_avenue, unit_site_community, 
+    unit_site_way, unit_site_house, unit_site_bar, organization, legal_person, contract_time, 
+    unit_phone, insurance, unit_social, unit_number, unit_person, industry_sort, grade, 
+    profession_skill, profession, gmt_create, gmt_modified, del_id, spare_str, spare_int
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from employing
+    where em_id = #{emId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from employing
+    where em_id = #{emId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.population.pojo.Employing">
+    insert into employing (em_id, employing_name, unit_type, 
+      unit_site_provine, unit_site_avenue, unit_site_community, 
+      unit_site_way, unit_site_house, unit_site_bar, 
+      organization, legal_person, contract_time, 
+      unit_phone, insurance, unit_social, 
+      unit_number, unit_person, industry_sort, 
+      grade, profession_skill, profession, 
+      gmt_create, gmt_modified, del_id, 
+      spare_str, spare_int)
+    values (#{emId,jdbcType=INTEGER}, #{employingName,jdbcType=VARCHAR}, #{unitType,jdbcType=INTEGER}, 
+      #{unitSiteProvine,jdbcType=VARCHAR}, #{unitSiteAvenue,jdbcType=VARCHAR}, #{unitSiteCommunity,jdbcType=VARCHAR}, 
+      #{unitSiteWay,jdbcType=VARCHAR}, #{unitSiteHouse,jdbcType=VARCHAR}, #{unitSiteBar,jdbcType=VARCHAR}, 
+      #{organization,jdbcType=VARCHAR}, #{legalPerson,jdbcType=VARCHAR}, #{contractTime,jdbcType=INTEGER}, 
+      #{unitPhone,jdbcType=VARCHAR}, #{insurance,jdbcType=INTEGER}, #{unitSocial,jdbcType=VARCHAR}, 
+      #{unitNumber,jdbcType=VARCHAR}, #{unitPerson,jdbcType=VARCHAR}, #{industrySort,jdbcType=INTEGER}, 
+      #{grade,jdbcType=INTEGER}, #{professionSkill,jdbcType=INTEGER}, #{profession,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{delId,jdbcType=INTEGER}, 
+      #{spareStr,jdbcType=VARCHAR}, #{spareInt,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.population.pojo.Employing">
+    insert into employing
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="emId != null">
+        em_id,
+      </if>
+      <if test="employingName != null">
+        employing_name,
+      </if>
+      <if test="unitType != null">
+        unit_type,
+      </if>
+      <if test="unitSiteProvine != null">
+        unit_site_provine,
+      </if>
+      <if test="unitSiteAvenue != null">
+        unit_site_avenue,
+      </if>
+      <if test="unitSiteCommunity != null">
+        unit_site_community,
+      </if>
+      <if test="unitSiteWay != null">
+        unit_site_way,
+      </if>
+      <if test="unitSiteHouse != null">
+        unit_site_house,
+      </if>
+      <if test="unitSiteBar != null">
+        unit_site_bar,
+      </if>
+      <if test="organization != null">
+        organization,
+      </if>
+      <if test="legalPerson != null">
+        legal_person,
+      </if>
+      <if test="contractTime != null">
+        contract_time,
+      </if>
+      <if test="unitPhone != null">
+        unit_phone,
+      </if>
+      <if test="insurance != null">
+        insurance,
+      </if>
+      <if test="unitSocial != null">
+        unit_social,
+      </if>
+      <if test="unitNumber != null">
+        unit_number,
+      </if>
+      <if test="unitPerson != null">
+        unit_person,
+      </if>
+      <if test="industrySort != null">
+        industry_sort,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="professionSkill != null">
+        profession_skill,
+      </if>
+      <if test="profession != null">
+        profession,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="delId != null">
+        del_id,
+      </if>
+      <if test="spareStr != null">
+        spare_str,
+      </if>
+      <if test="spareInt != null">
+        spare_int,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="emId != null">
+        #{emId,jdbcType=INTEGER},
+      </if>
+      <if test="employingName != null">
+        #{employingName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitType != null">
+        #{unitType,jdbcType=INTEGER},
+      </if>
+      <if test="unitSiteProvine != null">
+        #{unitSiteProvine,jdbcType=VARCHAR},
+      </if>
+      <if test="unitSiteAvenue != null">
+        #{unitSiteAvenue,jdbcType=VARCHAR},
+      </if>
+      <if test="unitSiteCommunity != null">
+        #{unitSiteCommunity,jdbcType=VARCHAR},
+      </if>
+      <if test="unitSiteWay != null">
+        #{unitSiteWay,jdbcType=VARCHAR},
+      </if>
+      <if test="unitSiteHouse != null">
+        #{unitSiteHouse,jdbcType=VARCHAR},
+      </if>
+      <if test="unitSiteBar != null">
+        #{unitSiteBar,jdbcType=VARCHAR},
+      </if>
+      <if test="organization != null">
+        #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPerson != null">
+        #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="contractTime != null">
+        #{contractTime,jdbcType=INTEGER},
+      </if>
+      <if test="unitPhone != null">
+        #{unitPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="insurance != null">
+        #{insurance,jdbcType=INTEGER},
+      </if>
+      <if test="unitSocial != null">
+        #{unitSocial,jdbcType=VARCHAR},
+      </if>
+      <if test="unitNumber != null">
+        #{unitNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPerson != null">
+        #{unitPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="industrySort != null">
+        #{industrySort,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="professionSkill != null">
+        #{professionSkill,jdbcType=INTEGER},
+      </if>
+      <if test="profession != null">
+        #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delId != null">
+        #{delId,jdbcType=INTEGER},
+      </if>
+      <if test="spareStr != null">
+        #{spareStr,jdbcType=VARCHAR},
+      </if>
+      <if test="spareInt != null">
+        #{spareInt,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.population.pojo.Employing">
+    update employing
+    <set>
+      <if test="employingName != null">
+        employing_name = #{employingName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitType != null">
+        unit_type = #{unitType,jdbcType=INTEGER},
+      </if>
+      <if test="unitSiteProvine != null">
+        unit_site_provine = #{unitSiteProvine,jdbcType=VARCHAR},
+      </if>
+      <if test="unitSiteAvenue != null">
+        unit_site_avenue = #{unitSiteAvenue,jdbcType=VARCHAR},
+      </if>
+      <if test="unitSiteCommunity != null">
+        unit_site_community = #{unitSiteCommunity,jdbcType=VARCHAR},
+      </if>
+      <if test="unitSiteWay != null">
+        unit_site_way = #{unitSiteWay,jdbcType=VARCHAR},
+      </if>
+      <if test="unitSiteHouse != null">
+        unit_site_house = #{unitSiteHouse,jdbcType=VARCHAR},
+      </if>
+      <if test="unitSiteBar != null">
+        unit_site_bar = #{unitSiteBar,jdbcType=VARCHAR},
+      </if>
+      <if test="organization != null">
+        organization = #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="legalPerson != null">
+        legal_person = #{legalPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="contractTime != null">
+        contract_time = #{contractTime,jdbcType=INTEGER},
+      </if>
+      <if test="unitPhone != null">
+        unit_phone = #{unitPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="insurance != null">
+        insurance = #{insurance,jdbcType=INTEGER},
+      </if>
+      <if test="unitSocial != null">
+        unit_social = #{unitSocial,jdbcType=VARCHAR},
+      </if>
+      <if test="unitNumber != null">
+        unit_number = #{unitNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPerson != null">
+        unit_person = #{unitPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="industrySort != null">
+        industry_sort = #{industrySort,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="professionSkill != null">
+        profession_skill = #{professionSkill,jdbcType=INTEGER},
+      </if>
+      <if test="profession != null">
+        profession = #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delId != null">
+        del_id = #{delId,jdbcType=INTEGER},
+      </if>
+      <if test="spareStr != null">
+        spare_str = #{spareStr,jdbcType=VARCHAR},
+      </if>
+      <if test="spareInt != null">
+        spare_int = #{spareInt,jdbcType=INTEGER},
+      </if>
+    </set>
+    where em_id = #{emId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.population.pojo.Employing">
+    update employing
+    set employing_name = #{employingName,jdbcType=VARCHAR},
+      unit_type = #{unitType,jdbcType=INTEGER},
+      unit_site_provine = #{unitSiteProvine,jdbcType=VARCHAR},
+      unit_site_avenue = #{unitSiteAvenue,jdbcType=VARCHAR},
+      unit_site_community = #{unitSiteCommunity,jdbcType=VARCHAR},
+      unit_site_way = #{unitSiteWay,jdbcType=VARCHAR},
+      unit_site_house = #{unitSiteHouse,jdbcType=VARCHAR},
+      unit_site_bar = #{unitSiteBar,jdbcType=VARCHAR},
+      organization = #{organization,jdbcType=VARCHAR},
+      legal_person = #{legalPerson,jdbcType=VARCHAR},
+      contract_time = #{contractTime,jdbcType=INTEGER},
+      unit_phone = #{unitPhone,jdbcType=VARCHAR},
+      insurance = #{insurance,jdbcType=INTEGER},
+      unit_social = #{unitSocial,jdbcType=VARCHAR},
+      unit_number = #{unitNumber,jdbcType=VARCHAR},
+      unit_person = #{unitPerson,jdbcType=VARCHAR},
+      industry_sort = #{industrySort,jdbcType=INTEGER},
+      grade = #{grade,jdbcType=INTEGER},
+      profession_skill = #{professionSkill,jdbcType=INTEGER},
+      profession = #{profession,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      del_id = #{delId,jdbcType=INTEGER},
+      spare_str = #{spareStr,jdbcType=VARCHAR},
+      spare_int = #{spareInt,jdbcType=INTEGER}
+    where em_id = #{emId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.population.dao.LeaserMapper">
+  <resultMap id="BaseResultMap" type="com.population.pojo.Leaser">
+    <id column="lea_id" jdbcType="INTEGER" property="leaId" />
+    <result column="landlord_name" jdbcType="VARCHAR" property="landlordName" />
+    <result column="landlord_phone" jdbcType="VARCHAR" property="landlordPhone" />
+    <result column="landlord_duty" jdbcType="INTEGER" property="landlordDuty" />
+    <result column="landlord_number" jdbcType="VARCHAR" property="landlordNumber" />
+    <result column="agent_name" jdbcType="VARCHAR" property="agentName" />
+    <result column="agent_phone" jdbcType="VARCHAR" property="agentPhone" />
+    <result column="agent_duty" jdbcType="INTEGER" property="agentDuty" />
+    <result column="agent_number" jdbcType="VARCHAR" property="agentNumber" />
+    <result column="del_id" jdbcType="INTEGER" property="delId" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="spare_str" jdbcType="VARCHAR" property="spareStr" />
+    <result column="spare_int" jdbcType="INTEGER" property="spareInt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    lea_id, landlord_name, landlord_phone, landlord_duty, landlord_number, agent_name, 
+    agent_phone, agent_duty, agent_number, del_id, gmt_create, gmt_modified, spare_str, 
+    spare_int
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from leaser
+    where lea_id = #{leaId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from leaser
+    where lea_id = #{leaId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.population.pojo.Leaser">
+    insert into leaser (lea_id, landlord_name, landlord_phone, 
+      landlord_duty, landlord_number, agent_name, 
+      agent_phone, agent_duty, agent_number, 
+      del_id, gmt_create, gmt_modified, 
+      spare_str, spare_int)
+    values (#{leaId,jdbcType=INTEGER}, #{landlordName,jdbcType=VARCHAR}, #{landlordPhone,jdbcType=VARCHAR}, 
+      #{landlordDuty,jdbcType=INTEGER}, #{landlordNumber,jdbcType=VARCHAR}, #{agentName,jdbcType=VARCHAR}, 
+      #{agentPhone,jdbcType=VARCHAR}, #{agentDuty,jdbcType=INTEGER}, #{agentNumber,jdbcType=VARCHAR}, 
+      #{delId,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{spareStr,jdbcType=VARCHAR}, #{spareInt,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.population.pojo.Leaser">
+    insert into leaser
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="leaId != null">
+        lea_id,
+      </if>
+      <if test="landlordName != null">
+        landlord_name,
+      </if>
+      <if test="landlordPhone != null">
+        landlord_phone,
+      </if>
+      <if test="landlordDuty != null">
+        landlord_duty,
+      </if>
+      <if test="landlordNumber != null">
+        landlord_number,
+      </if>
+      <if test="agentName != null">
+        agent_name,
+      </if>
+      <if test="agentPhone != null">
+        agent_phone,
+      </if>
+      <if test="agentDuty != null">
+        agent_duty,
+      </if>
+      <if test="agentNumber != null">
+        agent_number,
+      </if>
+      <if test="delId != null">
+        del_id,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="spareStr != null">
+        spare_str,
+      </if>
+      <if test="spareInt != null">
+        spare_int,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="leaId != null">
+        #{leaId,jdbcType=INTEGER},
+      </if>
+      <if test="landlordName != null">
+        #{landlordName,jdbcType=VARCHAR},
+      </if>
+      <if test="landlordPhone != null">
+        #{landlordPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="landlordDuty != null">
+        #{landlordDuty,jdbcType=INTEGER},
+      </if>
+      <if test="landlordNumber != null">
+        #{landlordNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="agentName != null">
+        #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentPhone != null">
+        #{agentPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="agentDuty != null">
+        #{agentDuty,jdbcType=INTEGER},
+      </if>
+      <if test="agentNumber != null">
+        #{agentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="delId != null">
+        #{delId,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="spareStr != null">
+        #{spareStr,jdbcType=VARCHAR},
+      </if>
+      <if test="spareInt != null">
+        #{spareInt,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.population.pojo.Leaser">
+    update leaser
+    <set>
+      <if test="landlordName != null">
+        landlord_name = #{landlordName,jdbcType=VARCHAR},
+      </if>
+      <if test="landlordPhone != null">
+        landlord_phone = #{landlordPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="landlordDuty != null">
+        landlord_duty = #{landlordDuty,jdbcType=INTEGER},
+      </if>
+      <if test="landlordNumber != null">
+        landlord_number = #{landlordNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="agentName != null">
+        agent_name = #{agentName,jdbcType=VARCHAR},
+      </if>
+      <if test="agentPhone != null">
+        agent_phone = #{agentPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="agentDuty != null">
+        agent_duty = #{agentDuty,jdbcType=INTEGER},
+      </if>
+      <if test="agentNumber != null">
+        agent_number = #{agentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="delId != null">
+        del_id = #{delId,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="spareStr != null">
+        spare_str = #{spareStr,jdbcType=VARCHAR},
+      </if>
+      <if test="spareInt != null">
+        spare_int = #{spareInt,jdbcType=INTEGER},
+      </if>
+    </set>
+    where lea_id = #{leaId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.population.pojo.Leaser">
+    update leaser
+    set landlord_name = #{landlordName,jdbcType=VARCHAR},
+      landlord_phone = #{landlordPhone,jdbcType=VARCHAR},
+      landlord_duty = #{landlordDuty,jdbcType=INTEGER},
+      landlord_number = #{landlordNumber,jdbcType=VARCHAR},
+      agent_name = #{agentName,jdbcType=VARCHAR},
+      agent_phone = #{agentPhone,jdbcType=VARCHAR},
+      agent_duty = #{agentDuty,jdbcType=INTEGER},
+      agent_number = #{agentNumber,jdbcType=VARCHAR},
+      del_id = #{delId,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      spare_str = #{spareStr,jdbcType=VARCHAR},
+      spare_int = #{spareInt,jdbcType=INTEGER}
+    where lea_id = #{leaId,jdbcType=INTEGER}
+  </update>
+</mapper>

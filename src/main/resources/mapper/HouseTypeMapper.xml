@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.population.dao.HouseTypeMapper">
+  <resultMap id="BaseResultMap" type="com.population.pojo.HouseType">
+    <id column="ht_id" jdbcType="INTEGER" property="htId" />
+    <result column="house_type_name" jdbcType="VARCHAR" property="houseTypeName" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modifile" jdbcType="TIMESTAMP" property="gmtModifile" />
+    <result column="del_id" jdbcType="INTEGER" property="delId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ht_id, house_type_name, gmt_create, gmt_modifile, del_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from house_type
+    where ht_id = #{htId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from house_type
+    where ht_id = #{htId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.population.pojo.HouseType">
+    insert into house_type (ht_id, house_type_name, gmt_create, 
+      gmt_modifile, del_id)
+    values (#{htId,jdbcType=INTEGER}, #{houseTypeName,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModifile,jdbcType=TIMESTAMP}, #{delId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.population.pojo.HouseType">
+    insert into house_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="htId != null">
+        ht_id,
+      </if>
+      <if test="houseTypeName != null">
+        house_type_name,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModifile != null">
+        gmt_modifile,
+      </if>
+      <if test="delId != null">
+        del_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="htId != null">
+        #{htId,jdbcType=INTEGER},
+      </if>
+      <if test="houseTypeName != null">
+        #{houseTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModifile != null">
+        #{gmtModifile,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delId != null">
+        #{delId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.population.pojo.HouseType">
+    update house_type
+    <set>
+      <if test="houseTypeName != null">
+        house_type_name = #{houseTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModifile != null">
+        gmt_modifile = #{gmtModifile,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delId != null">
+        del_id = #{delId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ht_id = #{htId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.population.pojo.HouseType">
+    update house_type
+    set house_type_name = #{houseTypeName,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modifile = #{gmtModifile,jdbcType=TIMESTAMP},
+      del_id = #{delId,jdbcType=INTEGER}
+    where ht_id = #{htId,jdbcType=INTEGER}
+  </update>
+</mapper>

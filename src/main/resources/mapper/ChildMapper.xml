@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.population.dao.ChildMapper">
+  <resultMap id="BaseResultMap" type="com.population.pojo.Child">
+    <id column="ch_id" jdbcType="INTEGER" property="chId" />
+    <result column="mate_peer" jdbcType="INTEGER" property="matePeer" />
+    <result column="marital" jdbcType="INTEGER" property="marital" />
+    <result column="marital_number" jdbcType="VARCHAR" property="maritalNumber" />
+    <result column="verify" jdbcType="INTEGER" property="verify" />
+    <result column="boy" jdbcType="INTEGER" property="boy" />
+    <result column="girl" jdbcType="INTEGER" property="girl" />
+    <result column="policy_in" jdbcType="INTEGER" property="policyIn" />
+    <result column="policy_out" jdbcType="INTEGER" property="policyOut" />
+    <result column="only_child" jdbcType="INTEGER" property="onlyChild" />
+    <result column="alimony" jdbcType="INTEGER" property="alimony" />
+    <result column="contraception" jdbcType="INTEGER" property="contraception" />
+    <result column="contraception_time" jdbcType="TIMESTAMP" property="contraceptionTime" />
+    <result column="once_bog" jdbcType="INTEGER" property="onceBog" />
+    <result column="once_birthday" jdbcType="TIMESTAMP" property="onceBirthday" />
+    <result column="once_policy" jdbcType="INTEGER" property="oncePolicy" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="del_id" jdbcType="INTEGER" property="delId" />
+    <result column="spare_str" jdbcType="VARCHAR" property="spareStr" />
+    <result column="spare_int" jdbcType="INTEGER" property="spareInt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ch_id, mate_peer, marital, marital_number, verify, boy, girl, policy_in, policy_out, 
+    only_child, alimony, contraception, contraception_time, once_bog, once_birthday, 
+    once_policy, gmt_create, gmt_modified, del_id, spare_str, spare_int
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from child
+    where ch_id = #{chId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from child
+    where ch_id = #{chId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.population.pojo.Child">
+    insert into child (ch_id, mate_peer, marital, 
+      marital_number, verify, boy, 
+      girl, policy_in, policy_out, 
+      only_child, alimony, contraception, 
+      contraception_time, once_bog, once_birthday, 
+      once_policy, gmt_create, gmt_modified, 
+      del_id, spare_str, spare_int
+      )
+    values (#{chId,jdbcType=INTEGER}, #{matePeer,jdbcType=INTEGER}, #{marital,jdbcType=INTEGER}, 
+      #{maritalNumber,jdbcType=VARCHAR}, #{verify,jdbcType=INTEGER}, #{boy,jdbcType=INTEGER}, 
+      #{girl,jdbcType=INTEGER}, #{policyIn,jdbcType=INTEGER}, #{policyOut,jdbcType=INTEGER}, 
+      #{onlyChild,jdbcType=INTEGER}, #{alimony,jdbcType=INTEGER}, #{contraception,jdbcType=INTEGER}, 
+      #{contraceptionTime,jdbcType=TIMESTAMP}, #{onceBog,jdbcType=INTEGER}, #{onceBirthday,jdbcType=TIMESTAMP}, 
+      #{oncePolicy,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{delId,jdbcType=INTEGER}, #{spareStr,jdbcType=VARCHAR}, #{spareInt,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.population.pojo.Child">
+    insert into child
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="chId != null">
+        ch_id,
+      </if>
+      <if test="matePeer != null">
+        mate_peer,
+      </if>
+      <if test="marital != null">
+        marital,
+      </if>
+      <if test="maritalNumber != null">
+        marital_number,
+      </if>
+      <if test="verify != null">
+        verify,
+      </if>
+      <if test="boy != null">
+        boy,
+      </if>
+      <if test="girl != null">
+        girl,
+      </if>
+      <if test="policyIn != null">
+        policy_in,
+      </if>
+      <if test="policyOut != null">
+        policy_out,
+      </if>
+      <if test="onlyChild != null">
+        only_child,
+      </if>
+      <if test="alimony != null">
+        alimony,
+      </if>
+      <if test="contraception != null">
+        contraception,
+      </if>
+      <if test="contraceptionTime != null">
+        contraception_time,
+      </if>
+      <if test="onceBog != null">
+        once_bog,
+      </if>
+      <if test="onceBirthday != null">
+        once_birthday,
+      </if>
+      <if test="oncePolicy != null">
+        once_policy,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="delId != null">
+        del_id,
+      </if>
+      <if test="spareStr != null">
+        spare_str,
+      </if>
+      <if test="spareInt != null">
+        spare_int,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="chId != null">
+        #{chId,jdbcType=INTEGER},
+      </if>
+      <if test="matePeer != null">
+        #{matePeer,jdbcType=INTEGER},
+      </if>
+      <if test="marital != null">
+        #{marital,jdbcType=INTEGER},
+      </if>
+      <if test="maritalNumber != null">
+        #{maritalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="verify != null">
+        #{verify,jdbcType=INTEGER},
+      </if>
+      <if test="boy != null">
+        #{boy,jdbcType=INTEGER},
+      </if>
+      <if test="girl != null">
+        #{girl,jdbcType=INTEGER},
+      </if>
+      <if test="policyIn != null">
+        #{policyIn,jdbcType=INTEGER},
+      </if>
+      <if test="policyOut != null">
+        #{policyOut,jdbcType=INTEGER},
+      </if>
+      <if test="onlyChild != null">
+        #{onlyChild,jdbcType=INTEGER},
+      </if>
+      <if test="alimony != null">
+        #{alimony,jdbcType=INTEGER},
+      </if>
+      <if test="contraception != null">
+        #{contraception,jdbcType=INTEGER},
+      </if>
+      <if test="contraceptionTime != null">
+        #{contraceptionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="onceBog != null">
+        #{onceBog,jdbcType=INTEGER},
+      </if>
+      <if test="onceBirthday != null">
+        #{onceBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oncePolicy != null">
+        #{oncePolicy,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delId != null">
+        #{delId,jdbcType=INTEGER},
+      </if>
+      <if test="spareStr != null">
+        #{spareStr,jdbcType=VARCHAR},
+      </if>
+      <if test="spareInt != null">
+        #{spareInt,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.population.pojo.Child">
+    update child
+    <set>
+      <if test="matePeer != null">
+        mate_peer = #{matePeer,jdbcType=INTEGER},
+      </if>
+      <if test="marital != null">
+        marital = #{marital,jdbcType=INTEGER},
+      </if>
+      <if test="maritalNumber != null">
+        marital_number = #{maritalNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="verify != null">
+        verify = #{verify,jdbcType=INTEGER},
+      </if>
+      <if test="boy != null">
+        boy = #{boy,jdbcType=INTEGER},
+      </if>
+      <if test="girl != null">
+        girl = #{girl,jdbcType=INTEGER},
+      </if>
+      <if test="policyIn != null">
+        policy_in = #{policyIn,jdbcType=INTEGER},
+      </if>
+      <if test="policyOut != null">
+        policy_out = #{policyOut,jdbcType=INTEGER},
+      </if>
+      <if test="onlyChild != null">
+        only_child = #{onlyChild,jdbcType=INTEGER},
+      </if>
+      <if test="alimony != null">
+        alimony = #{alimony,jdbcType=INTEGER},
+      </if>
+      <if test="contraception != null">
+        contraception = #{contraception,jdbcType=INTEGER},
+      </if>
+      <if test="contraceptionTime != null">
+        contraception_time = #{contraceptionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="onceBog != null">
+        once_bog = #{onceBog,jdbcType=INTEGER},
+      </if>
+      <if test="onceBirthday != null">
+        once_birthday = #{onceBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="oncePolicy != null">
+        once_policy = #{oncePolicy,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delId != null">
+        del_id = #{delId,jdbcType=INTEGER},
+      </if>
+      <if test="spareStr != null">
+        spare_str = #{spareStr,jdbcType=VARCHAR},
+      </if>
+      <if test="spareInt != null">
+        spare_int = #{spareInt,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ch_id = #{chId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.population.pojo.Child">
+    update child
+    set mate_peer = #{matePeer,jdbcType=INTEGER},
+      marital = #{marital,jdbcType=INTEGER},
+      marital_number = #{maritalNumber,jdbcType=VARCHAR},
+      verify = #{verify,jdbcType=INTEGER},
+      boy = #{boy,jdbcType=INTEGER},
+      girl = #{girl,jdbcType=INTEGER},
+      policy_in = #{policyIn,jdbcType=INTEGER},
+      policy_out = #{policyOut,jdbcType=INTEGER},
+      only_child = #{onlyChild,jdbcType=INTEGER},
+      alimony = #{alimony,jdbcType=INTEGER},
+      contraception = #{contraception,jdbcType=INTEGER},
+      contraception_time = #{contraceptionTime,jdbcType=TIMESTAMP},
+      once_bog = #{onceBog,jdbcType=INTEGER},
+      once_birthday = #{onceBirthday,jdbcType=TIMESTAMP},
+      once_policy = #{oncePolicy,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      del_id = #{delId,jdbcType=INTEGER},
+      spare_str = #{spareStr,jdbcType=VARCHAR},
+      spare_int = #{spareInt,jdbcType=INTEGER}
+    where ch_id = #{chId,jdbcType=INTEGER}
+  </update>
+</mapper>

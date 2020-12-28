@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.population.dao.BuildingPurposeMapper">
+  <resultMap id="BaseResultMap" type="com.population.pojo.BuildingPurpose">
+    <id column="bp_id" jdbcType="INTEGER" property="bpId" />
+    <result column="purpose_name" jdbcType="VARCHAR" property="purposeName" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modifile" jdbcType="TIMESTAMP" property="gmtModifile" />
+    <result column="del_id" jdbcType="INTEGER" property="delId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    bp_id, purpose_name, gmt_create, gmt_modifile, del_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from building_purpose
+    where bp_id = #{bpId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from building_purpose
+    where bp_id = #{bpId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.population.pojo.BuildingPurpose">
+    insert into building_purpose (bp_id, purpose_name, gmt_create, 
+      gmt_modifile, del_id)
+    values (#{bpId,jdbcType=INTEGER}, #{purposeName,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModifile,jdbcType=TIMESTAMP}, #{delId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.population.pojo.BuildingPurpose">
+    insert into building_purpose
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bpId != null">
+        bp_id,
+      </if>
+      <if test="purposeName != null">
+        purpose_name,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModifile != null">
+        gmt_modifile,
+      </if>
+      <if test="delId != null">
+        del_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bpId != null">
+        #{bpId,jdbcType=INTEGER},
+      </if>
+      <if test="purposeName != null">
+        #{purposeName,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModifile != null">
+        #{gmtModifile,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delId != null">
+        #{delId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.population.pojo.BuildingPurpose">
+    update building_purpose
+    <set>
+      <if test="purposeName != null">
+        purpose_name = #{purposeName,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModifile != null">
+        gmt_modifile = #{gmtModifile,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delId != null">
+        del_id = #{delId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where bp_id = #{bpId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.population.pojo.BuildingPurpose">
+    update building_purpose
+    set purpose_name = #{purposeName,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modifile = #{gmtModifile,jdbcType=TIMESTAMP},
+      del_id = #{delId,jdbcType=INTEGER}
+    where bp_id = #{bpId,jdbcType=INTEGER}
+  </update>
+</mapper>

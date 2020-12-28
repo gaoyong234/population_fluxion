@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.population.dao.DwellMapper">
+  <resultMap id="BaseResultMap" type="com.population.pojo.Dwell">
+    <id column="dwe_id" jdbcType="INTEGER" property="dweId" />
+    <result column="dwell_way" jdbcType="INTEGER" property="dwellWay" />
+    <result column="dwell_why" jdbcType="INTEGER" property="dwellWhy" />
+    <result column="house_category" jdbcType="INTEGER" property="houseCategory" />
+    <result column="house_provine" jdbcType="VARCHAR" property="houseProvine" />
+    <result column="house_avenue" jdbcType="VARCHAR" property="houseAvenue" />
+    <result column="house_community" jdbcType="VARCHAR" property="houseCommunity" />
+    <result column="house_way" jdbcType="VARCHAR" property="houseWay" />
+    <result column="house_house" jdbcType="VARCHAR" property="houseHouse" />
+    <result column="house_bar" jdbcType="VARCHAR" property="houseBar" />
+    <result column="house_room" jdbcType="VARCHAR" property="houseRoom" />
+    <result column="leaser_id" jdbcType="INTEGER" property="leaserId" />
+    <result column="house_type" jdbcType="INTEGER" property="houseType" />
+    <result column="house_use" jdbcType="INTEGER" property="houseUse" />
+    <result column="message" jdbcType="VARCHAR" property="message" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="del_id" jdbcType="INTEGER" property="delId" />
+    <result column="spare_str" jdbcType="VARCHAR" property="spareStr" />
+    <result column="spare_int" jdbcType="INTEGER" property="spareInt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dwe_id, dwell_way, dwell_why, house_category, house_provine, house_avenue, house_community, 
+    house_way, house_house, house_bar, house_room, leaser_id, house_type, house_use, 
+    message, gmt_create, gmt_modified, del_id, spare_str, spare_int
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from dwell
+    where dwe_id = #{dweId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dwell
+    where dwe_id = #{dweId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.population.pojo.Dwell">
+    insert into dwell (dwe_id, dwell_way, dwell_why, 
+      house_category, house_provine, house_avenue, 
+      house_community, house_way, house_house, 
+      house_bar, house_room, leaser_id, 
+      house_type, house_use, message, 
+      gmt_create, gmt_modified, del_id, 
+      spare_str, spare_int)
+    values (#{dweId,jdbcType=INTEGER}, #{dwellWay,jdbcType=INTEGER}, #{dwellWhy,jdbcType=INTEGER}, 
+      #{houseCategory,jdbcType=INTEGER}, #{houseProvine,jdbcType=VARCHAR}, #{houseAvenue,jdbcType=VARCHAR}, 
+      #{houseCommunity,jdbcType=VARCHAR}, #{houseWay,jdbcType=VARCHAR}, #{houseHouse,jdbcType=VARCHAR}, 
+      #{houseBar,jdbcType=VARCHAR}, #{houseRoom,jdbcType=VARCHAR}, #{leaserId,jdbcType=INTEGER}, 
+      #{houseType,jdbcType=INTEGER}, #{houseUse,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{delId,jdbcType=INTEGER}, 
+      #{spareStr,jdbcType=VARCHAR}, #{spareInt,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.population.pojo.Dwell">
+    insert into dwell
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dweId != null">
+        dwe_id,
+      </if>
+      <if test="dwellWay != null">
+        dwell_way,
+      </if>
+      <if test="dwellWhy != null">
+        dwell_why,
+      </if>
+      <if test="houseCategory != null">
+        house_category,
+      </if>
+      <if test="houseProvine != null">
+        house_provine,
+      </if>
+      <if test="houseAvenue != null">
+        house_avenue,
+      </if>
+      <if test="houseCommunity != null">
+        house_community,
+      </if>
+      <if test="houseWay != null">
+        house_way,
+      </if>
+      <if test="houseHouse != null">
+        house_house,
+      </if>
+      <if test="houseBar != null">
+        house_bar,
+      </if>
+      <if test="houseRoom != null">
+        house_room,
+      </if>
+      <if test="leaserId != null">
+        leaser_id,
+      </if>
+      <if test="houseType != null">
+        house_type,
+      </if>
+      <if test="houseUse != null">
+        house_use,
+      </if>
+      <if test="message != null">
+        message,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="delId != null">
+        del_id,
+      </if>
+      <if test="spareStr != null">
+        spare_str,
+      </if>
+      <if test="spareInt != null">
+        spare_int,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dweId != null">
+        #{dweId,jdbcType=INTEGER},
+      </if>
+      <if test="dwellWay != null">
+        #{dwellWay,jdbcType=INTEGER},
+      </if>
+      <if test="dwellWhy != null">
+        #{dwellWhy,jdbcType=INTEGER},
+      </if>
+      <if test="houseCategory != null">
+        #{houseCategory,jdbcType=INTEGER},
+      </if>
+      <if test="houseProvine != null">
+        #{houseProvine,jdbcType=VARCHAR},
+      </if>
+      <if test="houseAvenue != null">
+        #{houseAvenue,jdbcType=VARCHAR},
+      </if>
+      <if test="houseCommunity != null">
+        #{houseCommunity,jdbcType=VARCHAR},
+      </if>
+      <if test="houseWay != null">
+        #{houseWay,jdbcType=VARCHAR},
+      </if>
+      <if test="houseHouse != null">
+        #{houseHouse,jdbcType=VARCHAR},
+      </if>
+      <if test="houseBar != null">
+        #{houseBar,jdbcType=VARCHAR},
+      </if>
+      <if test="houseRoom != null">
+        #{houseRoom,jdbcType=VARCHAR},
+      </if>
+      <if test="leaserId != null">
+        #{leaserId,jdbcType=INTEGER},
+      </if>
+      <if test="houseType != null">
+        #{houseType,jdbcType=INTEGER},
+      </if>
+      <if test="houseUse != null">
+        #{houseUse,jdbcType=INTEGER},
+      </if>
+      <if test="message != null">
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delId != null">
+        #{delId,jdbcType=INTEGER},
+      </if>
+      <if test="spareStr != null">
+        #{spareStr,jdbcType=VARCHAR},
+      </if>
+      <if test="spareInt != null">
+        #{spareInt,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.population.pojo.Dwell">
+    update dwell
+    <set>
+      <if test="dwellWay != null">
+        dwell_way = #{dwellWay,jdbcType=INTEGER},
+      </if>
+      <if test="dwellWhy != null">
+        dwell_why = #{dwellWhy,jdbcType=INTEGER},
+      </if>
+      <if test="houseCategory != null">
+        house_category = #{houseCategory,jdbcType=INTEGER},
+      </if>
+      <if test="houseProvine != null">
+        house_provine = #{houseProvine,jdbcType=VARCHAR},
+      </if>
+      <if test="houseAvenue != null">
+        house_avenue = #{houseAvenue,jdbcType=VARCHAR},
+      </if>
+      <if test="houseCommunity != null">
+        house_community = #{houseCommunity,jdbcType=VARCHAR},
+      </if>
+      <if test="houseWay != null">
+        house_way = #{houseWay,jdbcType=VARCHAR},
+      </if>
+      <if test="houseHouse != null">
+        house_house = #{houseHouse,jdbcType=VARCHAR},
+      </if>
+      <if test="houseBar != null">
+        house_bar = #{houseBar,jdbcType=VARCHAR},
+      </if>
+      <if test="houseRoom != null">
+        house_room = #{houseRoom,jdbcType=VARCHAR},
+      </if>
+      <if test="leaserId != null">
+        leaser_id = #{leaserId,jdbcType=INTEGER},
+      </if>
+      <if test="houseType != null">
+        house_type = #{houseType,jdbcType=INTEGER},
+      </if>
+      <if test="houseUse != null">
+        house_use = #{houseUse,jdbcType=INTEGER},
+      </if>
+      <if test="message != null">
+        message = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delId != null">
+        del_id = #{delId,jdbcType=INTEGER},
+      </if>
+      <if test="spareStr != null">
+        spare_str = #{spareStr,jdbcType=VARCHAR},
+      </if>
+      <if test="spareInt != null">
+        spare_int = #{spareInt,jdbcType=INTEGER},
+      </if>
+    </set>
+    where dwe_id = #{dweId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.population.pojo.Dwell">
+    update dwell
+    set dwell_way = #{dwellWay,jdbcType=INTEGER},
+      dwell_why = #{dwellWhy,jdbcType=INTEGER},
+      house_category = #{houseCategory,jdbcType=INTEGER},
+      house_provine = #{houseProvine,jdbcType=VARCHAR},
+      house_avenue = #{houseAvenue,jdbcType=VARCHAR},
+      house_community = #{houseCommunity,jdbcType=VARCHAR},
+      house_way = #{houseWay,jdbcType=VARCHAR},
+      house_house = #{houseHouse,jdbcType=VARCHAR},
+      house_bar = #{houseBar,jdbcType=VARCHAR},
+      house_room = #{houseRoom,jdbcType=VARCHAR},
+      leaser_id = #{leaserId,jdbcType=INTEGER},
+      house_type = #{houseType,jdbcType=INTEGER},
+      house_use = #{houseUse,jdbcType=INTEGER},
+      message = #{message,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      del_id = #{delId,jdbcType=INTEGER},
+      spare_str = #{spareStr,jdbcType=VARCHAR},
+      spare_int = #{spareInt,jdbcType=INTEGER}
+    where dwe_id = #{dweId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.population.dao.MateMapper">
+  <resultMap id="BaseResultMap" type="com.population.pojo.Mate">
+    <id column="ma_id" jdbcType="INTEGER" property="maId" />
+    <result column="mate_name" jdbcType="VARCHAR" property="mateName" />
+    <result column="mate_number" jdbcType="VARCHAR" property="mateNumber" />
+    <result column="mate_provine" jdbcType="INTEGER" property="mateProvine" />
+    <result column="mate_city" jdbcType="INTEGER" property="mateCity" />
+    <result column="mate_county" jdbcType="INTEGER" property="mateCounty" />
+    <result column="mate_village" jdbcType="VARCHAR" property="mateVillage" />
+    <result column="background" jdbcType="INTEGER" property="background" />
+    <result column="work_unit" jdbcType="VARCHAR" property="workUnit" />
+    <result column="mate_phone" jdbcType="VARCHAR" property="matePhone" />
+    <result column="del_id" jdbcType="INTEGER" property="delId" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_moeified" jdbcType="TIMESTAMP" property="gmtMoeified" />
+    <result column="spare_str" jdbcType="VARCHAR" property="spareStr" />
+    <result column="spare_int" jdbcType="INTEGER" property="spareInt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ma_id, mate_name, mate_number, mate_provine, mate_city, mate_county, mate_village, 
+    background, work_unit, mate_phone, del_id, gmt_create, gmt_moeified, spare_str, spare_int
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from mate
+    where ma_id = #{maId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from mate
+    where ma_id = #{maId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.population.pojo.Mate">
+    insert into mate (ma_id, mate_name, mate_number, 
+      mate_provine, mate_city, mate_county, 
+      mate_village, background, work_unit, 
+      mate_phone, del_id, gmt_create, 
+      gmt_moeified, spare_str, spare_int
+      )
+    values (#{maId,jdbcType=INTEGER}, #{mateName,jdbcType=VARCHAR}, #{mateNumber,jdbcType=VARCHAR}, 
+      #{mateProvine,jdbcType=INTEGER}, #{mateCity,jdbcType=INTEGER}, #{mateCounty,jdbcType=INTEGER}, 
+      #{mateVillage,jdbcType=VARCHAR}, #{background,jdbcType=INTEGER}, #{workUnit,jdbcType=VARCHAR}, 
+      #{matePhone,jdbcType=VARCHAR}, #{delId,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtMoeified,jdbcType=TIMESTAMP}, #{spareStr,jdbcType=VARCHAR}, #{spareInt,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.population.pojo.Mate">
+    insert into mate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="maId != null">
+        ma_id,
+      </if>
+      <if test="mateName != null">
+        mate_name,
+      </if>
+      <if test="mateNumber != null">
+        mate_number,
+      </if>
+      <if test="mateProvine != null">
+        mate_provine,
+      </if>
+      <if test="mateCity != null">
+        mate_city,
+      </if>
+      <if test="mateCounty != null">
+        mate_county,
+      </if>
+      <if test="mateVillage != null">
+        mate_village,
+      </if>
+      <if test="background != null">
+        background,
+      </if>
+      <if test="workUnit != null">
+        work_unit,
+      </if>
+      <if test="matePhone != null">
+        mate_phone,
+      </if>
+      <if test="delId != null">
+        del_id,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtMoeified != null">
+        gmt_moeified,
+      </if>
+      <if test="spareStr != null">
+        spare_str,
+      </if>
+      <if test="spareInt != null">
+        spare_int,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="maId != null">
+        #{maId,jdbcType=INTEGER},
+      </if>
+      <if test="mateName != null">
+        #{mateName,jdbcType=VARCHAR},
+      </if>
+      <if test="mateNumber != null">
+        #{mateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="mateProvine != null">
+        #{mateProvine,jdbcType=INTEGER},
+      </if>
+      <if test="mateCity != null">
+        #{mateCity,jdbcType=INTEGER},
+      </if>
+      <if test="mateCounty != null">
+        #{mateCounty,jdbcType=INTEGER},
+      </if>
+      <if test="mateVillage != null">
+        #{mateVillage,jdbcType=VARCHAR},
+      </if>
+      <if test="background != null">
+        #{background,jdbcType=INTEGER},
+      </if>
+      <if test="workUnit != null">
+        #{workUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="matePhone != null">
+        #{matePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="delId != null">
+        #{delId,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtMoeified != null">
+        #{gmtMoeified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="spareStr != null">
+        #{spareStr,jdbcType=VARCHAR},
+      </if>
+      <if test="spareInt != null">
+        #{spareInt,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.population.pojo.Mate">
+    update mate
+    <set>
+      <if test="mateName != null">
+        mate_name = #{mateName,jdbcType=VARCHAR},
+      </if>
+      <if test="mateNumber != null">
+        mate_number = #{mateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="mateProvine != null">
+        mate_provine = #{mateProvine,jdbcType=INTEGER},
+      </if>
+      <if test="mateCity != null">
+        mate_city = #{mateCity,jdbcType=INTEGER},
+      </if>
+      <if test="mateCounty != null">
+        mate_county = #{mateCounty,jdbcType=INTEGER},
+      </if>
+      <if test="mateVillage != null">
+        mate_village = #{mateVillage,jdbcType=VARCHAR},
+      </if>
+      <if test="background != null">
+        background = #{background,jdbcType=INTEGER},
+      </if>
+      <if test="workUnit != null">
+        work_unit = #{workUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="matePhone != null">
+        mate_phone = #{matePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="delId != null">
+        del_id = #{delId,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtMoeified != null">
+        gmt_moeified = #{gmtMoeified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="spareStr != null">
+        spare_str = #{spareStr,jdbcType=VARCHAR},
+      </if>
+      <if test="spareInt != null">
+        spare_int = #{spareInt,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ma_id = #{maId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.population.pojo.Mate">
+    update mate
+    set mate_name = #{mateName,jdbcType=VARCHAR},
+      mate_number = #{mateNumber,jdbcType=VARCHAR},
+      mate_provine = #{mateProvine,jdbcType=INTEGER},
+      mate_city = #{mateCity,jdbcType=INTEGER},
+      mate_county = #{mateCounty,jdbcType=INTEGER},
+      mate_village = #{mateVillage,jdbcType=VARCHAR},
+      background = #{background,jdbcType=INTEGER},
+      work_unit = #{workUnit,jdbcType=VARCHAR},
+      mate_phone = #{matePhone,jdbcType=VARCHAR},
+      del_id = #{delId,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_moeified = #{gmtMoeified,jdbcType=TIMESTAMP},
+      spare_str = #{spareStr,jdbcType=VARCHAR},
+      spare_int = #{spareInt,jdbcType=INTEGER}
+    where ma_id = #{maId,jdbcType=INTEGER}
+  </update>
+</mapper>
