@@ -15,6 +15,7 @@ public interface ProvinceDaoMapper {
     //查询乡镇
     List<Province> selectArea(Province pro);
     //根据乡镇信息查询相应的省市县
-    ProvinceVO selectProvinceCityCounty();
+    //暂时不能用
+    ProvinceVO selectProvinceCityCounty(Integer id);
 
 }

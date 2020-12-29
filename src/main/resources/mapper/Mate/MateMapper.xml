@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.population.dao.MateMapper">
+<mapper namespace="com.population.dao.MateDao.MateDaoMapper">
   <resultMap id="BaseResultMap" type="com.population.pojo.Mate">
+    <id column="ma_id" jdbcType="INTEGER" property="maId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="mate_name" jdbcType="VARCHAR" property="mateName" />
+    <result column="mate_number" jdbcType="VARCHAR" property="mateNumber" />
+    <result column="mate_province" jdbcType="INTEGER" property="mateProvince" />
+    <result column="mate_city" jdbcType="INTEGER" property="mateCity" />
+    <result column="mate_county" jdbcType="INTEGER" property="mateCounty" />
+    <result column="mate_area" jdbcType="INTEGER" property="mateArea" />
+    <result column="mate_village" jdbcType="VARCHAR" property="mateVillage" />
+    <result column="background" jdbcType="INTEGER" property="background" />
+    <result column="work_unit" jdbcType="VARCHAR" property="workUnit" />
+    <result column="mate_phone" jdbcType="VARCHAR" property="matePhone" />
+    <result column="del_id" jdbcType="INTEGER" property="delId" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_moeified" jdbcType="TIMESTAMP" property="gmtMoeified" />
+    <result column="spare_str" jdbcType="VARCHAR" property="spareStr" />
+    <result column="spare_int" jdbcType="INTEGER" property="spareInt" />
+  </resultMap>
+  <resultMap id="BaseMap" type="com.population.vo.MateVO">
     <id column="ma_id" jdbcType="INTEGER" property="maId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="mate_name" jdbcType="VARCHAR" property="mateName" />
@@ -25,31 +44,17 @@
     mate_village, background, work_unit, mate_phone, del_id, gmt_create, gmt_moeified, 
     spare_str, spare_int
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 'true' as QUERYID,
+  <select id="selectMate" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
     <include refid="Base_Column_List" />
     from mate
-    where ma_id = #{maId,jdbcType=INTEGER}
+    where user_id = #{userId}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from mate
-    where ma_id = #{maId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.population.pojo.Mate">
-    insert into mate (ma_id, user_id, mate_name, 
-      mate_number, mate_province, mate_city, 
-      mate_county, mate_area, mate_village, 
-      background, work_unit, mate_phone, 
-      del_id, gmt_create, gmt_moeified, 
-      spare_str, spare_int)
-    values (#{maId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{mateName,jdbcType=VARCHAR}, 
-      #{mateNumber,jdbcType=VARCHAR}, #{mateProvince,jdbcType=INTEGER}, #{mateCity,jdbcType=INTEGER}, 
-      #{mateCounty,jdbcType=INTEGER}, #{mateArea,jdbcType=INTEGER}, #{mateVillage,jdbcType=VARCHAR}, 
-      #{background,jdbcType=INTEGER}, #{workUnit,jdbcType=VARCHAR}, #{matePhone,jdbcType=VARCHAR}, 
-      #{delId,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtMoeified,jdbcType=TIMESTAMP}, 
-      #{spareStr,jdbcType=VARCHAR}, #{spareInt,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" parameterType="com.population.pojo.Mate">
+  <select id="selectAllMate" resultMap="BaseMap">
+    select <include refid="Base_Column_List" />
+    from mate
+  </select>
+  <insert id="insertMate" parameterType="com.population.pojo.Mate">
     insert into mate
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="maId != null">
@@ -158,7 +163,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.population.pojo.Mate">
+  <update id="updateMate" parameterType="com.population.pojo.Mate">
     update mate
     <set>
       <if test="userId != null">
@@ -212,24 +217,9 @@
     </set>
     where ma_id = #{maId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.population.pojo.Mate">
+  <update id="delMateByUpdate" parameterType="com.population.pojo.Mate">
     update mate
-    set user_id = #{userId,jdbcType=INTEGER},
-      mate_name = #{mateName,jdbcType=VARCHAR},
-      mate_number = #{mateNumber,jdbcType=VARCHAR},
-      mate_province = #{mateProvince,jdbcType=INTEGER},
-      mate_city = #{mateCity,jdbcType=INTEGER},
-      mate_county = #{mateCounty,jdbcType=INTEGER},
-      mate_area = #{mateArea,jdbcType=INTEGER},
-      mate_village = #{mateVillage,jdbcType=VARCHAR},
-      background = #{background,jdbcType=INTEGER},
-      work_unit = #{workUnit,jdbcType=VARCHAR},
-      mate_phone = #{matePhone,jdbcType=VARCHAR},
-      del_id = #{delId,jdbcType=INTEGER},
-      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_moeified = #{gmtMoeified,jdbcType=TIMESTAMP},
-      spare_str = #{spareStr,jdbcType=VARCHAR},
-      spare_int = #{spareInt,jdbcType=INTEGER}
-    where ma_id = #{maId,jdbcType=INTEGER}
+    set del_id=1
+    where ma_id = #{maId}
   </update>
 </mapper>
