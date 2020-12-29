@@ -1,6 +1,7 @@
 package com.population.dao.ProvinceDao;
 
 import com.population.pojo.Province;
+import com.population.vo.ProvinceVO;
 
 import java.util.List;
 
@@ -13,5 +14,7 @@ public interface ProvinceDaoMapper {
     List<Province> selectCounty(Province pro);
     //查询乡镇
     List<Province> selectArea(Province pro);
+    //根据乡镇信息查询相应的省市县
+    ProvinceVO selectProvinceCityCounty();
 
 }

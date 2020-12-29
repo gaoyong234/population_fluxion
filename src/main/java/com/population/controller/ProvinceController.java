@@ -46,6 +46,12 @@ public class ProvinceController {
     public List findCounty(Province province){
         return provinceService.findCounty(province);
     }
+
+    /**
+     * 查询乡镇
+     * @param province
+     * @return
+     */
     @RequestMapping("/findArea")
     @ResponseBody
     public List findArea(Province province){

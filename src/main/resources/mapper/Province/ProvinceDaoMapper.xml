@@ -42,4 +42,7 @@
 	and area = #{area}
 	and town>0
 </select>
+  <select id="selectProvinceCityCounty" parameterType="com.population.vo.ProvinceVO">
+
+  </select>
 </mapper>
