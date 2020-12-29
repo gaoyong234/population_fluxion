@@ -137,4 +137,5 @@ public class FamilyVO {
     public void setSpareInt(String spareInt) {
         this.spareInt = spareInt;
     }
+
 }
