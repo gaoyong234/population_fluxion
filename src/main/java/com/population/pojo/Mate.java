@@ -5,15 +5,19 @@ import java.util.Date;
 public class Mate {
     private Integer maId;
 
+    private Integer userId;
+
     private String mateName;
 
     private String mateNumber;
 
-    private Integer mateProvine;
+    private Integer mateProvince;
 
     private Integer mateCity;
 
     private Integer mateCounty;
+
+    private Integer mateArea;
 
     private String mateVillage;
 
@@ -41,6 +45,14 @@ public class Mate {
         this.maId = maId;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     public String getMateName() {
         return mateName;
     }
@@ -57,12 +69,12 @@ public class Mate {
         this.mateNumber = mateNumber == null ? null : mateNumber.trim();
     }
 
-    public Integer getMateProvine() {
-        return mateProvine;
+    public Integer getMateProvince() {
+        return mateProvince;
     }
 
-    public void setMateProvine(Integer mateProvine) {
-        this.mateProvine = mateProvine;
+    public void setMateProvince(Integer mateProvince) {
+        this.mateProvince = mateProvince;
     }
 
     public Integer getMateCity() {
@@ -79,6 +91,14 @@ public class Mate {
 
     public void setMateCounty(Integer mateCounty) {
         this.mateCounty = mateCounty;
+    }
+
+    public Integer getMateArea() {
+        return mateArea;
+    }
+
+    public void setMateArea(Integer mateArea) {
+        this.mateArea = mateArea;
     }
 
     public String getMateVillage() {

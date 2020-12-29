@@ -42,7 +42,12 @@
 	and area = #{area}
 	and town>0
 </select>
-  <select id="selectProvinceCityCounty" parameterType="com.population.vo.ProvinceVO">
-
+  <select id="selectProvinceCityCounty" resultType="com.population.vo.ProvinceVO">
+  select id, code, name, province, city, area, town
+  from province
+  where province=#{province}
+	and city=#{city}
+	and area = #{area}
+	and town>0
   </select>
 </mapper>
