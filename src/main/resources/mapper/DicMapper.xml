@@ -15,6 +15,9 @@
     from dic
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="findAll" resultMap="BaseResultMap">
+    select * from dic
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from dic
     where id = #{id,jdbcType=INTEGER}
