@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.population.dao.ProvinceDao.ProvinceDaoMapper">
+  <resultMap id="BaseResultMap" type="com.population.pojo.Province">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="code" jdbcType="BIGINT" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="town" jdbcType="VARCHAR" property="town" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, code, name, province, city, area, town
+  </sql>
+  <select id="selectProvince" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from province
+    where city=0
+  </select>
+  <select id="selectCity" parameterType="com.population.pojo.Province" resultMap="BaseResultMap">
+   select id, code, name, province, city, area, town
+  from province
+  where province=#{province}
+  and area=0
+  and city>0
+  </select>
+<select id="selectCounty" parameterType="com.population.pojo.Province" resultMap="BaseResultMap">
+  select id, code, name, province, city, area, town
+  from province
+  where province=#{province}
+	and city=#{city}
+	and town=0
+	and area > 0
+</select>
+  <select id="selectArea" parameterType="com.population.pojo.Province" resultMap="BaseResultMap">
+ select id, code, name, province, city, area, town
+  from province
+  where province=#{province}
+	and city=#{city}
+	and area = #{area}
+	and town>0
+</select>
+</mapper>
