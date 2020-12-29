@@ -1,5 +1,6 @@
 package com.population.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -14,6 +15,7 @@ public class FamilyVO {
     private Integer familySex;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date familyBrithday;
 
     private Integer familyVaccine;
@@ -25,9 +27,11 @@ public class FamilyVO {
     private Integer personal;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date gmtCreate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date gmtModified;
 
     private String spareStr;
