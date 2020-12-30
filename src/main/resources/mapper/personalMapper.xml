@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.population.dao.PersonalMapper">
-  <resultMap id="BaseResultMap" type="com.population.pojo.Personal">
+<mapper namespace="com.population.dao.personalMapper">
+  <resultMap id="BaseResultMap" type="com.population.pojo.personal">
     <id column="personal" jdbcType="INTEGER" property="personal" />
     <result column="personal_name" jdbcType="VARCHAR" property="personalName" />
     <result column="roll_name" jdbcType="VARCHAR" property="rollName" />
     <result column="personal_sax" jdbcType="INTEGER" property="personalSax" />
     <result column="arrival" jdbcType="TIMESTAMP" property="arrival" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
     <result column="notion" jdbcType="INTEGER" property="notion" />
     <result column="census_provine" jdbcType="INTEGER" property="censusProvine" />
     <result column="census_city" jdbcType="INTEGER" property="censusCity" />
@@ -16,6 +17,7 @@
     <result column="now_living_city" jdbcType="INTEGER" property="nowLivingCity" />
     <result column="now_living_county" jdbcType="INTEGER" property="nowLivingCounty" />
     <result column="now_living_village" jdbcType="VARCHAR" property="nowLivingVillage" />
+    <result column="now_living_bar" jdbcType="VARCHAR" property="nowLivingBar" />
     <result column="personal_landline_number" jdbcType="VARCHAR" property="personalLandlineNumber" />
     <result column="personal_phone" jdbcType="VARCHAR" property="personalPhone" />
     <result column="emergency_phone" jdbcType="VARCHAR" property="emergencyPhone" />
@@ -43,13 +45,13 @@
     <result column="spare_int" jdbcType="INTEGER" property="spareInt" />
   </resultMap>
   <sql id="Base_Column_List">
-    personal, personal_name, roll_name, personal_sax, arrival, notion, census_provine, 
+    personal, personal_name, roll_name, personal_sax, arrival, id_card, notion, census_provine, 
     census_city, census_county, census_village, now_living_provine, now_living_city, 
-    now_living_county, now_living_village, personal_landline_number, personal_phone, 
-    emergency_phone, linkman, linkman_landline_number, linkman_phone, culture, politics_status, 
-    religion, stature, weight, blood_type, health, disability_number, working_conditions, 
-    marital_status, mate_id, family_planning, dwell, audit_status, del_id, gmt_create, 
-    gmt_modified, spare_str, spare_int
+    now_living_county, now_living_village, now_living_bar, personal_landline_number, 
+    personal_phone, emergency_phone, linkman, linkman_landline_number, linkman_phone, 
+    culture, politics_status, religion, stature, weight, blood_type, health, disability_number, 
+    working_conditions, marital_status, mate_id, family_planning, dwell, audit_status, 
+    del_id, gmt_create, gmt_modified, spare_str, spare_int
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 'true' as QUERYID,
@@ -61,37 +63,37 @@
     delete from personal
     where personal = #{personal,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.population.pojo.Personal">
+  <insert id="insert" parameterType="com.population.pojo.personal">
     insert into personal (personal, personal_name, roll_name, 
-      personal_sax, arrival, notion, 
-      census_provine, census_city, census_county, 
-      census_village, now_living_provine, now_living_city, 
-      now_living_county, now_living_village, personal_landline_number, 
-      personal_phone, emergency_phone, linkman, 
-      linkman_landline_number, linkman_phone, culture, 
-      politics_status, religion, stature, 
-      weight, blood_type, health, 
-      disability_number, working_conditions, marital_status, 
-      mate_id, family_planning, dwell, 
-      audit_status, del_id, gmt_create, 
-      gmt_modified, spare_str, spare_int
-      )
+      personal_sax, arrival, id_card, 
+      notion, census_provine, census_city, 
+      census_county, census_village, now_living_provine, 
+      now_living_city, now_living_county, now_living_village, 
+      now_living_bar, personal_landline_number, personal_phone, 
+      emergency_phone, linkman, linkman_landline_number, 
+      linkman_phone, culture, politics_status, 
+      religion, stature, weight, 
+      blood_type, health, disability_number, 
+      working_conditions, marital_status, mate_id, 
+      family_planning, dwell, audit_status, 
+      del_id, gmt_create, gmt_modified, 
+      spare_str, spare_int)
     values (#{personal,jdbcType=INTEGER}, #{personalName,jdbcType=VARCHAR}, #{rollName,jdbcType=VARCHAR}, 
-      #{personalSax,jdbcType=INTEGER}, #{arrival,jdbcType=TIMESTAMP}, #{notion,jdbcType=INTEGER}, 
-      #{censusProvine,jdbcType=INTEGER}, #{censusCity,jdbcType=INTEGER}, #{censusCounty,jdbcType=INTEGER}, 
-      #{censusVillage,jdbcType=VARCHAR}, #{nowLivingProvine,jdbcType=INTEGER}, #{nowLivingCity,jdbcType=INTEGER}, 
-      #{nowLivingCounty,jdbcType=INTEGER}, #{nowLivingVillage,jdbcType=VARCHAR}, #{personalLandlineNumber,jdbcType=VARCHAR}, 
-      #{personalPhone,jdbcType=VARCHAR}, #{emergencyPhone,jdbcType=VARCHAR}, #{linkman,jdbcType=VARCHAR}, 
-      #{linkmanLandlineNumber,jdbcType=VARCHAR}, #{linkmanPhone,jdbcType=VARCHAR}, #{culture,jdbcType=INTEGER}, 
-      #{politicsStatus,jdbcType=INTEGER}, #{religion,jdbcType=INTEGER}, #{stature,jdbcType=INTEGER}, 
-      #{weight,jdbcType=INTEGER}, #{bloodType,jdbcType=INTEGER}, #{health,jdbcType=INTEGER}, 
-      #{disabilityNumber,jdbcType=VARCHAR}, #{workingConditions,jdbcType=INTEGER}, #{maritalStatus,jdbcType=INTEGER}, 
-      #{mateId,jdbcType=INTEGER}, #{familyPlanning,jdbcType=INTEGER}, #{dwell,jdbcType=INTEGER}, 
-      #{auditStatus,jdbcType=INTEGER}, #{delId,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, 
-      #{gmtModified,jdbcType=TIMESTAMP}, #{spareStr,jdbcType=VARCHAR}, #{spareInt,jdbcType=INTEGER}
-      )
+      #{personalSax,jdbcType=INTEGER}, #{arrival,jdbcType=TIMESTAMP}, #{idCard,jdbcType=VARCHAR}, 
+      #{notion,jdbcType=INTEGER}, #{censusProvine,jdbcType=INTEGER}, #{censusCity,jdbcType=INTEGER}, 
+      #{censusCounty,jdbcType=INTEGER}, #{censusVillage,jdbcType=VARCHAR}, #{nowLivingProvine,jdbcType=INTEGER}, 
+      #{nowLivingCity,jdbcType=INTEGER}, #{nowLivingCounty,jdbcType=INTEGER}, #{nowLivingVillage,jdbcType=VARCHAR}, 
+      #{nowLivingBar,jdbcType=VARCHAR}, #{personalLandlineNumber,jdbcType=VARCHAR}, #{personalPhone,jdbcType=VARCHAR}, 
+      #{emergencyPhone,jdbcType=VARCHAR}, #{linkman,jdbcType=VARCHAR}, #{linkmanLandlineNumber,jdbcType=VARCHAR}, 
+      #{linkmanPhone,jdbcType=VARCHAR}, #{culture,jdbcType=INTEGER}, #{politicsStatus,jdbcType=INTEGER}, 
+      #{religion,jdbcType=INTEGER}, #{stature,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, 
+      #{bloodType,jdbcType=INTEGER}, #{health,jdbcType=INTEGER}, #{disabilityNumber,jdbcType=VARCHAR}, 
+      #{workingConditions,jdbcType=INTEGER}, #{maritalStatus,jdbcType=INTEGER}, #{mateId,jdbcType=INTEGER}, 
+      #{familyPlanning,jdbcType=INTEGER}, #{dwell,jdbcType=INTEGER}, #{auditStatus,jdbcType=INTEGER}, 
+      #{delId,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{spareStr,jdbcType=VARCHAR}, #{spareInt,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.population.pojo.Personal">
+  <insert id="insertSelective" parameterType="com.population.pojo.personal">
     insert into personal
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="personal != null">
@@ -108,6 +110,9 @@
       </if>
       <if test="arrival != null">
         arrival,
+      </if>
+      <if test="idCard != null">
+        id_card,
       </if>
       <if test="notion != null">
         notion,
@@ -135,6 +140,9 @@
       </if>
       <if test="nowLivingVillage != null">
         now_living_village,
+      </if>
+      <if test="nowLivingBar != null">
+        now_living_bar,
       </if>
       <if test="personalLandlineNumber != null">
         personal_landline_number,
@@ -228,6 +236,9 @@
       <if test="arrival != null">
         #{arrival,jdbcType=TIMESTAMP},
       </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
+      </if>
       <if test="notion != null">
         #{notion,jdbcType=INTEGER},
       </if>
@@ -254,6 +265,9 @@
       </if>
       <if test="nowLivingVillage != null">
         #{nowLivingVillage,jdbcType=VARCHAR},
+      </if>
+      <if test="nowLivingBar != null">
+        #{nowLivingBar,jdbcType=VARCHAR},
       </if>
       <if test="personalLandlineNumber != null">
         #{personalLandlineNumber,jdbcType=VARCHAR},
@@ -332,7 +346,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.population.pojo.Personal">
+  <update id="updateByPrimaryKeySelective" parameterType="com.population.pojo.personal">
     update personal
     <set>
       <if test="personalName != null">
@@ -346,6 +360,9 @@
       </if>
       <if test="arrival != null">
         arrival = #{arrival,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idCard != null">
+        id_card = #{idCard,jdbcType=VARCHAR},
       </if>
       <if test="notion != null">
         notion = #{notion,jdbcType=INTEGER},
@@ -373,6 +390,9 @@
       </if>
       <if test="nowLivingVillage != null">
         now_living_village = #{nowLivingVillage,jdbcType=VARCHAR},
+      </if>
+      <if test="nowLivingBar != null">
+        now_living_bar = #{nowLivingBar,jdbcType=VARCHAR},
       </if>
       <if test="personalLandlineNumber != null">
         personal_landline_number = #{personalLandlineNumber,jdbcType=VARCHAR},
@@ -452,12 +472,13 @@
     </set>
     where personal = #{personal,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.population.pojo.Personal">
+  <update id="updateByPrimaryKey" parameterType="com.population.pojo.personal">
     update personal
     set personal_name = #{personalName,jdbcType=VARCHAR},
       roll_name = #{rollName,jdbcType=VARCHAR},
       personal_sax = #{personalSax,jdbcType=INTEGER},
       arrival = #{arrival,jdbcType=TIMESTAMP},
+      id_card = #{idCard,jdbcType=VARCHAR},
       notion = #{notion,jdbcType=INTEGER},
       census_provine = #{censusProvine,jdbcType=INTEGER},
       census_city = #{censusCity,jdbcType=INTEGER},
@@ -467,6 +488,7 @@
       now_living_city = #{nowLivingCity,jdbcType=INTEGER},
       now_living_county = #{nowLivingCounty,jdbcType=INTEGER},
       now_living_village = #{nowLivingVillage,jdbcType=VARCHAR},
+      now_living_bar = #{nowLivingBar,jdbcType=VARCHAR},
       personal_landline_number = #{personalLandlineNumber,jdbcType=VARCHAR},
       personal_phone = #{personalPhone,jdbcType=VARCHAR},
       emergency_phone = #{emergencyPhone,jdbcType=VARCHAR},
