@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MateDaoMapper {
 
-//存在问题
+
     //根据userId查询相应的配偶信息
     Mate selectMate(Integer userId);
     //查询全部的信息
