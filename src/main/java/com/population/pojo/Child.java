@@ -1,5 +1,8 @@
 package com.population.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Child {
@@ -27,16 +30,24 @@ public class Child {
 
     private Integer contraception;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date contraceptionTime;
 
     private Integer onceBog;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date onceBirthday;
 
     private Integer oncePolicy;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date gmtCreate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date gmtModified;
 
     private Integer delId;
