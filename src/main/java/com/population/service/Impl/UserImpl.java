@@ -26,9 +26,16 @@ public class UserImpl implements UserService {
             m.setEstimate(false);
             m.setSlogan("该账号已被注册！！");
         }else {
-            m.setSlogan("未被注册！！");
-            m.setEstimate(true);
+
+           Integer uin= userMapper.inertUser(user);
+           if (uin>0){
+               m.setSlogan("注册成功！！");
+               m.setEstimate(true);
+           }
+
         }
         return m;
     }
+
+
 }

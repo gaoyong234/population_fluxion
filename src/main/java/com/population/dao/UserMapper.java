@@ -18,4 +18,6 @@ public interface UserMapper {
     User findPhone(String userPhone);
 
     Integer recuRuser(User user);
+
+    Integer inertUser(User user);
 }

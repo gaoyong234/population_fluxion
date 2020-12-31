@@ -49,6 +49,11 @@ public class UserController {
         return "register";
     }
 
+    @RequestMapping("inindex")
+    public String inindex(){
+        return "index";
+    }
+
 
     @RequestMapping("userRecur")
     @ResponseBody

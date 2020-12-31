@@ -19,6 +19,10 @@
             var userCity = $("#userCity").val();
             var reg=/^(13[0-9]|14[01456879]|15[0-3,5-9]|16[2567]|17[0-8]|18[0-9]|19[0-3,5-9])\d{8}$/;
             var judge = true;
+            if (!reg.test(userPhone)){
+                alert("请填写正确的手机号码");
+                judge = false;
+            }else
             if (userPhone==""){
                 alert("请填写手机号");
                 judge = false;
@@ -35,42 +39,28 @@
                 alert("请选择地址");
                 judge = false;
             }else
-            if (!reg.test(userPhone)){
-                alert("请填写正确的手机号");
-                judge = false;
-            }else
-            if (false) {
-                alert("两次输入密码不同请重新输入！！");
+            if (userCity==null){
+                alert("请选择地址");
                 judge = false;
             }
-            var user = $("#toAddForm").serialize();
+
             if (judge) {
+                var user = $("#toAddForm").serialize();
                 $.ajax({
                     url:"/userLogin/userRecur",
-                    data:{"userPhone":userPhone},
+                    data:user,
                     dataType:"JSON",
                     type:"post",
                     success:function (data) {
-                        if (!data.estimate){
-                            showModalButton1(data.slogan)
+                        if (data.estimate){
+                            alert(data.slogan)
+                            window.location = "/userLogin/inindex";
                         }else {
-                            $.ajax({
-                                url: "/userController/loginUser",
-                                data: user,
-                                dataType: "JSON",
-                                type: "post",
-                                success: function (msg) {
-                                    if (msg.estimate) {
-                                        showModalButton2(msg.slogan);
-                                    } else {
-                                        showModalButton1(msg.slogan);
-                                    }
-                                }
-                            })
+                            alert(data.slogan)
                         }
+
                     }
                 })
-
             }
         }
 
@@ -89,7 +79,7 @@
         $scope.province=function () {
             var crty=$scope.city;
             for (var i = 0; i < crty.length; i++) {
-                if ($scope.userCity==crty[i].id){
+                if ($scope.userCityss==crty[i].id){
                     var prov=crty[i];
                 }
             }
@@ -142,28 +132,24 @@
                     欢迎注册
                 </div>
                 <form id="toAddForm">
-
                     <div class="form_text_ipt">
                         <input name="userPhone"  id="userPhone" type="text" placeholder="手机号">
                     </div>
-                    <div class="ececk_warning"><span>手号不能为空</span></div>
                     <div class="form_text_ipt">
                         <input name="userPassword" id="userPassword" type="password" placeholder="密码">
                     </div>
-                    <div class="ececk_warning"><span>密码不能为空</span></div>
                     <div class="form_text_ipt">
-                        <input id="userUnit"  placeholder="单位名称">
+                        <input id="userUnit" name="userUnit"  placeholder="单位名称">
                     </div>
-                    <div class="ececk_warning"><span>密码不能为空</span></div>
                     <div class="form_text_ipt">
-                        <select ng-model="userCity"  type="text" style="width: 95px; height: 40px" ng-blur="province()">
+                        <select ng-model="userCityss"  type="text" style="width: 95px; height: 40px" ng-blur="province()">
                             <option ng-repeat="ci in city"  ng-value="ci.id">{{ci.name}}</option></select>
 
                         <select style="width: 95px; height: 40px" ng-blur="area()" ng-model="userare">
                             <option ng-repeat="pr in provi"  ng-value="pr.id">{{pr.name}}</option>
                         </select >
 
-                        <select style="width: 100px; height: 40px" id="userCity" >
+                        <select style="width: 100px; height: 40px" id="userCity" name="userCity">
                             <option ng-repeat="re in userarea" ng-value="re.id">{{re.name}}</option>
                         </select>
                     </div>
