@@ -2,7 +2,7 @@ package com.population.pojo;
 
 import java.util.Date;
 
-public class Personal {
+public class personal {
     private Integer personal;
 
     private String personalName;
@@ -12,6 +12,8 @@ public class Personal {
     private Integer personalSax;
 
     private Date arrival;
+
+    private String idCard;
 
     private Integer notion;
 
@@ -30,6 +32,8 @@ public class Personal {
     private Integer nowLivingCounty;
 
     private String nowLivingVillage;
+
+    private String nowLivingBar;
 
     private String personalLandlineNumber;
 
@@ -121,6 +125,14 @@ public class Personal {
         this.arrival = arrival;
     }
 
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard == null ? null : idCard.trim();
+    }
+
     public Integer getNotion() {
         return notion;
     }
@@ -191,6 +203,14 @@ public class Personal {
 
     public void setNowLivingVillage(String nowLivingVillage) {
         this.nowLivingVillage = nowLivingVillage == null ? null : nowLivingVillage.trim();
+    }
+
+    public String getNowLivingBar() {
+        return nowLivingBar;
+    }
+
+    public void setNowLivingBar(String nowLivingBar) {
+        this.nowLivingBar = nowLivingBar == null ? null : nowLivingBar.trim();
     }
 
     public String getPersonalLandlineNumber() {

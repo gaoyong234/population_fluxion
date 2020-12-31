@@ -4,6 +4,7 @@ import com.population.pojo.Dic;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+
 @Mapper
 public interface DicMapper {
     int deleteByPrimaryKey(Integer id);
