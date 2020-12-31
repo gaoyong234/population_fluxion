@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.population.dao.roleMapper">
-  <resultMap id="BaseResultMap" type="com.population.pojo.role">
+<mapper namespace="com.population.dao.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.population.pojo.Role">
     <id column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
-    <result column="role_root" jdbcType="INTEGER" property="roleRoot" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modifile" jdbcType="TIMESTAMP" property="gmtModifile" />
     <result column="del_id" jdbcType="INTEGER" property="delId" />
   </resultMap>
   <sql id="Base_Column_List">
-    role_id, role_name, role_root, gmt_create, gmt_modifile, del_id
+    role_id, role_name, gmt_create, gmt_modifile, del_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 'true' as QUERYID,
@@ -22,15 +21,13 @@
     delete from role
     where role_id = #{roleId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.population.pojo.role">
-    insert into role (role_id, role_name, role_root, 
-      gmt_create, gmt_modifile, del_id
-      )
-    values (#{roleId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{roleRoot,jdbcType=INTEGER}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModifile,jdbcType=TIMESTAMP}, #{delId,jdbcType=INTEGER}
-      )
+  <insert id="insert" parameterType="com.population.pojo.Role">
+    insert into role (role_id, role_name, gmt_create, 
+      gmt_modifile, del_id)
+    values (#{roleId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModifile,jdbcType=TIMESTAMP}, #{delId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.population.pojo.role">
+  <insert id="insertSelective" parameterType="com.population.pojo.Role">
     insert into role
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="roleId != null">
@@ -38,9 +35,6 @@
       </if>
       <if test="roleName != null">
         role_name,
-      </if>
-      <if test="roleRoot != null">
-        role_root,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -59,9 +53,6 @@
       <if test="roleName != null">
         #{roleName,jdbcType=VARCHAR},
       </if>
-      <if test="roleRoot != null">
-        #{roleRoot,jdbcType=INTEGER},
-      </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
@@ -73,14 +64,11 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.population.pojo.role">
+  <update id="updateByPrimaryKeySelective" parameterType="com.population.pojo.Role">
     update role
     <set>
       <if test="roleName != null">
         role_name = #{roleName,jdbcType=VARCHAR},
-      </if>
-      <if test="roleRoot != null">
-        role_root = #{roleRoot,jdbcType=INTEGER},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -94,10 +82,9 @@
     </set>
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.population.pojo.role">
+  <update id="updateByPrimaryKey" parameterType="com.population.pojo.Role">
     update role
     set role_name = #{roleName,jdbcType=VARCHAR},
-      role_root = #{roleRoot,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modifile = #{gmtModifile,jdbcType=TIMESTAMP},
       del_id = #{delId,jdbcType=INTEGER}

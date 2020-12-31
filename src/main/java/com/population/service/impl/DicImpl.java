@@ -1,5 +1,4 @@
-package com.population.service.Impl;
-
+package com.population.service.impl;
 
 import com.population.dao.DicMapper;
 import com.population.pojo.Dic;
