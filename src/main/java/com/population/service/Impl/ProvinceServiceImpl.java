@@ -19,7 +19,8 @@ public class ProvinceServiceImpl implements ProvinceService {
 
     @Override
     public List<Province> findCity(Province pro) {
-        return provinceDaoMapper.selectCity(pro);
+        List<Province> provinces = provinceDaoMapper.selectCity(pro);
+        return provinces;
     }
 
     @Override
