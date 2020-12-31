@@ -1,10 +1,10 @@
 package com.population.dao;
 
 import com.population.pojo.Dic;
-import org.apache.ibatis.annotations.Mapper;
+import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.List;
-@Mapper
+
 public interface DicMapper {
     int deleteByPrimaryKey(Integer id);
 
