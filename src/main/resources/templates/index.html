@@ -18,9 +18,8 @@
                 dataType: "JSON",
                 type: "post",
                 success: function (msg) {
-                    console.log(msg)
                     if (msg.estimate) {
-                        window.location = "/toMassage";//登录成功的页面,暂时还没定义
+                      window.location = "/userLogin/homePage";//登录成功的页面,暂时还没定义
                     } else {
                         alert(msg.slogan)
                     }

@@ -9,7 +9,7 @@ public class User {
 
     private String userPassword;
 
-    private Integer userUnit;
+    private String userUnit;
 
     private Integer userCity;
 
@@ -55,11 +55,11 @@ public class User {
         this.userPassword = userPassword == null ? null : userPassword.trim();
     }
 
-    public Integer getUserUnit() {
+    public String getUserUnit() {
         return userUnit;
     }
 
-    public void setUserUnit(Integer userUnit) {
+    public void setUserUnit(String userUnit) {
         this.userUnit = userUnit;
     }
 

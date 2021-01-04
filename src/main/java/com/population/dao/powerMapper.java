@@ -2,6 +2,8 @@ package com.population.dao;
 
 import com.population.pojo.power;
 
+import java.util.List;
+
 public interface powerMapper {
     int deleteByPrimaryKey(Integer powerId);
 
@@ -14,4 +16,6 @@ public interface powerMapper {
     int updateByPrimaryKeySelective(power record);
 
     int updateByPrimaryKey(power record);
+
+    List<power> findAllPower(Integer userId);
 }

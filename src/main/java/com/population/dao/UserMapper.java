@@ -1,6 +1,9 @@
 package com.population.dao;
 
 import com.population.pojo.User;
+import com.population.pojo.power;
+
+import java.util.List;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Integer userId);
@@ -20,4 +23,5 @@ public interface UserMapper {
     Integer recuRuser(User user);
 
     Integer inertUser(User user);
+
 }
