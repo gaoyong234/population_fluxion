@@ -18,18 +18,29 @@ public class ProvinceServiceImpl implements ProvinceService {
     }
 
     @Override
-    public List<Province> findCity(Province pro) {
-        List<Province> provinces = provinceDaoMapper.selectCity(pro);
+    public List<Province> findCity(Integer provinceId) {
+        List<Province> provinces = provinceDaoMapper.selectCity(provinceId);
+        if(provinces.size()==0){
+
+            provinces = provinceDaoMapper.selectOneCity(provinceId);
+        }
         return provinces;
     }
 
     @Override
-    public List<Province> findCounty(Province pro) {
-        return provinceDaoMapper.selectCounty(pro);
+    public List<Province> findCounty(Integer provinceId,Integer cityId) {
+        List<Province> provinces = provinceDaoMapper.selectCounty(provinceId, cityId);
+        if (provinces.size()==0){
+
+        }
+        return provinces;
     }
 
     @Override
     public List<Province> findArea(Province pro) {
+        if ("0".equals(pro.getCity())){
+            pro.setCity("01");
+        }
         return provinceDaoMapper.selectArea(pro);
     }
 }

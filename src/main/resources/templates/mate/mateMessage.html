@@ -25,6 +25,14 @@
             width:45% ;
             display: inline-block;
         }
+        .s-job{
+            margin: 15px;
+        }
+        .button_1{
+            margin-left: 40%;
+            margin-right: 80px;
+        }
+
     </style>
     <script>
         var app = angular.module("myApp", []);
@@ -36,21 +44,85 @@
             }).success(function (response) {
                 $scope.allProvince = response;
             })
+            //获取省下的市
             $scope.getCity = function () {
-
-                var province = $scope.mate.mateProvince;
+                var provinceId = $scope.mate.mateProvince;
+                $scope.mate.mateArea='';
+                $scope.mate.mateCounty='';
                 $http({
                     url: "/Province/findCity",
                     method: "post",
-                    params:{"province":province}
+                    params:{"provinceId":provinceId}
                 }).success(function (response) {
                     $scope.allCity = response;
-                    console.log(response)
                 })
             }
-            //获取省下的市
             //获取市下的县
+            $scope.getCounty = function () {
+                var provinceId = $scope.mate.mateProvince;
+                var cityId = $scope.mate.mateCity;
+                $scope.mate.mateArea='';
+                $http({
+                    url: "/Province/findCounty",
+                    method: "post",
+                    params:{"provinceId":provinceId,"cityId":cityId}
+                }).success(function (response) {
+                    $scope.allCount = response;
+                })
+            }
             //获取县下的乡镇
+            $scope.getArea = function () {
+                var province = $scope.mate.mateProvince;
+                var city = $scope.mate.mateCity;
+                var count = $scope.mate.mateCounty;
+                $http({
+                    url: "/Province/findArea",
+                    method: "post",
+                    params:{"province":province,"city":city,"area":count}
+                }).success(function (response) {
+                    $scope.allTown = response;
+                })
+            }
+            //查询所有有关从业状况信息
+            $http({
+                url:"/Dic/findDicByParentId",
+                method:"post",
+                params:{"prentId":500}
+            }).success(function (response) {
+                $scope.jobState=response;
+            })
+            //表单验证
+            $scope.formVerify = function(mate){
+
+            }
+            //返回结果提示
+            $scope.showModalButton1 = function (slogan) {
+                showModal({
+                    title: "温馨提示",  //提示的标题
+                    content: slogan,  //提示的内容
+                    showCancel: false,  //是否显示取消按钮，默认为 true
+                    cancelText: '取消',  //取消按钮的文字，默认为"取消"，最多 4 个字符
+                    cancelColor: "#fff",  //取消按钮的文字颜色，默认为"#000000"
+                    cancelBgColor: '#4c4c4c',  //取消按钮的背景颜色
+                    confirmText: '确定',
+                    confirmColor: '#fff',
+                    confirmBgColor: '#ff130a',
+                    success: function () {
+
+                    }
+                });
+            }
+            //数据提交
+            $scope.addMate = function () {
+                var mate = $scope.mate;
+                $http({
+                    url:"/Mate/addMate",
+                    method:"post",
+                    params:mate
+                }).success(function (response) {
+                    $scope.showModalButton1(response.slogan);
+                })
+            }
         });
     </script>
 </head>
@@ -74,22 +146,22 @@
                 <select ng-model="mate.mateProvince" ng-change="getCity()" class="form-control form-control1">
                     <option value="">请选择</option>
                     <option ng-repeat="prov in allProvince"
-                            ng-value="prov.province">{{prov.name}}</option>
+                            ng-value="prov.id">{{prov.name}}</option>
                 </select>
                 省
-                <select ng-model="mate.mateCity" class="form-control form-control1">
+                <select ng-model="mate.mateCity" ng-change="getCounty()" class="form-control form-control1">
                     <option value="">请选择</option>
-                    <option></option>
+                    <option ng-repeat="cit in allCity" ng-value="cit.id">{{cit.name}}</option>
                 </select>
                 市
-                <select ng-model="mate.mateCounty" class="form-control form-control1">
+                <select ng-model="mate.mateCounty" ng-change="getArea()" class="form-control form-control1">
                     <option value="">请选择</option>
-                    <option></option>
+                    <option ng-repeat="coun in allCount" ng-value="coun.area">{{coun.name}}</option>
                 </select>
                 县(区)
                 <select ng-model="mate.mateArea" class="form-control form-control1">
                     <option value="">请选择</option>
-                    <option></option>
+                    <option ng-repeat="tow in allTown" ng-value="tow.town">{{tow.name}}</option>
                 </select>
                 乡(镇、街办)
                 <input ng-model="mate.mateVillage" class="form-control form-control1"/>村(社区)
@@ -102,8 +174,9 @@
         <tr>
             <td>从业状况:</td>
             <td>
-                <input type="radio" ng-model="mate.background" value="1" >
-                <input type="radio" ng-model="mate.background">
+                <span ng-repeat="job in jobState" class="s-job">
+                    <input type="radio" name="background" ng-model="mate.background" ng-value="job.id">{{job.name}}
+                </span>
             </td>
         </tr>
         <tr>
@@ -119,6 +192,8 @@
             </td>
         </tr>
     </table>
+    <button class="btn btn-success button_1" ng-click="addMate()">保存</button>
+    <button class="btn btn-info button_2">下一项</button>
 </div>
 
 </body>

@@ -9,6 +9,7 @@ import com.population.vo.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 @Service
 public class MateServiceImpl implements MateService {
@@ -40,6 +41,7 @@ public class MateServiceImpl implements MateService {
 
     @Override
     public Message addMate(Mate mate) {
+        mate.setGmtCreate(new Date());
         Integer num = mateDaoMapper.insertMate(mate);
         Message message = ReturnUtil.returnDataOperation("添加", num);
         return message;

@@ -5,6 +5,7 @@ import com.population.service.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -27,24 +28,27 @@ public class ProvinceController {
 
     /**
      * 查询省下面所有的市
-     * @param province 市信息
+     * @param provinceId 市信息id
      * @return
      */
     @RequestMapping("/findCity")
     @ResponseBody
-    public List findCity(Province province){
-        return provinceService.findCity(province);
+    public List findCity(Integer provinceId){
+        return provinceService.findCity(provinceId);
     }
 
     /**
      * 查询所有市下面的所有县
-     * @param province
+     * @param provinceId 省id
+     * @param cityId  市 id
      * @return
      */
     @RequestMapping("/findCounty")
     @ResponseBody
-    public List findCounty(Province province){
-        return provinceService.findCounty(province);
+    public List findCounty(
+            @RequestParam(value = "provinceId") Integer provinceId,
+            @RequestParam(value = "cityId") Integer cityId){
+        return provinceService.findCounty(provinceId,cityId);
     }
 
     /**

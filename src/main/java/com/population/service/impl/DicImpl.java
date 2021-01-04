@@ -1,5 +1,6 @@
 package com.population.service.impl;
 
+import com.population.dao.DicDao.DicDaoMapper;
 import com.population.dao.DicMapper;
 import com.population.pojo.Dic;
 import com.population.service.DicService;
@@ -12,10 +13,17 @@ import java.util.List;
 public class DicImpl implements DicService {
     @Autowired
     private DicMapper dicMapper;
+    @Autowired
+    private DicDaoMapper dicDaoMapper;
 
     @Override
     public List<Dic> findAll() {
         List<Dic> dics= dicMapper.findAll();
         return dics;
+    }
+
+    @Override
+    public List<Dic> findDicByParentId(Integer parentId) {
+        return dicDaoMapper.selectDicByParentId(parentId);
     }
 }
