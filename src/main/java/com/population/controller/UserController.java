@@ -1,14 +1,18 @@
 package com.population.controller;
 
 import com.population.pojo.User;
+import com.population.pojo.power;
 import com.population.service.UserService;
 import com.population.vo.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("userLogin")
@@ -32,6 +36,7 @@ public class UserController {
             if (userPassword != null && userPassword.equals(admin.getUserPassword())) {
                 httpSession.setAttribute("admin", admin);
                 m.setEstimate(true);
+                m.setXyId(admin.getUserId());
                 m.setSlogan("正确！！");
             }else {
                 m.setEstimate(false);
@@ -60,6 +65,20 @@ public class UserController {
     public Message Recur(User user){
         Message message= userService.recuRuser(user);
         return message;
+    }
+
+    @RequestMapping("homePage")
+    public String inHomePage(){
+        return "homePage1";
+    }
+
+    @RequestMapping("findAllPorwer")
+    @ResponseBody
+    public List<power> findPorwer(HttpSession session){
+        User admin = (User) session.getAttribute("admin");
+        Integer userId = admin.getUserId();
+        List<power> list=userService.findAllPorwer(userId);
+        return list;
     }
 
 }

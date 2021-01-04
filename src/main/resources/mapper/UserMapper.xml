@@ -5,7 +5,7 @@
     <id column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
     <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
-    <result column="user_unit" jdbcType="INTEGER" property="userUnit" />
+    <result column="user_unit" jdbcType="VARCHAR" property="userUnit" />
     <result column="user_ city" jdbcType="INTEGER" property="userCity" />
     <result column="user_province" jdbcType="INTEGER" property="userProvince" />
     <result column="user_area" jdbcType="INTEGER" property="userArea" />
@@ -38,12 +38,16 @@
       audit_status, gmt_create, gmt_modifile, 
       spare_str, spare_int)
     values (#{userId,jdbcType=INTEGER}, #{userPhone,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
-      #{userUnit,jdbcType=INTEGER}, #{userCity,jdbcType=INTEGER}, #{userProvince,jdbcType=INTEGER}, 
+      #{userUnit,jdbcType=VARCHAR}, #{userCity,jdbcType=INTEGER}, #{userProvince,jdbcType=INTEGER},
       #{userArea,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{delId,jdbcType=INTEGER}, 
       #{auditStatus,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModifile,jdbcType=TIMESTAMP}, 
       #{spareStr,jdbcType=VARCHAR}, #{spareInt,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.population.pojo.User">
+  <select id="recuRuser" resultType="java.lang.Integer" parameterType="com.population.pojo.User">
+    select count(0) from user
+    where user_phone = #{userPhone,jdbcType=VARCHAR}
+  </select>
+  <insert id="inertUser" parameterType="com.population.pojo.User">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -59,7 +63,7 @@
         user_unit,
       </if>
       <if test="userCity != null">
-        "user_ city",
+        user_city,
       </if>
       <if test="userProvince != null">
         user_province,
@@ -100,7 +104,7 @@
         #{userPassword,jdbcType=VARCHAR},
       </if>
       <if test="userUnit != null">
-        #{userUnit,jdbcType=INTEGER},
+        #{userUnit,jdbcType=VARCHAR},
       </if>
       <if test="userCity != null">
         #{userCity,jdbcType=INTEGER},
@@ -144,7 +148,7 @@
         user_password = #{userPassword,jdbcType=VARCHAR},
       </if>
       <if test="userUnit != null">
-        user_unit = #{userUnit,jdbcType=INTEGER},
+        user_unit = #{userUnit,jdbcType=VARCHAR},
       </if>
       <if test="userCity != null">
         "user_ city" = #{userCity,jdbcType=INTEGER},
@@ -179,11 +183,16 @@
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
+  <select id="findPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select user_id,user_phone,user_password
+    from user
+    where user_phone = #{userPhone,jdbcType=VARCHAR}
+  </select>
   <update id="updateByPrimaryKey" parameterType="com.population.pojo.User">
     update user
     set user_phone = #{userPhone,jdbcType=VARCHAR},
       user_password = #{userPassword,jdbcType=VARCHAR},
-      user_unit = #{userUnit,jdbcType=INTEGER},
+      user_unit = #{userUnit,jdbcType=VARCHAR},
       "user_ city" = #{userCity,jdbcType=INTEGER},
       user_province = #{userProvince,jdbcType=INTEGER},
       user_area = #{userArea,jdbcType=INTEGER},

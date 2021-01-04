@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class Message {
 
+    //ID号码
+    private Integer xyId;
+
     //判断标识
     private boolean estimate;
 

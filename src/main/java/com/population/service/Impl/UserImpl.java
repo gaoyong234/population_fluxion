@@ -1,16 +1,23 @@
 package com.population.service.Impl;
 
 import com.population.dao.UserMapper;
+import com.population.dao.powerMapper;
 import com.population.pojo.User;
+import com.population.pojo.power;
 import com.population.service.UserService;
 import com.population.vo.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private powerMapper powerMapper;
 
     @Override
     public User getUserByAccount(String userPhone) {
@@ -35,6 +42,11 @@ public class UserImpl implements UserService {
 
         }
         return m;
+    }
+
+    @Override
+    public List<power> findAllPorwer(Integer userId) {
+        return powerMapper.findAllPower(userId);
     }
 
 
