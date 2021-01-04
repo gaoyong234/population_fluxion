@@ -8,9 +8,9 @@ public interface ProvinceService {
     //查询省
     List<Province> findProvince();
     //查询市
-    List<Province> findCity(Province pro);
+    List<Province> findCity(Integer provinceId);
     //查询县
-    List<Province> findCounty(Province pro);
+    List<Province> findCounty(Integer provinceId,Integer cityId);
     //查询乡镇
     List<Province> findArea(Province pro);
 }

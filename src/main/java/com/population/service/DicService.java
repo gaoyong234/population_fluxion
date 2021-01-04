@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface DicService {
     List<Dic> findAll();
+    List<Dic> findDicByParentId(Integer parentId);
 }
