@@ -37,6 +37,18 @@
     <script>
         var app = angular.module("myApp", []);
         app.controller("myController", function ($scope, $http) {
+            //查询用户是否有配偶
+            $http({
+                url:"/Mate/findMate",
+                method:"post"
+            }).success(function (response) {
+                $scope.mate=response;
+                console.log(response);
+                $scope.getCity();
+                $scope.getCounty();
+                $scope.getArea();
+            })
+
             //获取全部省信息
             $http({
                 url: "/Province/findProvince",
@@ -44,11 +56,27 @@
             }).success(function (response) {
                 $scope.allProvince = response;
             })
+            $scope.toGetCity=function(){
+                $scope.mate.madeCity='';
+                $scope.mate.mateCounty='';
+                $scope.mate.mateArea='';
+                $scope.getCity();
+
+            }
+            $scope.toGetCounty=function(){
+                $scope.mate.mateCounty='';
+                $scope.mate.mateArea='';
+                $scope.getCounty();
+
+            }
+            $scope.toGetArea=function(){
+                $scope.mate.mateArea='';
+                $scope.getArea();
+
+            }
             //获取省下的市
             $scope.getCity = function () {
                 var provinceId = $scope.mate.mateProvince;
-                $scope.mate.mateArea='';
-                $scope.mate.mateCounty='';
                 $http({
                     url: "/Province/findCity",
                     method: "post",
@@ -61,7 +89,6 @@
             $scope.getCounty = function () {
                 var provinceId = $scope.mate.mateProvince;
                 var cityId = $scope.mate.mateCity;
-                $scope.mate.mateArea='';
                 $http({
                     url: "/Province/findCounty",
                     method: "post",
@@ -72,13 +99,13 @@
             }
             //获取县下的乡镇
             $scope.getArea = function () {
-                var province = $scope.mate.mateProvince;
-                var city = $scope.mate.mateCity;
-                var count = $scope.mate.mateCounty;
+                var provinceId = $scope.mate.mateProvince;
+                var cityId = $scope.mate.mateCity;
+                var countyId = $scope.mate.mateCounty;
                 $http({
                     url: "/Province/findArea",
                     method: "post",
-                    params:{"province":province,"city":city,"area":count}
+                    params:{"provinceId":provinceId,"cityId":cityId,"countyId":countyId}
                 }).success(function (response) {
                     $scope.allTown = response;
                 })
@@ -93,7 +120,61 @@
             })
             //表单验证
             $scope.formVerify = function(mate){
-
+                var judge = true;
+                var mateName = mate.mateName;
+                var mateNumber = mate.mateNumber;
+                var regMateNumber=/^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+                var mateProvince = mate.mateProvince;
+                var mateCity = mate.mateCity;
+                var mateCounty = mate.mateCounty;
+                var mateArea = mate.mateArea;
+                var mateVillage = mate.mateVillage;
+                var spareStr = mate.spareStr;
+                var background = mate.background;
+                var workUnit = mate.workUnit;
+                var matePhone = mate.matePhone;
+                var regMatePhone = /^1[3|4|5|7|8][0-9]{9}$/;
+                if (mateName==null||mateName==''){
+                    $scope.showModalButton1("请填写配偶名称！");
+                    judge=false;
+                }else if (mateNumber==null||mateNumber==''){
+                    $scope.showModalButton1("请填写身份证号！");
+                    judge=false;
+                }else if (!regMateNumber.test(mateNumber)){
+                    $scope.showModalButton1("请填写正确的身份号");
+                    judge = false;
+                }else if  (mateProvince==null||mateProvince==''){
+                    $scope.showModalButton1("请选择省份！");
+                    judge=false;
+                }else if  (mateCity==null||mateCity==''){
+                    $scope.showModalButton1("请选择市！");
+                    judge=false;
+                }else if(mateCounty==null||mateCounty==''){
+                    $scope.showModalButton1("请选择县！");
+                    judge=false;
+                }else if(mateArea==null||mateArea==''){
+                    $scope.showModalButton1("请选择乡！");
+                    judge=false;
+                }else if(mateVillage==null||mateVillage==''){
+                    $scope.showModalButton1("请填写村社区！");
+                    judge=false;
+                }else if(spareStr==null||spareStr==''){
+                    $scope.showModalButton1("请填写门楼信息！");
+                    judge=false;
+                }else if(background==null||background==''){
+                    $scope.showModalButton1("请选择从业状况！");
+                    judge=false;
+                }else if(workUnit==null||workUnit==''){
+                    $scope.showModalButton1("请填写工作单位！");
+                    judge=false;
+                }else if(matePhone==null||matePhone==''){
+                    $scope.showModalButton1("请填写手机号！");
+                    judge=false;
+                }else if(!regMatePhone.test(matePhone)){
+                    $scope.showModalButton1("请填写正确的手机号！");
+                    judge=false;
+                }
+                return judge;
             }
             //返回结果提示
             $scope.showModalButton1 = function (slogan) {
@@ -115,13 +196,20 @@
             //数据提交
             $scope.addMate = function () {
                 var mate = $scope.mate;
-                $http({
-                    url:"/Mate/addMate",
-                    method:"post",
-                    params:mate
-                }).success(function (response) {
-                    $scope.showModalButton1(response.slogan);
-                })
+                var judge =$scope.formVerify(mate);
+                if(judge) {
+                    $http({
+                        url: "/Mate/addMate",
+                        method: "post",
+                        params: mate
+                    }).success(function (response) {
+                        $scope.showModalButton1(response.slogan);
+                    })
+                }
+            }
+            //下一项
+            $scope.next = function () {
+                window.location.href="/familyMembers/toFamilyMembersInfo";
             }
         });
     </script>
@@ -143,25 +231,33 @@
         <tr>
             <td>现居住地址:</td>
             <td>
-                <select ng-model="mate.mateProvince" ng-change="getCity()" class="form-control form-control1">
+                <select ng-model="mate.mateProvince" ng-change="toGetCity()"
+                        class="form-control form-control1">
                     <option value="">请选择</option>
                     <option ng-repeat="prov in allProvince"
-                            ng-value="prov.id">{{prov.name}}</option>
+                            ng-value="prov.id"
+                            ng-selected="prov.id==mate.mateProvince">{{prov.name}}</option>
                 </select>
                 省
-                <select ng-model="mate.mateCity" ng-change="getCounty()" class="form-control form-control1">
+                <select ng-model="mate.mateCity" ng-change="toGetCounty()" name="mateCity" class="form-control form-control1">
                     <option value="">请选择</option>
-                    <option ng-repeat="cit in allCity" ng-value="cit.id">{{cit.name}}</option>
+                    <option ng-repeat="cit in allCity"
+                            ng-value="cit.id"
+                            ng-selected="cit.id==mate.mateCity">{{cit.name}}</option>
                 </select>
                 市
-                <select ng-model="mate.mateCounty" ng-change="getArea()" class="form-control form-control1">
+                <select ng-model="mate.mateCounty" ng-change="toGetArea()" class="form-control form-control1">
                     <option value="">请选择</option>
-                    <option ng-repeat="coun in allCount" ng-value="coun.area">{{coun.name}}</option>
+                    <option ng-repeat="coun in allCount"
+                            ng-value="coun.id"
+                            ng-selected="coun.id==mate.mateCounty">{{coun.name}}</option>
                 </select>
                 县(区)
                 <select ng-model="mate.mateArea" class="form-control form-control1">
                     <option value="">请选择</option>
-                    <option ng-repeat="tow in allTown" ng-value="tow.town">{{tow.name}}</option>
+                    <option ng-repeat="tow in allTown"
+                            ng-value="tow.id"
+                            ng-selected="tow.id==mate.mateArea">{{tow.name}}</option>
                 </select>
                 乡(镇、街办)
                 <input ng-model="mate.mateVillage" class="form-control form-control1"/>村(社区)
@@ -193,7 +289,7 @@
         </tr>
     </table>
     <button class="btn btn-success button_1" ng-click="addMate()">保存</button>
-    <button class="btn btn-info button_2">下一项</button>
+    <button class="btn btn-info button_2" ng-click="next()">下一项</button>
 </div>
 
 </body>

@@ -9,6 +9,7 @@ import com.population.vo.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 @Service
@@ -45,5 +46,11 @@ public class MateServiceImpl implements MateService {
         Integer num = mateDaoMapper.insertMate(mate);
         Message message = ReturnUtil.returnDataOperation("添加", num);
         return message;
+    }
+
+    @Override
+    public Integer findCountMate(Integer userId) {
+        Integer num = mateDaoMapper.selectCountMate(userId);
+        return num;
     }
 }

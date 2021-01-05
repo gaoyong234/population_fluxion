@@ -52,14 +52,18 @@ public class ProvinceController {
     }
 
     /**
-     * 查询乡镇
-     * @param province
+     * 查询县下的所有镇
+     * @param provinceId 省
+     * @param cityId 市
+     * @param countyId 县
      * @return
      */
     @RequestMapping("/findArea")
     @ResponseBody
-    public List findArea(Province province){
-        return provinceService.findArea(province);
+    public List findArea(@RequestParam(value = "provinceId") Integer provinceId,
+                         @RequestParam(value = "cityId") Integer cityId,
+                         @RequestParam(value = "countyId") Integer countyId){
+        return provinceService.findArea(provinceId,cityId,countyId);
     }
 
 }

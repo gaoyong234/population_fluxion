@@ -31,16 +31,16 @@ public class ProvinceServiceImpl implements ProvinceService {
     public List<Province> findCounty(Integer provinceId,Integer cityId) {
         List<Province> provinces = provinceDaoMapper.selectCounty(provinceId, cityId);
         if (provinces.size()==0){
-
+            provinces= provinceDaoMapper.selectOneCounty(provinceId);
         }
         return provinces;
     }
 
     @Override
-    public List<Province> findArea(Province pro) {
-        if ("0".equals(pro.getCity())){
-            pro.setCity("01");
+    public List<Province> findArea(Integer provinceId,Integer cityId,Integer countyId) {
+        if (provinceId==cityId){
+            cityId=2;
         }
-        return provinceDaoMapper.selectArea(pro);
+        return provinceDaoMapper.selectArea(provinceId,cityId,countyId);
     }
 }

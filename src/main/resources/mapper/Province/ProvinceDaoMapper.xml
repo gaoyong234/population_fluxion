@@ -29,17 +29,18 @@
 <select id="selectCounty" resultMap="BaseResultMap">
   select id, code, name, province, city, area, town
   from province
-    and province=(SELECT province from province where id=#{provinceId})
+
+    where province=(SELECT province from province where id=#{provinceId})
     and city=(SELECT city from province where id=#{cityId})
 	and town=0
 	and area > 0
 </select>
-  <select id="selectArea" parameterType="com.population.pojo.Province" resultMap="BaseResultMap">
+  <select id="selectArea" resultMap="BaseResultMap">
  select id, code, name, province, city, area, town
   from province
-  where province=#{province}
-	and city=#{city}
-	and area = #{area}
+  where province=(SELECT province from province where id=#{provinceId})
+	and city=(SELECT city from province where id=#{cityId})
+	and area = (SELECT area from province where id=#{countyId})
 	and town>0
 </select>
   <select id="selectProvinceCityCounty" resultType="com.population.vo.ProvinceVO">
@@ -55,5 +56,13 @@
   from province
   where province=(SELECT province from province where id=#{provinceId})
   and city = 0
+  </select>
+  <select id="selectOneCounty" parameterType="integer" resultMap="BaseResultMap">
+    select id, code, name, province, city, area, town
+  from province
+  where province=(SELECT province from province where id=#{provinceId})
+  and city = 01
+  and town=0
+	and area > 0
   </select>
 </mapper>

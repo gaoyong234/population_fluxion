@@ -18,5 +18,7 @@ public interface MateDaoMapper {
     Integer delMateByUpdate(Integer maId);
     //添加配偶信息
     Integer insertMate(Mate mate);
+    //查询是否有配偶
+    Integer selectCountMate(Integer userId);
 
 }

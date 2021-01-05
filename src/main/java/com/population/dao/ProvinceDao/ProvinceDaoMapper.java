@@ -13,12 +13,13 @@ public interface ProvinceDaoMapper {
     //查询县
     List<Province> selectCounty(@Param(value = "provinceId") Integer provinceId, @Param(value = "cityId") Integer cityId);
     //查询乡镇
-    List<Province> selectArea(Province pro);
+    List<Province> selectArea(@Param(value = "provinceId") Integer provinceId, @Param(value = "cityId") Integer cityId,@Param(value = "countyId") Integer countyId);
     //根据乡镇信息查询相应的省市县
     //暂时不能用
     ProvinceVO selectProvinceCityCounty(Integer id);
     //关于北京市，天津市，等处理
     List<Province> selectOneCity(Integer provinceId);
     //关于北京市
+    List<Province> selectOneCounty(Integer provinceId);
 
 }

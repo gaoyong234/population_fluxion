@@ -49,10 +49,12 @@
     <include refid="Base_Column_List" />
     from mate
     where user_id = #{userId}
+    and del_id=0
   </select>
   <select id="selectAllMate" resultMap="BaseMap">
     select <include refid="Base_Column_List" />
     from mate
+    where del_id=0
   </select>
   <insert id="insertMate" parameterType="com.population.pojo.Mate">
     insert into mate
@@ -222,4 +224,10 @@
     set del_id=1
     where ma_id = #{maId}
   </update>
+  <select id="selectCountMate" parameterType="integer" resultType="integer">
+    select count(0)
+    from mate
+    where user_id=#{userId}
+    and del_id=0
+  </select>
 </mapper>

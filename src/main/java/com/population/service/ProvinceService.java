@@ -12,5 +12,5 @@ public interface ProvinceService {
     //查询县
     List<Province> findCounty(Integer provinceId,Integer cityId);
     //查询乡镇
-    List<Province> findArea(Province pro);
+    List<Province> findArea(Integer provinceId,Integer cityId,Integer countyId);
 }
