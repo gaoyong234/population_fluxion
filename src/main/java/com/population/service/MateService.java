@@ -18,4 +18,6 @@ public interface MateService {
     Message removeMateByUpdate(Integer maId);
     //添加配偶信息
     Message addMate(Mate mate);
+    //查询有无配偶
+    Integer findCountMate(Integer userId);
 }
