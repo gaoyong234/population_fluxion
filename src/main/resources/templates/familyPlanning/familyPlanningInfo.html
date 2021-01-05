@@ -13,6 +13,15 @@
     <script src="../static/plugins/angularjs/angular.min.js"></script>
     <link rel="stylesheet" href="../static/plugins/angularjs/pagination.css">
     <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+    <style>
+        table {
+            width: 85%;
+        }
+
+        table td {
+            padding: 5px 15px;
+        }
+    </style>
 </head>
 <script>
     var app = angular.module("myApp",[]);
@@ -20,7 +29,7 @@
 
         //验证
         $scope.verification = function(data){
-            console.log(data);
+            //console.log(data);
             var msg = true;
             var matePeer = data.matePeer;
             var marital = data.marital;
@@ -116,114 +125,111 @@
     })
 </script>
 <body ng-app="myApp" ng-controller="myCtrl">
-    <div align="center" style="border: 1px solid black; background-color: #00c0ef; width: 100%;height: 50px;">
-        <div style="border: 1px solid black; background-color: white; width: 50%;height: 30px; margin-top: 10px;"><span style="font-size: 20px">计生信息</span></div>
+    <div align="center" style="border: 1px solid black; width: 100%; height: 130px">
+        <div style="border: 1px solid black; width: 50%;height: 50px; margin-top: 20px">
+            <div style="margin-top: 10px"><span style="font-size: 20px">流动人口服务管理系统</span></div>
+        </div>
+        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 217px;">个人信息</button>
+        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;">配偶信息</button>
+        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;">同住家庭成员</button>
+        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px; background-color: #0d6aad;">计生信息</button>
+        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;">就业信息</button>
+        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;">居住信息</button>
     </div>
-    <div>
-        <table id="dataList" class="table">
-           <!-- <thead>
+    <div style="border: 2px solid black; width: 100%; height: 1px"></div>
+    <div align="center">
+        <table>
                 <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>-->
-            <tbody id="tbody">
-                <tr>
-                    <th>夫妻同行：</th>
+                    <td>夫妻同行：</td>
                     <td>
                         <input type="radio" ng-model="obj.matePeer" name="matePeer" ng-value="1"/>是
                         <input type="radio" ng-model="obj.matePeer" name="matePeer" ng-value="0"/>否
                     </td>
-                    <th>婚育证明：</th>
+                    <td>婚育证明：</td>
                     <td>
                         <input type="radio" ng-model="obj.marital" name="marital" ng-value="1"/>有
                         <input type="radio" ng-model="obj.marital" name="marital" ng-value="0"/>无
                     </td>
                 </tr>
                 <tr>
-                    <th>婚育证编码：</th>
+                    <td>婚育证编码：</td>
                     <td>
-                        <input type="text" ng-model="obj.maritalNumber" name="maritalNumber" placeholder="请输入..."/>
+                        <input type="text" ng-model="obj.maritalNumber" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" name="maritalNumber" placeholder="请输入..."/>
                     </td>
-                    <th>是否验证：</th>
+                    <td>是否验证：</td>
                     <td>
                         <input type="radio" ng-model="obj.verify" name="verify" ng-value="1"/>是
                         <input type="radio" ng-model="obj.verify" name="verify" ng-value="0"/>否
                     </td>
                 </tr>
                 <tr>
-                    <th>生育状况：</th>
-                    <th>生育子女数：</th>
+                    <td>生育状况：</td>
+                </tr>
+                <tr>
+                    <td>生育子女数：</td>
                     <td>
-                        男<input type="text" style="width: 60px" ng-model="obj.boy" name="boy" placeholder="请输入..."/>人
-                    </td>
-                    <td>
-                        女<input type="text" style="width: 60px" ng-model="obj.girl" name="girl" placeholder="请输入..."/>人
+                        男&nbsp&nbsp<input type="text" style="width: 60px" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" ng-model="obj.boy" name="boy" placeholder="请输入..."/>&nbsp&nbsp人&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        女&nbsp&nbsp<input type="text" style="width: 60px" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" ng-model="obj.girl" name="girl" placeholder="请输入..."/>&nbsp&nbsp人
                     </td>
                 </tr>
                 <tr>
-                    <th>政策内：</th>
+                    <td>政策内：</td>
                     <td>
                         <input type="radio" ng-model="obj.policyIn" name="policyIn" ng-value="0"/>2孩
                         <input type="radio" ng-model="obj.policyIn" name="policyIn" ng-value="1"/>3孩
                     </td>
-                    <th>政策外：</th>
+                    <td>政策外：</td>
                     <td>
                         <input type="radio" ng-model="obj.policyOut" name="policyOut" ng-value="0"/>2孩
                         <input type="radio" ng-model="obj.policyOut" name="policyOut" ng-value="1"/>3孩
                     </td>
                 </tr>
                 <tr>
-                    <th>独生子女证：</th>
+                    <td>独生子女证：</td>
                     <td>
                         <input type="radio" ng-model="obj.onlyChild" name="onlyChild" ng-value="1"/>有
                         <input type="radio" ng-model="obj.onlyChild" name="onlyChild" ng-value="0"/>无
                     </td>
-                    <th>社会抚养费征收：</th>
+                    <td>社会抚养费征收：</td>
                     <td>
                         <input type="radio" ng-model="obj.alimony" name="alimony" ng-value="1"/>已缴
                         <input type="radio" ng-model="obj.alimony" name="alimony" ng-value="0"/>未缴
                     </td>
                 </tr>
                 <tr>
-                    <th>怀孕避孕状况：</th>
+                    <td>怀孕避孕状况：</td>
                     <td>
-                        <span ng-repeat="c in contraception"><input type="radio"  ng-model="obj.contraception" name="contraception" ng-value="c.id"/>{{c.name}} </span>
+                        <span ng-repeat="c in contraception">
+                            <input type="radio"  ng-model="obj.contraception" name="contraception" ng-value="c.id"/>{{c.name}}
+                        </span>
                     </td>
-                    <th>措施时间：</th>
+                    <td>措施时间：</td>
                     <td>
                         <input type="date" ng-model="obj.contraceptionTime" name="contraceptionTime"/>
                     </td>
                 </tr>
                 <tr>
-                    <th>当年生育子女：</th>
+                    <td>当年生育子女：</td>
                     <td>
                         <input type="radio" ng-model="obj.onceBog" name="onceBog" ng-value="1"/>男
                         <input type="radio" ng-model="obj.onceBog" name="onceBog" ng-value="0"/>女
                     </td>
-                    <th>出生日期：</th>
+                    <td>出生日期：</td>
                     <td>
                         <input type="date" ng-model="obj.onceBirthday" name="onceBirthday"/>
                     </td>
-                    <th>政策外：</th>
+                    <td>政策外：</td>
                     <td>
                         <input type="radio" ng-model="obj.oncePolicy" name="oncePolicy" ng-value="0"/>内
                         <input type="radio" ng-model="obj.oncePolicy" name="oncePolicy" ng-value="1"/>外
                     </td>
                 </tr>
-            </tbody>
         </table>
+        <div style="height: 50px;"></div>
         <center>
-            <button class="btn btn-success" data-toggle="modal" data-target="#chage" ng-click="save()" >保 存</button>
-            <button class="btn btn-success" data-toggle="modal" data-target="#chage" ng-click="" >下一项</button>
+            <button data-toggle="modal" data-target="#chage" ng-click="save()" >保 存</button>
+            <button data-toggle="modal" data-target="#chage" ng-click="" >下一项</button>
         </center>
-        <tm-pagination conf="paginationConf"></tm-pagination>
     </div>
     <div align="center" style="border: 1px solid black; background-color: #97a0b3; width: 100%;height: 50px; position: fixed;bottom: 0;">
         <div style="border: 1px solid black; background-color: white; width: 50%;height: 30px; margin-top: 10px;"><span style="font-size: 20px">版权所有：公安局</span></div>
