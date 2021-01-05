@@ -14,6 +14,20 @@
     <script src="../static/plugins/angularjs/angular.min.js"></script>
     <link rel="stylesheet" href="../static/plugins/angularjs/pagination.css">
     <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+    <style>
+        table {
+            width: 85%;
+            border-top: 1px solid #999;
+            border-left: 1px solid #999;
+        }
+
+        table td {
+            padding: 5px 15px;
+            border-bottom: 1px solid #999;
+            border-right: 1px solid #999;
+            border-spacing: 0;/*去掉单元格间隙*/
+        }
+    </style>
 </head>
 <script>
     var app = angular.module("myApp",[]);
@@ -72,6 +86,16 @@
             });
         }
 
+        //截取身份证日期并显示
+        $scope.checkDate = function(){
+            var familyNumber = $("input[name='familyNumber']").val();
+            var year = familyNumber.substring(6, 10);
+            var month = familyNumber.substring(10, 12);
+            var date = familyNumber.substring(12, 14);
+            var date2 = (year+"-"+month+"-"+date);
+            $scope.familyBrithday = date2
+        }
+
         //验证
         $scope.verification = function(data){
             console.log(data);
@@ -80,25 +104,85 @@
             var familyNumber = data.familyNumber;
             var familyName = data.familyName;
             var familySex = data.familySex;
-            var familyBrithday = data.familyBrithday;
+            //var familyBrithday = data.familyBrithday;
             var familyVaccine = data.familyVaccine;
             var familyLearn = data.familyLearn;
+            data.familyBrithday = $scope.familyBrithday
+
+            //身份证省级地址码校验
+            var checkProv = function (val) {
+                var pattern = /^[1-9][0-9]/;
+                var provs = {11:"北京",12:"天津",13:"河北",14:"山西",15:"内蒙古",21:"辽宁",22:"吉林",23:"黑龙江 ",31:"上海",32:"江苏",33:"浙江",34:"安徽",35:"福建",36:"江西",37:"山东",41:"河南",42:"湖北 ",43:"湖南",44:"广东",45:"广西",46:"海南",50:"重庆",51:"四川",52:"贵州",53:"云南",54:"西藏 ",61:"陕西",62:"甘肃",63:"青海",64:"宁夏",65:"新疆",71:"台湾",81:"香港",82:"澳门"};
+                if(pattern.test(val)) {
+                    if(provs[val]) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            //身份证出生日期码校验
+            var checkDate = function (val) {
+                var pattern = /^(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)$/;
+                if(pattern.test(val)) {
+                    var year = val.substring(0, 4);
+                    var month = val.substring(4, 6);
+                    var date = val.substring(6, 8);
+                    var date2 = new Date(year+"-"+month+"-"+date);
+                    if(date2 && date2.getMonth() == (parseInt(month) - 1)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            //身份证校验码校验
+            var checkCode = function (val) {
+                var p = /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+                var factor = [ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 ];
+                var parity = [ 1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2 ];
+                var code = val.substring(17);
+                if(p.test(val)) {
+                    var sum = 0;
+                    for(var i=0;i<17;i++) {
+                        sum += val[i]*factor[i];
+                    }
+                    if(parity[sum % 11] == code.toUpperCase()) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            //整体身份证号校验
+            var checkID = function (val) {
+                if(checkCode(val)) {
+                    var date = val.substring(6,14);
+                    if(checkDate(date)) {
+                        if(checkProv(val.substring(0,2))) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+
             if (spareInt == null || spareInt == ''){
                 alert("请选择关系信息！！！")
                 msg = false;
             }else if (familyNumber == null || familyNumber == ''){
                 alert("请输入公民身份证号信息！！！")
                 msg = false;
+            }else if (checkID(familyNumber) == false){
+                alert("请输入正确的身份证号码!!!")
+                msg =  false;
             }else if (familyName==null || familyName == ''){
                 alert("请输入姓名信息！！！")
                 msg = false;
             }else if (familySex == null){
                 alert("请选择性别信息！！！")
                 msg = false;
-            }else if (familyBrithday == null || familyBrithday == ''){
+            }/*else if (familyBrithday == null || familyBrithday == ''){
                 alert("请选择出生日期！！！")
                 msg = false;
-            }else if (familyVaccine==null){
+            }*/else if (familyVaccine==null){
                 alert("请选择有无预防接种证信息！！！")
                 msg = false;
             }else if (familyLearn==null){
@@ -139,73 +223,67 @@
     })
 </script>
 <body ng-app="myApp" ng-controller="myCtrl">
-    <!--<div align="center" style="border: 1px solid black; width: 100%; height: 130px">
+    <div align="center" style="border: 1px solid black; width: 100%; height: 130px">
         <div style="border: 1px solid black; width: 50%;height: 50px; margin-top: 20px">
             <div style="margin-top: 10px"><span style="font-size: 20px">流动人口服务管理系统</span></div>
         </div>
-        <div style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 217px;">个人信息</div>
-        <div style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;">配偶信息</div>
-        <div style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;">同住家庭成员</div>
-        <div style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;">计生信息</div>
-        <div style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;">就业信息</div>
-        <div style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;">居住信息</div>
+        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 217px;">个人信息</button>
+        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;">配偶信息</button>
+        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px; background-color: #0d6aad;">同住家庭成员</button>
+        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;">计生信息</button>
+        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;">就业信息</button>
+        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;">居住信息</button>
     </div>
-    <div style="border: 2px solid black; width: 100%; height: 1px"></div>-->
-    <div align="center" style="border: 1px solid black; background-color: #00c0ef; width: 100%;height: 50px;">
-        <div style="border: 1px solid black; background-color: white; width: 50%;height: 30px; margin-top: 10px;"><span style="font-size: 20px">同住家庭成员信息</span></div>
-    </div>
-    <div>
-        <table id="dataList" class="table">
-            <thead>
-            <tr>
-                <th>编号</th>
-                <th>关系</th>
-                <th>公民身份证号</th>
-                <th>姓名</th>
-                <th>性别</th>
-                <th>出生日期</th>
-                <th>有无预防接种证</th>
-                <th>是否在本市就学</th>
-            </tr>
-            </thead>
-            <tbody id="tbody">
-            <tr>
-                <th>编号</th>
-                <th>
-                    <select id="spareInt" ng-model="obj.spareInt"  name="spareInt">
-                        <option value="">请选择</option>
-                        <option ng-repeat="x in relationship" ng-value="x.id">{{x.name}}</option>
-                    </select>
-                </th>
-                <th>
-                    <input type="text" ng-model="obj.familyNumber" name="familyNumber" placeholder="请输入...">
-                </th>
-                <th>
-                    <input type="text" ng-model="obj.familyName" name="familyName" placeholder="请输入...">
-                </th>
-                <th>
-                    <input type="radio" ng-model="obj.familySex" name="familySex" ng-value="1"/>男
-                    <input type="radio" ng-model="obj.familySex" name="familySex" ng-value="0"/>女
-                </th>
-                <th>
-                    <input type="date" ng-model="obj.familyBrithday" name="familyBrithday">
-                </th>
-                <th>
-                    <input type="radio" ng-model="obj.familyVaccine" name="familyVaccine" ng-value="1"/>有
-                    <input type="radio" ng-model="obj.familyVaccine" name="familyVaccine" ng-value="0"/>无
-                </th>
-                <th>
-                    <input type="radio" ng-model="obj.familyLearn" name="familyLearn" ng-value="1"/>是
-                    <input type="radio" ng-model="obj.familyLearn" name="familyLearn" ng-value="0"/>否
-                </th>
-            </tr>
-            </tbody>
+    <div style="border: 2px solid black; width: 100%; height: 1px"></div>
+    <div style="height: 30px"></div>
+    <div align="center">
+        <table>
+                <tr>
+                    <td>编号</td>
+                    <td style="color: red;">关系</td>
+                    <td style="color: red;">公民身份证号</td>
+                    <td style="color: red;">姓名</td>
+                    <td style="color: red;">性别</td>
+                    <td>出生日期</td>
+                    <td>有无预防接种证</td>
+                    <td>是否在本市就学</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <select id="spareInt" ng-model="obj.spareInt"  name="spareInt">
+                            <option value="">请选择</option>
+                            <option ng-repeat="x in relationship" ng-value="x.id">{{x.name}}</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" ng-model="obj.familyNumber" name="familyNumber" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" ng-blur="checkDate()" placeholder="请输入...">
+                    </td>
+                    <td>
+                        <input type="text" ng-model="obj.familyName" name="familyName" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入...">
+                    </td>
+                    <td>
+                        <input type="radio" ng-model="obj.familySex" name="familySex" ng-value="1"/>男
+                        <input type="radio" ng-model="obj.familySex" name="familySex" ng-value="0"/>女
+                    </td>
+                    <td>
+                        <input type="text" disabled="disabled" ng-model="familyBrithday" name="familyBrithday">
+                    </td>
+                    <td>
+                        <input type="radio" ng-model="obj.familyVaccine" name="familyVaccine" ng-value="1"/>有
+                        <input type="radio" ng-model="obj.familyVaccine" name="familyVaccine" ng-value="0"/>无
+                    </td>
+                    <td>
+                        <input type="radio" ng-model="obj.familyLearn" name="familyLearn" ng-value="1"/>是
+                        <input type="radio" ng-model="obj.familyLearn" name="familyLearn" ng-value="0"/>否
+                    </td>
+                </tr>
         </table>
+            <div style="height: 50px;"></div>
             <center>
-                <button class="btn btn-success" data-toggle="modal" data-target="#chage" ng-click="save()" >保 存</button>
-                <button class="btn btn-success" data-toggle="modal" data-target="#chage" ng-click="next()" >下一项</button>
+                <button data-toggle="modal" data-target="#chage" ng-click="save()" >保 存</button>
+                <button data-toggle="modal" data-target="#chage" ng-click="next()" >下一项</button>
             </center>
-        <tm-pagination conf="paginationConf"></tm-pagination>
     </div>
     <div align="center" style="border: 1px solid black; background-color: #97a0b3; width: 100%;height: 50px; position: fixed;bottom: 0; ">
         <div style="border: 1px solid black; background-color: white; width: 50%;height: 30px; margin-top: 10px;"><span style="font-size: 20px">版权所有：公安局</span></div>
