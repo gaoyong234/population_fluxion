@@ -1,5 +1,8 @@
 package com.population.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class personal {
@@ -11,6 +14,8 @@ public class personal {
 
     private Integer personalSax;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
     private Date arrival;
 
     private String idCard;
@@ -77,8 +82,12 @@ public class personal {
 
     private Integer delId;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
     private Date gmtCreate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
     private Date gmtModified;
 
     private String spareStr;

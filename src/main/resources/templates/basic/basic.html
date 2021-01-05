@@ -41,18 +41,134 @@
                     }
                 })
             }
-            $scope.save=function () {
+            $scope.save1=function () {
                 var person=$scope.personal;
                 var demo=false;
-               // var ab= angular.isUndefined($scope.personal.personalName)
-               console.log(angular.isUndefined($scope.personal.personalName))
+                var personName=person.personalName;
+                var rollName=person.rollName
+                var arrival=person.arrival
+                var idCard=person.idCard
+                var personalPhone=person.personalPhone
+                var religion=person.religion
+                var work=person.workingConditions
+                var yz= /^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+                if (personName==null||personName==''){
+                    alert("请填写姓名")
+                }else
+                if(rollName==""||rollName==null){
+                    alert("请填写曾用名")
+                }else
+                if(arrival==""||arrival==null){
+                    alert("请填写来本地时间")
+                }else
+                if (idCard==""||idCard==null){
+                    alert("请填写身份证")
+                }else
+                if (!yz.test(idCard)){
+                    alert("身份证格式不正确")
+                }else
+                if (personalPhone==""||personalPhone==null){
+                    alert("请填写本人移动联系电话")
+                }else
+                if (religion==null){
+                    alert("请勾选宗教信仰")
+                }else
+                if (work==null){
+                    alert("请勾选从业状况")
+                }else {
+                    console.log(person)
+                    alert("进行保存")
+                }
 
-
-
-
-                console.log(person)
             }
+            $scope.personal = {};
+            $scope.save = function (){
+                var data = $scope.personal;
+                var msg = $scope.verification(data);
+
+                if (msg){
+                    $http({
+                        method:"POST",
+                        url:"/personal/inserPersonal",
+                        params:data
+                    }).then(function (response) {
+                        if (response.data > 0){
+                            alert("保存成功！");
+                            location.reload();
+                        }else {
+                            alert("保存失败！");
+                        }
+                    }),function errorCallback(response){
+
+                    }
+                }
+
+            }
+            //验证
+            $scope.verification = function(data){
+                var msg=true;
+                var person=$scope.personal;
+                var demo=false;
+                var personName=person.personalName;
+                var rollName=person.rollName
+                var arrival=person.arrival
+                var idCard=person.idCard
+                var personalPhone=person.personalPhone
+                var religion=person.religion
+                var work=person.workingConditions
+                var reg=/^(13[0-9]|14[01456879]|15[0-3,5-9]|16[2567]|17[0-8]|18[0-9]|19[0-3,5-9])\d{8}$/;
+                var yz= /^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+                if (personName==null||personName==''){
+                    alert("请填写姓名")
+                    msg=false;
+                }else
+                if(rollName==""||rollName==null){
+                    alert("请填写曾用名")
+                    msg=false;
+                }else
+                if(arrival==""||arrival==null){
+                    alert("请填写来本地时间")
+                    msg=false;
+                }else
+                if (idCard==""||idCard==null){
+                    alert("请填写身份证")
+                    msg=false;
+                }else
+                if (!yz.test(idCard)){
+                    alert("身份证格式不正确")
+                    msg=false;
+                }else
+                if (personalPhone==""||personalPhone==null){
+                    alert("请填写本人移动联系电话")
+                    msg=false;
+                }else
+                if(!reg.test(personalPhone)){
+                    alert("请查看本人移动联系电话格式是否正确")
+                    msg=false;
+                }else
+                if (religion==null){
+                    alert("请勾选宗教信仰")
+                    msg=false;
+                }else
+                if (work==null){
+                    alert("请勾选从业状况")
+                    msg=false;
+                }else {
+                    msg=true;
+                    console.log(person)
+                    alert("进行保存")
+                }
+                return msg;
+            }
+
+
+
+
+
         })
+    </script>
+    <script type="text/javascript">
+
     </script>
 </head>
 <body ng-app="myApp" ng-controller="myContr" ng-init="find()">
@@ -70,14 +186,15 @@
     <button>居住信息</button>
 </div>
 <div align="center" >
+    <form id="toPersonal">
     <table  width="80%">
         <tr>
             <td style="color: red">姓名:</td>
             <td>
-                <input type="text" ng-model="personal.personalName">
+                <input type="text" id="personalName" name="personalName" ng-model="personal.personalName">
             </td>
             <td style="color: red">曾用名:</td>
-            <td><input type="text" ng-model="personal.rollName"></td>
+            <td><input type="text" id="rollName" name="rollName" ng-model="personal.rollName"></td>
             <td rowspan="3"><img src="" height="100px" width="100px"></td>
         </tr>
         <tr>
@@ -94,14 +211,14 @@
         </tr>
         <tr>
             <td style="color: red">来本地时间:</td>
-            <td><input type="date" ng-model="personal.arrival"></td>
+            <td><input type="date" id="arrival" name="arrival" ng-model="personal.arrival"></td>
             <td></td>
             <td></td>
             <td></td>
         </tr>
         <tr>
             <td style="color: red">公民身份证号码:</td>
-            <td><input type="text" ng-model="personal.idCard"></td>
+            <td><input type="text" id="idCard" name="idCard" ng-model="personal.idCard"></td>
             <td></td>
             <td></td>
             <td></td>
@@ -109,7 +226,7 @@
         <tr>
             <td style="color: red">民族:</td>
             <td><select >
-                <option ng-repeat="na in nation" value="{{na.id}}" ng-model="personal.notion">{{na.name}}</option>
+                <option ng-repeat="na in nation" ng-value="{{na.id}}" ng-model="personal.notion">{{na.name}}</option>
             </select></td>
             <td></td>
             <td></td>
@@ -157,7 +274,7 @@
             <td>固定电话:</td>
             <td><input ng-model="personal.personalLandlineNumber"></td>
             <td style="color: red">移动电话:</td>
-            <td><input ng-model="personal.personalPhone"></td>
+            <td><input id="personalPhone" name="personalPhone" ng-model="personal.personalPhone"></td>
         </tr>
         <tr>
             <td>紧急联系方式:</td>
@@ -174,20 +291,19 @@
         </tr>
 <!--        $scope.culture=[];//文化程度-->
         <tr>
-
             <td>文化程度:</td>
-            <td ><span ng-repeat="cu in culture"><input ng-model="personal.culture" value="{{cu.id}}" type="radio" name="culture">{{cu.name}}</span></td>
+            <td ><span ng-repeat="cu in culture"><input ng-model="personal.culture" ng-value="{{cu.id}}" type="radio" name="culture">{{cu.name}}</span></td>
         </tr>
         <tr>
 <!--            $scope.politics=[];//政治面貌-->
             <td>政治面貌:</td>
-            <td ><span ng-repeat="po in politics"><input ng-model="personal.politicsStatus" value="{{po.id}}" type="radio" name="politics">{{po.name}}</span></td>
+            <td ><span ng-repeat="po in politics"><input ng-model="personal.politicsStatus" ng-value="{{po.id}}" type="radio" name="politics">{{po.name}}</span></td>
         </tr>
         <tr>
 
 <!--            $scope.religion=[];//宗教信仰-->
             <td style="color: red">宗教信仰:</td>
-            <td ><span ng-repeat="re in religion"><input ng-model="personal.religion" value="{{re.id}}" type="radio" name="religion">{{re.name}}</span></td>
+            <td ><span ng-repeat="re in religion"><input id="religion" ng-model="personal.religion" ng-value="{{re.id}}" type="radio" name="religion">{{re.name}}</span></td>
         </tr>
         <tr>
             <td>身体状况:</td>
@@ -214,15 +330,16 @@
         <tr>
 <!--            $scope.work=[];//就业情况-->
             <td style="color: red">从业状况:</td>
-            <td ><span ng-repeat="wo in work"><input ng-model="personal.workingConditions" value="{{wo.id}}" type="radio" name="work">{{wo.name}}</span></td>
+            <td ><span ng-repeat="wo in work"><input id="workingConditions" name="workingConditions" ng-model="personal.workingConditions" ng-value="{{wo.id}}" type="radio" >{{wo.name}}</span></td>
         </tr>
         <tr>
 <!--            $scope.marriage=[];//婚姻状况-->
             <td>婚姻状况:</td>
-            <td ><span ng-repeat="mar in marriage"><input ng-model="personal.maritalStatus" value="{{mar.id}}" type="radio" name="marriage">{{mar.name}}</span></td>
+            <td ><span ng-repeat="mar in marriage"><input ng-model="personal.maritalStatus" ng-value="{{mar.id}}" type="radio" name="marriage">{{mar.name}}</span></td>
 
         </tr>
     </table>
+    </form>
 </div>
 <div style="text-align:center">
     <button ng-click="save()">保存</button>
