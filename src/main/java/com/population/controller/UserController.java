@@ -49,17 +49,29 @@ public class UserController {
         return m;
     }
 
+    /**
+     * 页面跳转到 注册
+     * @return
+     */
     @RequestMapping("toRegister")
     public String toRegister(){
         return "register";
     }
 
+    /**
+     * 页面跳转到 主页
+     * @return
+     */
     @RequestMapping("inindex")
     public String inindex(){
         return "index";
     }
 
-
+    /**
+     * 判断用户是否已经被注册,如果没有注册,则注册
+     * @param user 前端传入的用户信息
+     * @return 返回一个类.里面有提示信息
+     */
     @RequestMapping("userRecur")
     @ResponseBody
     public Message Recur(User user){
@@ -67,11 +79,20 @@ public class UserController {
         return message;
     }
 
+    /**
+     * 登录成功 跳转 页面
+     * @return
+     */
     @RequestMapping("homePage")
     public String inHomePage(){
         return "homePage1";
     }
 
+    /**
+     * 查询所有的权限
+     * @param session 从session中获取用户的ID
+     * @return 返回一个自身所有拥有的权限的集合
+     */
     @RequestMapping("findAllPorwer")
     @ResponseBody
     public List<power> findPorwer(HttpSession session){
