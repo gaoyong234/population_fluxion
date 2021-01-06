@@ -8,6 +8,8 @@ import java.util.Date;
 public class personal {
     private Integer personal;
 
+    private Integer userId;
+
     private String personalName;
 
     private String rollName;
@@ -28,6 +30,8 @@ public class personal {
 
     private Integer censusCounty;
 
+    private Integer censusVill;
+
     private String censusVillage;
 
     private Integer nowLivingProvine;
@@ -35,6 +39,8 @@ public class personal {
     private Integer nowLivingCity;
 
     private Integer nowLivingCounty;
+
+    private Integer nowLivingVill;
 
     private String nowLivingVillage;
 
@@ -93,6 +99,30 @@ public class personal {
     private String spareStr;
 
     private Integer spareInt;
+
+    public Integer getCensusVill() {
+        return censusVill;
+    }
+
+    public void setCensusVill(Integer censusVill) {
+        this.censusVill = censusVill;
+    }
+
+    public Integer getNowLivingVill() {
+        return nowLivingVill;
+    }
+
+    public void setNowLivingVill(Integer nowLivingVill) {
+        this.nowLivingVill = nowLivingVill;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public Integer getPersonal() {
         return personal;

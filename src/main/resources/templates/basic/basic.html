@@ -9,7 +9,19 @@
     <script>
         var app= angular.module("myApp",[]);
         app.controller("myContr",function ($scope,$http) {
+
+
             $scope.find=function () {
+                //查询用户是否已经填写个人信息,并且回显
+                $http({
+                    url:"/personal/findUser",
+                    method:"get",
+                    params:{}
+                }).success(function (response) {
+                    $scope.personal=response;
+                })
+                $scope.findCity();
+                $scope.nowfindCity();
                 $http({
                     url:"/personal/findDic",
                     method:"get",
@@ -41,9 +53,60 @@
                     }
                 })
             }
+            //查询户籍省
+            $scope.findCity=function () {
+                $http({
+                    url: "/Province/findProvince",
+                    method: "post",
+                }).success(function (response) {
+                    $scope.city=response;
+                })
+            }
+
+            //查询户籍市
+            $scope.province=function () {
+                var provinceId=$scope.personal.censusProvine;
+                $http({
+                    url: "/Province/findCity",
+                    method: "post",
+                    params: {"provinceId":provinceId}
+                }).success(function (response) {
+                    $scope.provi=response;
+                })
+
+            }
+
+            //查询户籍县
+            $scope.area=function () {
+                var provinceId=$scope.personal.censusProvine;
+                var cityId=$scope.personal.censusCity;
+
+                $http({
+                    url: "/Province/findCounty",
+                    method: "post",
+                    params: {"provinceId":provinceId,"cityId":cityId}
+                }).success(function (response) {
+                    $scope.userarea=response;
+                })
+
+            }
+
+            //查询户籍村
+            $scope.findvillage=function(){
+                var provinceId=$scope.personal.censusProvine;
+                var cityId=$scope.personal.censusCity;
+                var countyId = $scope.personal.censusCounty;
+                $http({
+                    url: "/Province/findArea",
+                    method: "post",
+                    params:{"provinceId":provinceId,"cityId":cityId,"countyId":countyId}
+                }).success(function (response) {
+                    $scope.allTown = response;
+                })
+            }
+
             $scope.save1=function () {
                 var person=$scope.personal;
-                var demo=false;
                 var personName=person.personalName;
                 var rollName=person.rollName
                 var arrival=person.arrival
@@ -80,6 +143,58 @@
                     alert("进行保存")
                 }
 
+            }
+
+            //查询现居住省
+            $scope.nowfindCity=function () {
+                $http({
+                    url: "/Province/findProvince",
+                    method: "post",
+                }).success(function (response) {
+                    $scope.nowcity=response;
+                })
+            }
+
+            //查询现居住市
+            $scope.nowprovince=function () {
+                var provinceId=$scope.personal.censusLivingProvine;
+                $http({
+                    url: "/Province/findCity",
+                    method: "post",
+                    params: {"provinceId":provinceId}
+                }).success(function (response) {
+                    $scope.nowprovi=response;
+                })
+
+            }
+
+            //查询现居住县
+            $scope.nowarea=function () {
+                var provinceId=$scope.personal.censusLivingProvine;
+                var cityId=$scope.personal.censusLivingCity;
+
+                $http({
+                    url: "/Province/findCounty",
+                    method: "post",
+                    params: {"provinceId":provinceId,"cityId":cityId}
+                }).success(function (response) {
+                    $scope.nowuserarea=response;
+                })
+
+            }
+
+            //查询现居住村
+            $scope.nowfindvillage=function(){
+                var provinceId=$scope.personal.censusLivingProvine;
+                var cityId=$scope.personal.censusLivingCity;
+                var countyId = $scope.personal.censusLivingCounty;
+                $http({
+                    url: "/Province/findArea",
+                    method: "post",
+                    params:{"provinceId":provinceId,"cityId":cityId,"countyId":countyId}
+                }).success(function (response) {
+                    $scope.nowallTown = response;
+                })
             }
             $scope.personal = {};
             $scope.save = function (){
@@ -155,8 +270,6 @@
                     msg=false;
                 }else {
                     msg=true;
-                    console.log(person)
-                    alert("进行保存")
                 }
                 return msg;
             }
@@ -234,34 +347,48 @@
         </tr>
         <tr>
             <td style="color: red">户籍详细地址:</td>
-            <td><select>
-                <option></option>
-            </select>省<select>
-                <option></option>
-            </select>市<select>
-                <option></option>
-            </select>县<select>
-                <option></option>
-            </select>乡(镇,街办)<select>
-                <option></option>
-            </select>村(社区)</td>
+            <td>     <div class="form_text_ipt">
+                <select ng-model="personal.censusProvine"  type="text" style="width: 95px; height: 40px" ng-click="province()">
+                    <option ng-repeat="ci in city"  ng-value="ci.id">{{ci.name}}</option></select>
+
+                <select style="width: 95px; height: 40px" ng-click="area()" ng-model="personal.censusCity">
+                    <option ng-repeat="pr in provi"  ng-value="pr.id">{{pr.name}}</option>
+                </select >
+
+                <select style="width: 100px; height: 40px" ng-click="findvillage()" ng-model="personal.censusCounty">
+                    <option ng-repeat="re in userarea" ng-value="re.id">{{re.name}}</option>
+                </select>
+
+                <select style="width: 100px; height: 40px" id="userCity" ng-model="personal.censusVillage">
+                    <option ng-repeat="al in allTown" ng-value="al.id">{{al.name}}</option>
+                </select>
+                <input>村(社区)
+            </div>
+
+            </td>
             <td></td>
             <td></td>
             <td></td>
         </tr>
         <tr>
             <td style="color: red">现居住地址:</td>
-            <td><select>
-                <option></option>
-            </select>省<select>
-                <option></option>
-            </select>市<select>
-                <option></option>
-            </select>县<select>
-                <option></option>
-            </select>乡(镇,街办)<select>
-                <option></option>
-            </select>村(社区)</td>
+            <td>  <div class="form_text_ipt">
+                <select ng-model="personal.censusLivingProvine"  type="text" style="width: 95px; height: 40px" ng-click="nowprovince()">
+                    <option ng-repeat="ci in nowcity"  ng-value="ci.id">{{ci.name}}</option></select>
+
+                <select style="width: 95px; height: 40px" ng-click="nowarea()" ng-model="personal.censusLivingCity">
+                    <option ng-repeat="pr in nowprovi"  ng-value="pr.id">{{pr.name}}</option>
+                </select >
+
+                <select style="width: 100px; height: 40px" ng-click="nowfindvillage()" ng-model="personal.censusLivingCounty">
+                    <option ng-repeat="re in nowuserarea" ng-value="re.id">{{re.name}}</option>
+                </select>
+
+                <select style="width: 100px; height: 40px"  ng-model="personal.censusLivingVill">
+                    <option ng-repeat="al in nowallTown" ng-value="al.id">{{al.name}}</option>
+                </select>
+                <input ng-model="personal.censusLivingVillage">村(社区)
+            </div></td>
         </tr>
         <tr>
             <td></td>
