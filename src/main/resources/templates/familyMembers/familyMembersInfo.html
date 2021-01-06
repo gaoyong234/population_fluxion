@@ -98,7 +98,7 @@
 
         //验证
         $scope.verification = function(data){
-            console.log(data);
+            //console.log(data);
             var msg = true;
             var spareInt = data.spareInt;
             var familyNumber = data.familyNumber;
@@ -216,8 +216,25 @@
             }
         }
 
-        $scope.next = function () {
+        //跳转到个人信息页面
+        $scope.toBasic = function(){
+            window.location.href = "/personal/personal"
+        }
+        //跳转到配偶信息页面
+        $scope.toMate = function () {
+            window.location.href = "/Mate/toMate"
+        }
+        //跳转到计生信息页面
+        $scope.toFamilyPlanning = function () {
             window.location.href = "/familyPlanning/toFamilyPlanningInfo"
+        }
+        //跳转到就业信息页面
+        $scope.toEmploying = function () {
+            window.location.href = "/Employing/toEmploying"
+        }
+        //跳转到居住信息页面
+        $scope.toResidence = function () {
+            window.location.href = "/residence/toResidenceInfo"
         }
 
     })
@@ -227,12 +244,12 @@
         <div style="border: 1px solid black; width: 50%;height: 50px; margin-top: 20px">
             <div style="margin-top: 10px"><span style="font-size: 20px">流动人口服务管理系统</span></div>
         </div>
-        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 217px;">个人信息</button>
-        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;">配偶信息</button>
+        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 217px;" ng-click="toBasic()">个人信息</button>
+        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;" ng-click="toMate()">配偶信息</button>
         <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px; background-color: #0d6aad;">同住家庭成员</button>
-        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;">计生信息</button>
-        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;">就业信息</button>
-        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;">居住信息</button>
+        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;" ng-click="toFamilyPlanning()">计生信息</button>
+        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;" ng-click="toEmploying()">就业信息</button>
+        <button style="border: 1px solid black; width: 100px; height: 25px; margin-top: 10px; float: left; margin-left: 50px;" ng-click="toResidence()">居住信息</button>
     </div>
     <div style="border: 2px solid black; width: 100%; height: 1px"></div>
     <div style="height: 30px"></div>
@@ -282,7 +299,7 @@
             <div style="height: 50px;"></div>
             <center>
                 <button data-toggle="modal" data-target="#chage" ng-click="save()" >保 存</button>
-                <button data-toggle="modal" data-target="#chage" ng-click="next()" >下一项</button>
+                <button data-toggle="modal" data-target="#chage" ng-click="toFamilyPlanning()" >下一项</button>
             </center>
     </div>
     <div align="center" style="border: 1px solid black; background-color: #97a0b3; width: 100%;height: 50px; position: fixed;bottom: 0; ">

@@ -44,7 +44,7 @@
       #{delId,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
       #{spareStr,jdbcType=VARCHAR}, #{spareInt,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.population.pojo.Leaser">
+  <insert id="insertSelective" parameterType="com.population.pojo.Leaser" useGeneratedKeys="true" keyProperty="leaId">
     insert into leaser
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="leaId != null">
