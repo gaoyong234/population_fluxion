@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.population.dao.EmployingMapper">
-  <resultMap id="BaseResultMap" type="com.population.pojo.Employing">
+<mapper namespace="com.population.dao.Employing.EmployingDaoMapper">
+  <resultMap id="BaseResultMap" type="com.population.vo.EmployingVO">
     <id column="em_id" jdbcType="INTEGER" property="emId" />
     <result column="employing_name" jdbcType="VARCHAR" property="employingName" />
     <result column="unit_type" jdbcType="INTEGER" property="unitType" />
@@ -35,37 +35,23 @@
     unit_phone, insurance, unit_social, unit_number, unit_person, industry_sort, grade, 
     profession_skill, profession, gmt_create, gmt_modified, del_id, spare_str, spare_int
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 'true' as QUERYID,
-    <include refid="Base_Column_List" />
+  <select id="selectEmployingCount" resultType="integer" parameterType="integer">
+    select count(0)
     from employing
-    where em_id = #{emId,jdbcType=INTEGER}
+    where spare_int = #{userId,jdbcType=INTEGER}
+    and del_id = 0
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from employing
-    where em_id = #{emId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.population.pojo.Employing">
-    insert into employing (em_id, employing_name, unit_type, 
-      unit_site_provine, unit_site_avenue, unit_site_community, 
-      unit_site_way, unit_site_house, unit_site_bar, 
-      organization, legal_person, contract_time, 
-      unit_phone, insurance, unit_social, 
-      unit_number, unit_person, industry_sort, 
-      grade, profession_skill, profession, 
-      gmt_create, gmt_modified, del_id, 
-      spare_str, spare_int)
-    values (#{emId,jdbcType=INTEGER}, #{employingName,jdbcType=VARCHAR}, #{unitType,jdbcType=INTEGER}, 
-      #{unitSiteProvine,jdbcType=VARCHAR}, #{unitSiteAvenue,jdbcType=VARCHAR}, #{unitSiteCommunity,jdbcType=VARCHAR}, 
-      #{unitSiteWay,jdbcType=VARCHAR}, #{unitSiteHouse,jdbcType=VARCHAR}, #{unitSiteBar,jdbcType=VARCHAR}, 
-      #{organization,jdbcType=VARCHAR}, #{legalPerson,jdbcType=VARCHAR}, #{contractTime,jdbcType=INTEGER}, 
-      #{unitPhone,jdbcType=VARCHAR}, #{insurance,jdbcType=VARCHAR}, #{unitSocial,jdbcType=VARCHAR}, 
-      #{unitNumber,jdbcType=VARCHAR}, #{unitPerson,jdbcType=VARCHAR}, #{industrySort,jdbcType=INTEGER}, 
-      #{grade,jdbcType=INTEGER}, #{professionSkill,jdbcType=INTEGER}, #{profession,jdbcType=VARCHAR}, 
-      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{delId,jdbcType=INTEGER}, 
-      #{spareStr,jdbcType=VARCHAR}, #{spareInt,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" parameterType="com.population.pojo.Employing">
+  <select id="selectEmploying" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from employing
+    where spare_int = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAllEmploying" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from employing
+    where del_id=0
+  </select>
+  <insert id="insertEmploying" parameterType="com.population.pojo.Employing">
     insert into employing
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="emId != null">
@@ -228,7 +214,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.population.pojo.Employing">
+  <update id="updateEmploying" parameterType="com.population.pojo.Employing">
     update employing
     <set>
       <if test="employingName != null">
@@ -297,45 +283,13 @@
       <if test="gmtModified != null">
         gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
-      <if test="delId != null">
-        del_id = #{delId,jdbcType=INTEGER},
-      </if>
-      <if test="spareStr != null">
-        spare_str = #{spareStr,jdbcType=VARCHAR},
-      </if>
-      <if test="spareInt != null">
-        spare_int = #{spareInt,jdbcType=INTEGER},
-      </if>
     </set>
-    where em_id = #{emId,jdbcType=INTEGER}
+    where spare_int = #{spareInt}
+    and del_id=0
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.population.pojo.Employing">
+  <update id="deleteEmployingUpdate" parameterType="integer">
     update employing
-    set employing_name = #{employingName,jdbcType=VARCHAR},
-      unit_type = #{unitType,jdbcType=INTEGER},
-      unit_site_provine = #{unitSiteProvine,jdbcType=VARCHAR},
-      unit_site_avenue = #{unitSiteAvenue,jdbcType=VARCHAR},
-      unit_site_community = #{unitSiteCommunity,jdbcType=VARCHAR},
-      unit_site_way = #{unitSiteWay,jdbcType=VARCHAR},
-      unit_site_house = #{unitSiteHouse,jdbcType=VARCHAR},
-      unit_site_bar = #{unitSiteBar,jdbcType=VARCHAR},
-      organization = #{organization,jdbcType=VARCHAR},
-      legal_person = #{legalPerson,jdbcType=VARCHAR},
-      contract_time = #{contractTime,jdbcType=INTEGER},
-      unit_phone = #{unitPhone,jdbcType=VARCHAR},
-      insurance = #{insurance,jdbcType=VARCHAR},
-      unit_social = #{unitSocial,jdbcType=VARCHAR},
-      unit_number = #{unitNumber,jdbcType=VARCHAR},
-      unit_person = #{unitPerson,jdbcType=VARCHAR},
-      industry_sort = #{industrySort,jdbcType=INTEGER},
-      grade = #{grade,jdbcType=INTEGER},
-      profession_skill = #{professionSkill,jdbcType=INTEGER},
-      profession = #{profession,jdbcType=VARCHAR},
-      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
-      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      del_id = #{delId,jdbcType=INTEGER},
-      spare_str = #{spareStr,jdbcType=VARCHAR},
-      spare_int = #{spareInt,jdbcType=INTEGER}
-    where em_id = #{emId,jdbcType=INTEGER}
+    set del_id=1
+    where em_id=#{empId}
   </update>
 </mapper>

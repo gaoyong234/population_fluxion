@@ -1,5 +1,8 @@
 package com.population.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Employing {
@@ -29,7 +32,7 @@ public class Employing {
 
     private String unitPhone;
 
-    private Integer insurance;
+    private String insurance;
 
     private String unitSocial;
 
@@ -44,9 +47,11 @@ public class Employing {
     private Integer professionSkill;
 
     private String profession;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date gmtCreate;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date gmtModified;
 
     private Integer delId;
@@ -159,12 +164,12 @@ public class Employing {
         this.unitPhone = unitPhone == null ? null : unitPhone.trim();
     }
 
-    public Integer getInsurance() {
+    public String getInsurance() {
         return insurance;
     }
 
-    public void setInsurance(Integer insurance) {
-        this.insurance = insurance;
+    public void setInsurance(String insurance) {
+        this.insurance = insurance == null ? null : insurance.trim();
     }
 
     public String getUnitSocial() {
