@@ -1,5 +1,6 @@
 package com.population.controller;
 
+import com.population.pojo.User;
 import com.population.pojo.personal;
 import com.population.service.DicService;
 import com.population.service.PersonalService;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -44,4 +46,14 @@ public class PersonalController {
     Integer inner=personalService.inserPersonal(personal);
     return inner;
     }
+
+    @RequestMapping("findUser")
+    @ResponseBody
+    public personal findUser(HttpSession httpSession){
+        User admin = (User) httpSession.getAttribute("admin");
+        Integer userId = admin.getUserId();
+        personal personal=personalService.findUser(userId);
+        return personal;
+    }
+
 }

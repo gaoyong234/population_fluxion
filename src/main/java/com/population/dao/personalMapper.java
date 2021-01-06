@@ -14,4 +14,6 @@ public interface personalMapper {
     int updateByPrimaryKeySelective(personal record);
 
     int updateByPrimaryKey(personal record);
+
+    personal findUserId(Integer userId);
 }

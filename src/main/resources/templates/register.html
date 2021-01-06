@@ -77,18 +77,13 @@
             })
         }
         $scope.province=function () {
-            var crty=$scope.city;
-            for (var i = 0; i < crty.length; i++) {
-                if ($scope.userCityss==crty[i].id){
-                    var prov=crty[i];
-                }
-            }
-
+            var provinceId=$scope.userCityss;
             $http({
                 url: "/Province/findCity",
                 method: "post",
-                params: prov
+                params: {"provinceId":provinceId}
             }).success(function (response) {
+                console.log(response)
                 $scope.provi=response;
             })
 
@@ -96,16 +91,13 @@
 
 
             $scope.area=function () {
-                var provi=$scope.provi;
-                for (var i = 0; i < provi.length; i++) {
-                    if ($scope.userare==provi[i].id){
-                        var are=provi[i];
-                    }
-                }
+                var provinceId=$scope.userCityss;
+                var cityId=$scope.userare;
+
                 $http({
                     url: "/Province/findCounty",
                     method: "post",
-                    params: are
+                    params: {"provinceId":provinceId,"cityId":cityId}
                 }).success(function (response) {
                     $scope.userarea=response;
                 })

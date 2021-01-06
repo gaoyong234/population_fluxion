@@ -3,6 +3,7 @@
 <mapper namespace="com.population.dao.personalMapper">
   <resultMap id="BaseResultMap" type="com.population.pojo.personal">
     <id column="personal" jdbcType="INTEGER" property="personal" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="personal_name" jdbcType="VARCHAR" property="personalName" />
     <result column="roll_name" jdbcType="VARCHAR" property="rollName" />
     <result column="personal_sax" jdbcType="INTEGER" property="personalSax" />
@@ -12,10 +13,12 @@
     <result column="census_provine" jdbcType="INTEGER" property="censusProvine" />
     <result column="census_city" jdbcType="INTEGER" property="censusCity" />
     <result column="census_county" jdbcType="INTEGER" property="censusCounty" />
+    <result column="census_vill" jdbcType="INTEGER" property="censusVill" />
     <result column="census_village" jdbcType="VARCHAR" property="censusVillage" />
     <result column="now_living_provine" jdbcType="INTEGER" property="nowLivingProvine" />
     <result column="now_living_city" jdbcType="INTEGER" property="nowLivingCity" />
     <result column="now_living_county" jdbcType="INTEGER" property="nowLivingCounty" />
+    <result column="now_living_vill" jdbcType="INTEGER" property="nowLivingVill" />
     <result column="now_living_village" jdbcType="VARCHAR" property="nowLivingVillage" />
     <result column="now_living_bar" jdbcType="VARCHAR" property="nowLivingBar" />
     <result column="personal_landline_number" jdbcType="VARCHAR" property="personalLandlineNumber" />
@@ -59,6 +62,14 @@
     from personal
     where personal = #{personal,jdbcType=INTEGER}
   </select>
+
+  <select id="findUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from personal
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from personal
     where personal = #{personal,jdbcType=INTEGER}
@@ -98,6 +109,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="personal != null">
         personal,
+      </if>
+      <if test="userId != null">
+        user_id
       </if>
       <if test="personalName != null">
         personal_name,
@@ -223,6 +237,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="personal != null">
         #{personal,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="personalName != null">
         #{personalName,jdbcType=VARCHAR},

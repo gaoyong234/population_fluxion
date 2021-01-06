@@ -4,4 +4,6 @@ import com.population.pojo.personal;
 
 public interface PersonalService {
     Integer inserPersonal(personal personal);
+
+    personal findUser(Integer userId);
 }
