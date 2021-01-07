@@ -1,5 +1,6 @@
 package com.population.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.population.pojo.User;
 import com.population.pojo.power;
 import com.population.service.UserService;
@@ -7,6 +8,7 @@ import com.population.vo.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -102,4 +104,19 @@ public class UserController {
         return list;
     }
 
+    /**
+     * 查询所有用户
+     * @param pageNum
+     * @param pageSize
+     * @param user
+     * @return
+     */
+    @RequestMapping("/findAllUser")
+    @ResponseBody
+    public PageInfo<User> findAllUser(
+            @RequestParam(value = "pageNum",defaultValue = "1")Integer pageNum,
+            @RequestParam(value ="pageSize" )Integer pageSize,
+            User user){
+        return userService.findAllUser(pageNum,pageSize,user);
+    }
 }

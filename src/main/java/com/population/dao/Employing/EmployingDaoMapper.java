@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface EmployingDaoMapper {
     //添加
-    Integer insertEmploying(Employing employing);
+    Integer insertEmploying(EmployingVO employingVO);
     //修改
-    Integer updateEmploying(Employing employing);
+    Integer updateEmploying(EmployingVO employingVO);
     //删除
     Integer deleteEmployingUpdate(Integer empId);
     //查询
