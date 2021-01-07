@@ -20,11 +20,12 @@
     fam_id, family_name, family_number, family_sex, family_brithday, family_vaccine, 
     family_learn, del_id, personal, gmt_create, gmt_modified, spare_str, spare_int
   </sql>
-  <select id="findFaminyInfo" resultMap="BaseResultMap">
+  <select id="findFaminyInfo" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     SELECT f.fam_id,d.name as spare_int,f.family_number,f.family_name,f.family_sex,f.family_brithday,
 			f.family_vaccine,f.family_learn
 	FROM family f
 		LEFT JOIN dic d on f.spare_int = d.id
+	WHERE f.personal = #{userId}
   </select>
     <insert id="saveFamilyInfo" parameterType="com.population.vo.FamilyVO">
         insert into family (fam_id, family_name, family_number,

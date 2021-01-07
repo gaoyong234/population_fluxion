@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.population.dao.personalDao.PersonalsMapper">
+  <resultMap id="BaseResultMap" type="com.population.vo.PersonalVO">
+    <id column="personal" jdbcType="INTEGER" property="personal" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="personal_name" jdbcType="VARCHAR" property="personalName" />
+    <result column="roll_name" jdbcType="VARCHAR" property="rollName" />
+    <result column="personal_sax" jdbcType="INTEGER" property="personalSax" />
+    <result column="arrival" jdbcType="TIMESTAMP" property="arrival" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="notion" jdbcType="INTEGER" property="notion" />
+    <result column="census_provine" jdbcType="INTEGER" property="censusProvine" />
+    <result column="census_city" jdbcType="INTEGER" property="censusCity" />
+    <result column="census_county" jdbcType="INTEGER" property="censusCounty" />
+    <result column="census_vill" jdbcType="INTEGER" property="censusVill" />
+    <result column="census_village" jdbcType="VARCHAR" property="censusVillage" />
+    <result column="now_living_provine" jdbcType="INTEGER" property="nowLivingProvine" />
+    <result column="now_living_city" jdbcType="INTEGER" property="nowLivingCity" />
+    <result column="now_living_county" jdbcType="INTEGER" property="nowLivingCounty" />
+    <result column="now_living_vill" jdbcType="INTEGER" property="nowLivingVill" />
+    <result column="now_living_village" jdbcType="VARCHAR" property="nowLivingVillage" />
+    <result column="now_living_bar" jdbcType="VARCHAR" property="nowLivingBar" />
+    <result column="personal_landline_number" jdbcType="VARCHAR" property="personalLandlineNumber" />
+    <result column="personal_phone" jdbcType="VARCHAR" property="personalPhone" />
+    <result column="emergency_phone" jdbcType="VARCHAR" property="emergencyPhone" />
+    <result column="linkman" jdbcType="VARCHAR" property="linkman" />
+    <result column="linkman_landline_number" jdbcType="VARCHAR" property="linkmanLandlineNumber" />
+    <result column="linkman_phone" jdbcType="VARCHAR" property="linkmanPhone" />
+    <result column="culture" jdbcType="INTEGER" property="culture" />
+    <result column="politics_status" jdbcType="INTEGER" property="politicsStatus" />
+    <result column="religion" jdbcType="INTEGER" property="religion" />
+    <result column="stature" jdbcType="INTEGER" property="stature" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+    <result column="blood_type" jdbcType="INTEGER" property="bloodType" />
+    <result column="health" jdbcType="INTEGER" property="health" />
+    <result column="disability_number" jdbcType="VARCHAR" property="disabilityNumber" />
+    <result column="working_conditions" jdbcType="INTEGER" property="workingConditions" />
+    <result column="marital_status" jdbcType="INTEGER" property="maritalStatus" />
+    <result column="mate_id" jdbcType="INTEGER" property="mateId" />
+    <result column="family_planning" jdbcType="INTEGER" property="familyPlanning" />
+    <result column="dwell" jdbcType="INTEGER" property="dwell" />
+    <result column="audit_status" jdbcType="INTEGER" property="auditStatus" />
+    <result column="del_id" jdbcType="INTEGER" property="delId" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="spare_str" jdbcType="VARCHAR" property="spareStr" />
+    <result column="spare_int" jdbcType="INTEGER" property="spareInt" />
+    <result column="employing_name" jdbcType="VARCHAR" property="employingName" />
+  </resultMap>
+  <select id="findPersonalInfo" resultMap="BaseResultMap">
+    SELECT p.personal,e.employing_name,p.personal_name,p.personal_phone,p.gmt_create
+    FROM personal p
+	LEFT JOIN employing e on e.spare_int = p.personal
+	<where>
+        <if test="gmtCreate != null and endCreate != null">
+            and p.gmt_create BETWEEN #{gmtCreate} and #{endCreate}
+        </if>
+        <if test="employingName != null and employingName != ''">
+            and e.employing_name like CONCAT("%",#{employingName},"%")
+        </if>
+        <if test="personalName != null and personalName != ''">
+            and p.personal_name like CONCAT("%",#{personalName},"%")
+        </if>
+        <if test="personalPhone != null and personalPhone != ''">
+            and p.personal_phone = #{personalPhone}
+        </if>
+    </where>
+  </select>
+</mapper>

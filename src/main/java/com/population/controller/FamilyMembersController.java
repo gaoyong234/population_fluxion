@@ -1,6 +1,7 @@
 package com.population.controller;
 
 import com.population.pojo.Dic;
+import com.population.pojo.User;
 import com.population.service.FamilyMembersService;
 import com.population.vo.FamilyVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -32,8 +34,9 @@ public class FamilyMembersController {
      */
     @ResponseBody
     @RequestMapping("/findFaminyInfo")
-    public List<FamilyVO> findFaminyInfo(){
-        return familyMembersService.findFaminyInfo();
+    public List<FamilyVO> findFaminyInfo(HttpSession httpSession){
+        User admin = (User) httpSession.getAttribute("admin");
+        return familyMembersService.findFaminyInfo(admin.getUserId());
     }
 
     /**
@@ -53,7 +56,10 @@ public class FamilyMembersController {
      */
     @ResponseBody
     @RequestMapping("/saveFamilyInfo")
-    public Integer saveFamilyInfo(FamilyVO familyVO){
+    public Integer saveFamilyInfo(FamilyVO familyVO, HttpSession session){
+        User admin = (User) session.getAttribute("admin");
+        Integer userId = admin.getUserId();
+        familyVO.setPersonal(userId);
         return familyMembersService.saveFamilyInfo(familyVO);
     }
 }

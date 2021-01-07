@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>流动人口信息管理</title>
+    <script src="../static/pagejs/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+    <script type="text/javascript" src="../../static/pagejs/pageMe.js"></script>
+</head>
+<style>
+        .parent {
+            width: 300px;
+            height: 600px;
+            background-color: darkgray;
+            float: left;
+        }
+        .child {
+            border: 3px solid black;
+            background-color: white;
+            width: 200px;
+            height: 25px;
+            margin-top: 70px;
+        }
+
+        label { float: left; width: 10em; margin-right: 1em; text-align: right; }
+
+        /*分页样式*/
+        /* 外面盒子样式---自己定义 */
+        .page_div{margin:20px 10px 20px 0;color:#666}
+        /* 页数按钮样式 */
+        .page_div button{display:inline-block;min-width:30px;height:28px;cursor:pointer;color:#666;font-size:13px;line-height:28px;background-color:#f9f9f9;border:1px solid #dce0e0;text-align:center;margin:0 4px;-webkit-appearance: none;-moz-appearance: none;appearance: none;}
+        #firstPage,#lastPage,#nextPage,#prePage{width:50px;color:#0073A9;border:1px solid #0073A9}
+        #nextPage,#prePage{width:70px}
+        .page_div .current{background-color:#0073A9;border-color:#0073A9;color:#FFF}
+        /* 页面数量 */
+        .totalPages{margin:0 10px}
+        .totalPages span,.totalSize span{color:#0073A9;margin:0 5px}
+        /*button禁用*/
+        .page_div button:disabled{opacity:.5;cursor:no-drop}
+    </style>
+<script>
+    var app = angular.module("myApp",[]);
+    app.controller("myCtrl",function ($scope,$http) {
+
+        $(function () {
+            $scope.query(1);
+        })
+        $scope.fuzzyQuery = {
+            pageNum:0,
+            pageSize:5
+        }
+        //查询
+        $scope.query = function(pageNum){
+            $scope.fuzzyQuery.pageNum = pageNum;
+            var dataList = $scope.fuzzyQuery;
+            $http({
+                method:"GET",
+                url:"/population/findPersonalInfo",
+                params:dataList
+            }).then(function success(response) {
+                $scope.list = response.data.list;
+                //分页// pageMe.js 使用方法
+                $("#pages").paging({
+                    pageNum: response.data.pageNum, // 当前页面
+                    totalNum: response.data.pages, // 总页码
+                    totalList: response.data.total, // 记录总数量
+                    callback: function (pageNum) { //回调函数
+                        console.log(pageNum);
+                        $scope.query(pageNum);
+                    }
+                });
+            }),function error(response) {
+
+            }
+        }
+
+    })
+</script>
+<script type="text/javascript">
+    //获取checkbox按钮组
+    var allpro = document.getElementsByName("c1");
+    //全选方法
+    function change() {
+        //获取全选按钮
+        var all = document.getElementById("all");
+        //全选按钮被选中时，遍历所有按钮
+        if (all.checked) {
+            for (var i = 0; i < allpro.length; i++) {
+                if (allpro[i].type=="checkbox") {
+                    allpro[i].checked=true;
+
+                }
+            }
+            //全选按钮未被选中时
+        }else{
+            for (var i = 0; i < allpro.length; i++) {
+                if (allpro[i].type=="checkbox") {
+                    allpro[i].checked=false;
+                }
+            }
+        }
+    }
+    //反选的方法
+    function revs() {
+        //获得反选按钮
+        var reverse = document.getElementById("revcheck");
+        //反选按钮被选中时，遍历所有按钮
+        if (reverse.checked) {
+            for (var i = 0; i < allpro.length; i++) {
+                if (allpro[i].type=="checkbox"&&allpro[i].checked==true) {
+                    allpro[i].checked= false;
+                }else if (allpro[i].type=="checkbox"&&allpro[i].checked==false) {
+                    allpro[i].checked= true;
+                }
+
+            }
+            //反选按钮未被选中时
+        }else{
+            for (var i = 0; i < allpro.length; i++) {
+                if (allpro[i].type=="checkbox"&&allpro[i].checked==true) {
+                    allpro[i].checked= false;
+                }else if (allpro[i].type=="checkbox"&&allpro[i].checked==false) {
+                    allpro[i].checked= true;
+                }
+
+            }
+        }
+    }
+</script>
+<body ng-app="myApp" ng-controller="myCtrl">
+    <div><center><h1>流动人口服务管理系统</h1></center></div>
+    <div class="parent">
+        <center>
+            <div ng-click="toa()" class="child">注册信息审核</div>
+            <div class="child">账号管理</div>
+            <div class="child">登记信息审核</div>
+            <div class="child">流动人口信息管理</div>
+            <div class="child">流动人口信息统计</div>
+        </center>
+    </div>
+    <div style="float: left; width: 1200px; height: 600px">
+        <div align="center" style="margin-top: 10px">
+            <table>
+                <tr>
+                    <td>
+                        从<input type="date" ng-model="fuzzyQuery.gmtCreate"/>至<input type="date" ng-model="fuzzyQuery.endCreate"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button style="width: 80px; height: 50px;" ng-click="query()">搜索</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" ng-model="fuzzyQuery.employingName" placeholder="xx公司"/>&nbsp;&nbsp;&nbsp;
+                        <input type="text" ng-model="fuzzyQuery.personalName" placeholder="姓名"/>&nbsp;&nbsp;&nbsp;
+                        <input type="text" ng-model="fuzzyQuery.personalPhone" placeholder="手机号"/>&nbsp;&nbsp;&nbsp;
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div align="center" style="margin-top: 30px">
+
+            <table border="1" width="700">
+                <tr>
+                    <td>
+                        <input type="checkbox" name="c0" id="all" value="全选" onclick="change()">
+                        <!--<input type="checkbox" name="r0" id="revcheck" value="反选" onclick="revs()">反-->
+                    </td>
+                    <td>编号</td>
+                    <td>公司</td>
+                    <td>姓名</td>
+                    <td>手机号</td>
+                    <td>提交时间</td>
+                    <td>详情</td>
+                </tr>
+                <tr ng-repeat="x in list">
+                    <td><input type="checkbox" name="c1"></td>
+                    <td>{{x.personal}}</td>
+                    <td>{{x.employingName}}</td>
+                    <td>{{x.personalName}}</td>
+                    <td>{{x.personalPhone}}</td>
+                    <td>{{x.gmtCreate}}</td>
+                    <td>
+                        <button>查看详情</button>
+                    </td>
+                </tr>
+            </table>
+            <!--分页-->
+            <div id="pages" class="page_div"></div>
+            <button style="width: 150px">提交</button>
+        </div>
+    </div>
+</body>
+</html>
