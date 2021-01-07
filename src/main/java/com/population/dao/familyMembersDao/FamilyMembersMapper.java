@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface FamilyMembersMapper {
 
-    List<FamilyVO> findFaminyInfo();
+    List<FamilyVO> findFaminyInfo(Integer userId);
 
     Integer saveFamilyInfo(FamilyVO familyVO);
 }

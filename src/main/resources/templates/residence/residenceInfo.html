@@ -105,6 +105,7 @@
                     }
                     return false;
                 }
+                var phone = /^(13[0-9]|14[01456879]|15[0-3,5-9]|16[2567]|17[0-8]|18[0-9]|19[0-3,5-9])\d{8}$/;
 
                 if (dwellWay == null){
                     alert("请选择居住方式信息！！！")
@@ -142,6 +143,9 @@
                 }else if (landlordPhone == null || landlordPhone == ''){
                     alert("请输入出租人情况(房东联系电话)信息！！！")
                     msg = false;
+                }else if(!phone.test(landlordPhone)){
+                    alert("房东联系电话号码有误，请重填！！！");
+                    msg = false;
                 }else if (landlordDuty == null){
                     alert("请选择出租人情况(房东是否签订治安责任书)信息！！！")
                     msg = false;
@@ -156,6 +160,9 @@
                     msg = false;
                 }else if (agentPhone == null || agentPhone == ''){
                     alert("请输入出租人情况(代理人联系电话)信息！！！")
+                    msg = false;
+                }else if(!phone.test(agentPhone)){
+                    alert("代理人联系电话号码有误，请重填！！！");
                     msg = false;
                 }else if (agentDuty == null){
                     alert("请选择出租人情况(代理人是否签订治安责任书)信息！！！")
@@ -282,7 +289,7 @@
                 <td><div style="border: 1px solid black; width: 100px; height: 25px;"><center style="color: red;">居住方式:</center></div></td>
                 <td>
                     <span ng-repeat="x in dwellWays">
-                        <input type="radio" name="dwellWay" ng-model="data.dwellWay" ng-value="x.id"/>{{x.name}}
+                        <input type="radio" name="dwellWay" ng-model="data.dwellWay" ng-value="x.id"/>{{x.name}}&nbsp;&nbsp;
                     </span>
                 </td>
             </tr>
@@ -290,7 +297,7 @@
                 <td><div style="border: 1px solid black; width: 100px; height: 25px;"><center style="color: red;">居住事由:</center></div></td>
                 <td>
                     <span ng-repeat="x in dwellWhys">
-                        <input type="radio" name="dwellWhy" ng-model="data.dwellWhy" ng-value="x.id"/>{{x.name}}
+                        <input type="radio" name="dwellWhy" ng-model="data.dwellWhy" ng-value="x.id"/>{{x.name}}&nbsp;&nbsp;
                     </span>
                 </td>
             </tr>
@@ -298,25 +305,25 @@
                 <td><div style="border: 1px solid black; width: 100px; height: 25px;"><center style="color: red;">房屋类别:</center></div></td>
                 <td>
                     <span ng-repeat="x in houseCategorys">
-                        <input type="radio" name="houseCategory" ng-model="data.houseCategory" ng-value="x.id"/>{{x.name}}
+                        <input type="radio" name="houseCategory" ng-model="data.houseCategory" ng-value="x.id"/>{{x.name}}&nbsp;&nbsp;
                     </span>
                 </td>
             </tr>
             <tr>
                 <td><div style="border: 1px solid black; width: 100px; height: 25px;"><center style="color: red;">房屋地址:</center></div></td>
                 <td>
-                    <input type="text" name="houseProvine" ng-model="data.houseProvine" placeholder="请输入..." style="width: 80px;"/>(市县区)
-                    <input type="text" name="houseAvenue" ng-model="data.houseAvenue" placeholder="请输入..." style="width: 80px;"/>街办
-                    <input type="text" name="houseCommunity" ng-model="data.houseCommunity" placeholder="请输入..." style="width: 80px;"/>社区、居（村）委会
+                    <input type="text" name="houseProvine" ng-model="data.houseProvine" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 80px;"/>(市县区)
+                    <input type="text" name="houseAvenue" ng-model="data.houseAvenue" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 80px;"/>街办
+                    <input type="text" name="houseCommunity" ng-model="data.houseCommunity" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 80px;"/>社区、居（村）委会
                 </td>
             </tr>
             <tr>
                 <td></td>
                 <td>
-                    <input type="text" name="houseWay" ng-model="data.houseWay" placeholder="请输入..." style="width: 80px;"/>(街路巷)
-                    <input type="text" name="houseHouse" ng-model="data.houseHouse" placeholder="请输入..." style="width: 80px;"/>门楼牌号
-                    <input type="text" name="houseBar" ng-model="data.houseBar" placeholder="请输入..." style="width: 80px;"/>门楼详址
-                    <input type="text" name="houseRoom" ng-model="data.houseRoom" placeholder="请输入..." style="width: 80px;"/>房间号
+                    <input type="text" name="houseWay" ng-model="data.houseWay" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 80px;"/>(街路巷)
+                    <input type="text" name="houseHouse" ng-model="data.houseHouse" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 80px;"/>门楼牌号
+                    <input type="text" name="houseBar" ng-model="data.houseBar" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 80px;"/>门楼详址
+                    <input type="text" name="houseRoom" ng-model="data.houseRoom" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 80px;"/>房间号
                 </td>
             </tr>
             <tr>
@@ -325,9 +332,9 @@
                     <table border="1" width="800px">
                         <tr>
                             <td>房东姓名:</td>
-                            <td><input type="text" name="landlordName" ng-model="data.landlordName" placeholder="请输入..." style="width: 85px;"/></td>
+                            <td><input type="text" name="landlordName" ng-model="data.landlordName" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 85px;"/></td>
                             <td>联系电话:</td>
-                            <td><input type="text" name="landlordPhone" ng-model="data.landlordPhone" placeholder="请输入..." style="width: 110px;"/></td>
+                            <td><input type="text" name="landlordPhone" ng-model="data.landlordPhone" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 110px;"/></td>
                             <td>是否签订治安责任书:</td>
                             <td>
                                 <input type="radio" name="landlordDuty" ng-model="data.landlordDuty" ng-value="1"/>是
@@ -336,13 +343,13 @@
                         </tr>
                         <tr>
                             <td>房东身份证号码:</td>
-                            <td colspan="5"><input type="text" name="landlordNumber" ng-model="data.landlordNumber" placeholder="请输入..." style="width: 300px;"></td>
+                            <td colspan="5"><input type="text" name="landlordNumber" ng-model="data.landlordNumber" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 300px;"></td>
                         </tr>
                         <tr>
                             <td>代理人姓名:</td>
-                            <td><input type="text" name="agentName" ng-model="data.agentName" placeholder="请输入..." style="width: 85px;"/></td>
+                            <td><input type="text" name="agentName" ng-model="data.agentName" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 85px;"/></td>
                             <td>联系电话:</td>
-                            <td><input type="text" name="agentPhone" ng-model="data.agentPhone" placeholder="请输入..." style="width: 110px;"/></td>
+                            <td><input type="text" name="agentPhone" ng-model="data.agentPhone" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 110px;"/></td>
                             <td>是否签订治安责任书:</td>
                             <td><input type="radio" name="agentDuty" ng-model="data.agentDuty" ng-value="1"/>是
                                 <input type="radio" name="agentDuty" ng-model="data.agentDuty" ng-value="0"/>否
@@ -350,7 +357,7 @@
                         </tr>
                         <tr>
                             <td>代理人身份证号码:</td>
-                            <td colspan="5"><input type="text" name="agentNumber" ng-model="data.agentNumber" placeholder="请输入..." style="width: 300px;"></td>
+                            <td colspan="5"><input type="text" name="agentNumber" ng-model="data.agentNumber" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 300px;"></td>
                         </tr>
                     </table>
                 </td>
@@ -359,7 +366,7 @@
                 <td><div style="border: 1px solid black; width: 100px; height: 25px;"><center style="color: red;">房屋类型:</center></div></td>
                 <td>
                     <span ng-repeat="x in houseTypes">
-                        <input type="radio" name="houseType" ng-model="data.houseType" ng-value="x.id"/>{{x.name}}
+                        <input type="radio" name="houseType" ng-model="data.houseType" ng-value="x.id"/>{{x.name}}&nbsp;&nbsp;
                     </span>
                 </td>
             </tr>
@@ -367,14 +374,14 @@
                 <td><div style="border: 1px solid black; width: 100px; height: 25px;"><center style="color: red;">房屋用途:</center></div></td>
                 <td>
                     <span ng-repeat="x in houseUses">
-                        <input type="radio" name="houseUse" ng-model="data.houseUse" ng-value="x.id"/>{{x.name}}
+                        <input type="radio" name="houseUse" ng-model="data.houseUse" ng-value="x.id"/>{{x.name}}&nbsp;&nbsp;
                     </span>
                 </td>
             </tr>
             <tr>
                 <td><div style="border: 1px solid black; width: 100px; height: 25px;"><center style="color: red;">信息采集员:</center></div></td>
                 <td>
-                    <input type="text" name="message" ng-model="data.message" placeholder="请输入..."/>
+                    <input type="text" name="message" ng-model="data.message" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..."/>
                 </td>
             </tr>
         </table>

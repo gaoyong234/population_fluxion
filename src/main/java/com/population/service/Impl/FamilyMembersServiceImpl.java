@@ -20,8 +20,8 @@ public class FamilyMembersServiceImpl implements FamilyMembersService {
     private DicMapper dicMapper;
 
     @Override
-    public List<FamilyVO> findFaminyInfo() {
-        return familyMembersMapper.findFaminyInfo();
+    public List<FamilyVO> findFaminyInfo(Integer userId) {
+        return familyMembersMapper.findFaminyInfo(userId);
     }
 
     @Override

@@ -42,7 +42,7 @@
                 url: '/familyMembers/findFaminyInfo'
             }).then(function successCallback(response) {
                 $scope.list = response.data
-                for (var i = 0; i <$scope.list.length ; i++) {
+               /* for (var i = 0; i <$scope.list.length ; i++) {
                     if ($scope.list[i].familySex == 0){
                         $scope.list[i].familySex = "女";
                     }
@@ -61,11 +61,16 @@
                     if ($scope.list[i].familyLearn == 1){
                         $scope.list[i].familyLearn = "是";
                     }
-                }
+                }*/
                 // 请求成功执行代码
+                console.log($scope.list);
             }, function errorCallback(response) {
                 // 请求失败执行代码
             });
+        }
+
+        $scope.saveFamily = function(){
+            alert("ook")
         }
 
         //查找字典表关系信息
@@ -94,6 +99,15 @@
             var date = familyNumber.substring(12, 14);
             var date2 = (year+"-"+month+"-"+date);
             $scope.familyBrithday = date2
+        }
+
+        $scope.checkDate2 = function(){
+            var familyNumber = $("input[ng-name='familyNumber']").val();
+            var year = familyNumber.substring(6, 10);
+            var month = familyNumber.substring(10, 12);
+            var date = familyNumber.substring(12, 14);
+            var date2 = (year+"-"+month+"-"+date);
+            $scope.familyBrithday = "无须填写！！！"
         }
 
         //验证
@@ -265,42 +279,108 @@
                     <td>有无预防接种证</td>
                     <td>是否在本市就学</td>
                 </tr>
+            <tbody ng-repeat="x in list">
                 <tr>
-                    <td>1</td>
+                    <td>{{x.famId}}</td>
                     <td>
-                        <select id="spareInt" ng-model="obj.spareInt"  name="spareInt">
+                        <select id="spareInt" ng-model="x.spareInt" ng-name="spareInt">
                             <option value="">请选择</option>
-                            <option ng-repeat="x in relationship" ng-value="x.id">{{x.name}}</option>
+                            <option ng-repeat="xs in relationship" ng-value="xs.id" ng-selected="x.spareInt==xs.name">{{xs.name}}</option>
                         </select>
                     </td>
                     <td>
-                        <input type="text" ng-model="obj.familyNumber" name="familyNumber" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" ng-blur="checkDate()" placeholder="请输入...">
+                        <input type="text" ng-model="x.familyNumber" ng-name="familyNumber" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" ng-blur="checkDate2()" placeholder="请输入...">
                     </td>
                     <td>
-                        <input type="text" ng-model="obj.familyName" name="familyName" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入...">
+                        <input type="text" ng-model="x.familyName" ng-name="familyName" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入...">
                     </td>
                     <td>
-                        <input type="radio" ng-model="obj.familySex" name="familySex" ng-value="1"/>男
-                        <input type="radio" ng-model="obj.familySex" name="familySex" ng-value="0"/>女
+                        <input type="radio" ng-model="x.familySex" ng-name="familySex" ng-value="1"/>男
+                        <input type="radio" ng-model="x.familySex" ng-name="familySex" ng-value="0"/>女
                     </td>
                     <td>
-                        <input type="text" disabled="disabled" ng-model="familyBrithday" name="familyBrithday">
+                        <input type="text" disabled="disabled" ng-model="familyBrithday" placeholder="{{x.familyBrithday}}" ng-name="familyBrithday">
                     </td>
                     <td>
-                        <input type="radio" ng-model="obj.familyVaccine" name="familyVaccine" ng-value="1"/>有
-                        <input type="radio" ng-model="obj.familyVaccine" name="familyVaccine" ng-value="0"/>无
+                        <input type="radio" ng-model="x.familyVaccine" ng-name="familyVaccine" ng-value="1"/>有
+                        <input type="radio" ng-model="x.familyVaccine" ng-name="familyVaccine" ng-value="0"/>无
                     </td>
                     <td>
-                        <input type="radio" ng-model="obj.familyLearn" name="familyLearn" ng-value="1"/>是
-                        <input type="radio" ng-model="obj.familyLearn" name="familyLearn" ng-value="0"/>否
+                        <input type="radio" ng-model="x.familyLearn" ng-name="familyLearn" ng-value="1"/>是
+                        <input type="radio" ng-model="x.familyLearn" ng-name="familyLearn" ng-value="0"/>否
                     </td>
                 </tr>
+            </tbody>
         </table>
             <div style="height: 50px;"></div>
             <center>
+                <button type="button" class="btn1" data-toggle="modal" data-target="#addition" ng-click="addClick()">添加</button>
                 <button data-toggle="modal" data-target="#chage" ng-click="save()" >保 存</button>
                 <button data-toggle="modal" data-target="#chage" ng-click="toFamilyPlanning()" >下一项</button>
             </center>
+    </div>
+    <!--添加新成员-->
+    <div class="modal fade" id="addition" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:80%;">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button id="bt1" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">添加新成员信息</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="addForm">
+                        <table class="table table-bordered table-striped"  >
+                            <tr>
+                                <td>关系:</td>
+                                <td>
+                                    <select ng-model="obj.spareInt"  name="spareInt">
+                                        <option value="">请选择</option>
+                                        <option ng-repeat="x in relationship" ng-value="x.id">{{x.name}}</option>
+                                    </select>
+                                </td>
+                                <td>公民身份证号:</td>
+                                <td>
+                                    <input type="text" ng-model="obj.familyNumber" name="familyNumber" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" ng-blur="checkDate()" placeholder="请输入...">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>姓名:</td>
+                                <td>
+                                    <input type="text" ng-model="obj.familyName" name="familyName" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入...">
+                                </td>
+                                <td>性别:</td>
+                                <td>
+                                    <input type="radio" ng-model="obj.familySex" name="familySex" ng-value="1"/>男
+                                    <input type="radio" ng-model="obj.familySex" name="familySex" ng-value="0"/>女
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>出生日期:</td>
+                                <td>
+                                    <input type="text" disabled="disabled" ng-model="familyBrithday" name="familyBrithday">
+                                </td>
+                                <td>有无预防接种证:</td>
+                                <td>
+                                    <input type="radio" ng-model="obj.familyVaccine" name="familyVaccine" ng-value="1"/>有
+                                    <input type="radio" ng-model="obj.familyVaccine" name="familyVaccine" ng-value="0"/>无
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>是否在本市就学:</td>
+                                <td>
+                                    <input type="radio" ng-model="obj.familyLearn" name="familyLearn" ng-value="1"/>是
+                                    <input type="radio" ng-model="obj.familyLearn" name="familyLearn" ng-value="0"/>否
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-toggle="modal" data-dismiss="modal" data-target="#status" ng-click="save()">保存</button>
+                    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">关闭</button>
+                </div>
+            </div>
+        </div>
     </div>
     <div align="center" style="border: 1px solid black; background-color: #97a0b3; width: 100%;height: 50px; position: fixed;bottom: 0; ">
         <div style="border: 1px solid black; background-color: white; width: 50%;height: 30px; margin-top: 10px;"><span style="font-size: 20px">版权所有：公安局</span></div>
