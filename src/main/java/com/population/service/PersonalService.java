@@ -6,4 +6,6 @@ public interface PersonalService {
     Integer inserPersonal(personal personal);
 
     personal findUser(Integer userId);
+
+    Integer updatePersonal(personal personal);
 }

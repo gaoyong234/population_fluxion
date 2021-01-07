@@ -187,6 +187,7 @@
     select user_id,user_phone,user_password
     from user
     where user_phone = #{userPhone,jdbcType=VARCHAR}
+    and audit_status = 1
   </select>
   <update id="updateByPrimaryKey" parameterType="com.population.pojo.User">
     update user
