@@ -16,4 +16,6 @@ public interface personalMapper {
     int updateByPrimaryKey(personal record);
 
     personal findUserId(Integer userId);
+
+    Integer updatePersonal(personal personal);
 }

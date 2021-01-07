@@ -29,4 +29,10 @@ public class PersonalImpl implements PersonalService {
         }
         return personal;
     }
+
+    @Override
+    public Integer updatePersonal(personal personal) {
+        Integer integer= personalMapper.updatePersonal(personal);
+        return integer;
+    }
 }

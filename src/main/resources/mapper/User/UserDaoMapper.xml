@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.population.dao.UserDao.UserDaoMapper">
+  <resultMap id="BaseResultMap" type="com.population.pojo.User">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="user_unit" jdbcType="VARCHAR" property="userUnit" />
+    <result column="user_ city" jdbcType="INTEGER" property="userCity" />
+    <result column="user_province" jdbcType="INTEGER" property="userProvince" />
+    <result column="user_area" jdbcType="INTEGER" property="userArea" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="del_id" jdbcType="INTEGER" property="delId" />
+    <result column="audit_status" jdbcType="INTEGER" property="auditStatus" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modifile" jdbcType="TIMESTAMP" property="gmtModifile" />
+    <result column="spare_str" jdbcType="VARCHAR" property="spareStr" />
+    <result column="spare_int" jdbcType="INTEGER" property="spareInt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_phone, user_password, user_unit, "user_ city", user_province, user_area, 
+    role_id, del_id, audit_status, gmt_create, gmt_modifile, spare_str, spare_int
+  </sql>
+  <select id="selectAllUser" parameterType="com.population.pojo.User" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    <where>
+      <if test="userUnit != null and userUnit != ''">
+        and user_unit like CONCAT("%",#{userUnit},"%")
+      </if>
+      <if test="auditStatus != null and auditStatus != ''">
+        and audit_status=#{auditStatus}
+      </if>
+    </where>
+  </select>
+</mapper>

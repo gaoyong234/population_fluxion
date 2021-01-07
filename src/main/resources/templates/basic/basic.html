@@ -18,10 +18,19 @@
                     method:"get",
                     params:{}
                 }).success(function (response) {
+                    console.log(response)
                     $scope.personal=response;
+                    $scope.findCity();
+                    $scope.province();
+                    $scope.area();
+                    $scope.findvillage();
+                    $scope.nowfindCity();
+                    $scope.nowprovince();
+                    $scope.nowarea();
+                    $scope.nowfindvillage();
                 })
-                $scope.findCity();
-                $scope.nowfindCity();
+
+
                 $http({
                     url:"/personal/findDic",
                     method:"get",
@@ -105,46 +114,6 @@
                 })
             }
 
-            $scope.save1=function () {
-                var person=$scope.personal;
-                var personName=person.personalName;
-                var rollName=person.rollName
-                var arrival=person.arrival
-                var idCard=person.idCard
-                var personalPhone=person.personalPhone
-                var religion=person.religion
-                var work=person.workingConditions
-                var yz= /^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
-                if (personName==null||personName==''){
-                    alert("请填写姓名")
-                }else
-                if(rollName==""||rollName==null){
-                    alert("请填写曾用名")
-                }else
-                if(arrival==""||arrival==null){
-                    alert("请填写来本地时间")
-                }else
-                if (idCard==""||idCard==null){
-                    alert("请填写身份证")
-                }else
-                if (!yz.test(idCard)){
-                    alert("身份证格式不正确")
-                }else
-                if (personalPhone==""||personalPhone==null){
-                    alert("请填写本人移动联系电话")
-                }else
-                if (religion==null){
-                    alert("请勾选宗教信仰")
-                }else
-                if (work==null){
-                    alert("请勾选从业状况")
-                }else {
-                    console.log(person)
-                    alert("进行保存")
-                }
-
-            }
-
             //查询现居住省
             $scope.nowfindCity=function () {
                 $http({
@@ -157,7 +126,7 @@
 
             //查询现居住市
             $scope.nowprovince=function () {
-                var provinceId=$scope.personal.censusLivingProvine;
+                var provinceId=$scope.personal.nowLivingProvine;
                 $http({
                     url: "/Province/findCity",
                     method: "post",
@@ -170,8 +139,8 @@
 
             //查询现居住县
             $scope.nowarea=function () {
-                var provinceId=$scope.personal.censusLivingProvine;
-                var cityId=$scope.personal.censusLivingCity;
+                var provinceId=$scope.personal.nowLivingProvine;
+                var cityId=$scope.personal.nowLivingCity;
 
                 $http({
                     url: "/Province/findCounty",
@@ -185,9 +154,9 @@
 
             //查询现居住村
             $scope.nowfindvillage=function(){
-                var provinceId=$scope.personal.censusLivingProvine;
-                var cityId=$scope.personal.censusLivingCity;
-                var countyId = $scope.personal.censusLivingCounty;
+                var provinceId=$scope.personal.nowLivingProvine;
+                var cityId=$scope.personal.nowLivingCity;
+                var countyId = $scope.personal.nowLivingCounty;
                 $http({
                     url: "/Province/findArea",
                     method: "post",
@@ -200,11 +169,13 @@
             $scope.save = function (){
                 var data = $scope.personal;
                 var msg = $scope.verification(data);
-
+                if (msg){
+                    console.log(data)
+                }
                 if (msg){
                     $http({
                         method:"POST",
-                        url:"/personal/inserPersonal",
+                        url:"/personal/updatePersonal",
                         params:data
                     }).then(function (response) {
                         if (response.data > 0){
@@ -219,11 +190,31 @@
                 }
 
             }
+
+            $scope.nextSave = function (){
+                var data = $scope.personal;
+                var msg = $scope.verification(data);
+                if (msg){
+                    $http({
+                        method:"POST",
+                        url:"/personal/updatePersonal",
+                        params:data
+                    }).then(function (response) {
+                        if (response.data > 0){
+                            window.location.href="/Mate/toMate";
+                        }else {
+                            alert("保存失败！");
+                        }
+                    }),function errorCallback(response){
+
+                    }
+                }
+
+            }
             //验证
             $scope.verification = function(data){
                 var msg=true;
-                var person=$scope.personal;
-                var demo=false;
+                var person=data;
                 var personName=person.personalName;
                 var rollName=person.rollName
                 var arrival=person.arrival
@@ -231,6 +222,18 @@
                 var personalPhone=person.personalPhone
                 var religion=person.religion
                 var work=person.workingConditions
+                var cenProvine=person.censusProvine;
+                var cenCity=person.censusCity;
+                var cenCounty = person.censusCounty;
+                var cenVill=person.censusVill;
+                var cenVillage=person.censusVillage;
+
+                var nowProvine=person.nowLivingProvine;
+                var nowCity=person.nowLivingCity;
+                var nowCounty = person.nowLivingCounty;
+                var nowVill=person.nowLivingVill;
+                var nowVillage=person.nowLivingVillage;
+                var nowBar=person.nowLivingBar;
                 var reg=/^(13[0-9]|14[01456879]|15[0-3,5-9]|16[2567]|17[0-8]|18[0-9]|19[0-3,5-9])\d{8}$/;
                 var yz= /^[1-9]\d{5}(18|19|20|(3\d))\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
                 if (personName==null||personName==''){
@@ -268,7 +271,41 @@
                 if (work==null){
                     alert("请勾选从业状况")
                     msg=false;
-                }else {
+                }else if (cenProvine==null){
+                    alert("请选择户籍所在省")
+                    msg=false;
+                }else if (cenCity==null){
+                    alert("请选择户籍所在市")
+                    msg=false;
+                }else if (cenCounty==null){
+                    alert("请选择户籍所在县")
+                    msg=false;
+                }else if (cenVill==null){
+                    alert("请选择户籍所在镇/乡")
+                    msg=false;
+                }else if (cenVillage==null||cenVillage==""){
+                    alert("请填写户籍所在村")
+                    msg=false;
+                }else if (nowProvine==null){
+                    alert("请选择现居住地址省")
+                    msg=false;
+                }else if (nowCity==null){
+                    alert("请选择现居住地址市")
+                    msg=false;
+                }else if (nowCounty==null){
+                    alert("请选择现居住地址县")
+                    msg=false;
+                }else if (nowVill==null){
+                    alert("请选择现居住地址镇/乡")
+                    msg=false;
+                }else if (nowVillage==null||nowVillage==""){
+                    alert("请填写现居住地址村")
+                    msg=false;
+                }else if (nowBar==null||nowBar==""){
+                    alert("请填写现居住地址门牌号")
+                    msg=false;
+                }
+                else {
                     msg=true;
                 }
                 return msg;
@@ -349,20 +386,20 @@
             <td style="color: red">户籍详细地址:</td>
             <td>     <div class="form_text_ipt">
                 <select ng-model="personal.censusProvine"  type="text" style="width: 95px; height: 40px" ng-click="province()">
-                    <option ng-repeat="ci in city"  ng-value="ci.id">{{ci.name}}</option></select>
+                    <option ng-repeat="ci in city"  ng-value="ci.id" ng-selected="ci.id==personal.censusProvine">{{ci.name}}</option></select>
 
                 <select style="width: 95px; height: 40px" ng-click="area()" ng-model="personal.censusCity">
-                    <option ng-repeat="pr in provi"  ng-value="pr.id">{{pr.name}}</option>
+                    <option ng-repeat="pr in provi"  ng-value="pr.id" ng-selected="pr.id==personal.censusCity">{{pr.name}}</option>
                 </select >
 
                 <select style="width: 100px; height: 40px" ng-click="findvillage()" ng-model="personal.censusCounty">
-                    <option ng-repeat="re in userarea" ng-value="re.id">{{re.name}}</option>
+                    <option ng-repeat="re in userarea" ng-value="re.id" ng-selected="re.id==personal.censusCounty">{{re.name}}</option>
                 </select>
 
-                <select style="width: 100px; height: 40px" id="userCity" ng-model="personal.censusVillage">
-                    <option ng-repeat="al in allTown" ng-value="al.id">{{al.name}}</option>
+                <select style="width: 100px; height: 40px" id="userCity" ng-model="personal.censusVill">
+                    <option ng-repeat="al in allTown" ng-value="al.id" ng-selected="al.id==personal.censusVill">{{al.name}}</option>
                 </select>
-                <input>村(社区)
+                <input ng-model="personal.censusVillage">村(社区)
             </div>
 
             </td>
@@ -373,21 +410,21 @@
         <tr>
             <td style="color: red">现居住地址:</td>
             <td>  <div class="form_text_ipt">
-                <select ng-model="personal.censusLivingProvine"  type="text" style="width: 95px; height: 40px" ng-click="nowprovince()">
-                    <option ng-repeat="ci in nowcity"  ng-value="ci.id">{{ci.name}}</option></select>
+                <select ng-model="personal.nowLivingProvine"  type="text" style="width: 95px; height: 40px" ng-click="nowprovince()">
+                    <option ng-repeat="ci in nowcity"  ng-value="ci.id" ng-selected="ci.id==personal.nowLivingProvine">{{ci.name}}</option></select>
 
-                <select style="width: 95px; height: 40px" ng-click="nowarea()" ng-model="personal.censusLivingCity">
-                    <option ng-repeat="pr in nowprovi"  ng-value="pr.id">{{pr.name}}</option>
+                <select style="width: 95px; height: 40px" ng-click="nowarea()" ng-model="personal.nowLivingCity">
+                    <option ng-repeat="pr in nowprovi"  ng-value="pr.id" ng-selected="pr.id==personal.nowLivingCity">{{pr.name}}</option>
                 </select >
 
-                <select style="width: 100px; height: 40px" ng-click="nowfindvillage()" ng-model="personal.censusLivingCounty">
-                    <option ng-repeat="re in nowuserarea" ng-value="re.id">{{re.name}}</option>
+                <select style="width: 100px; height: 40px" ng-click="nowfindvillage()" ng-model="personal.nowLivingCounty">
+                    <option ng-repeat="re in nowuserarea" ng-value="re.id" ng-selected="re.id==personal.nowLivingCounty">{{re.name}}</option>
                 </select>
 
-                <select style="width: 100px; height: 40px"  ng-model="personal.censusLivingVill">
-                    <option ng-repeat="al in nowallTown" ng-value="al.id">{{al.name}}</option>
+                <select style="width: 100px; height: 40px"  ng-model="personal.nowLivingVill">
+                    <option ng-repeat="al in nowallTown" ng-value="al.id" ng-selected="al.id==personal.nowLivingVill">{{al.name}}</option>
                 </select>
-                <input ng-model="personal.censusLivingVillage">村(社区)
+                <input ng-model="personal.nowLivingVillage">村(社区)
             </div></td>
         </tr>
         <tr>
@@ -470,7 +507,7 @@
 </div>
 <div style="text-align:center">
     <button ng-click="save()">保存</button>
-    <button >下一项</button>
+    <button ng-click="nextSave()">下一项</button>
 </div>
 </body>
 </html>

@@ -18,17 +18,17 @@ public class EmployingServiceImpl implements EmployingService {
 
 
     @Override
-    public Message addEmploying(Employing employing) {
-        employing.setGmtCreate(new Date());
-        Integer num = employingDaoMapper.insertEmploying(employing);
+    public Message addEmploying(EmployingVO employingVO) {
+        employingVO.setGmtCreate(new Date());
+        Integer num = employingDaoMapper.insertEmploying(employingVO);
         Message message = ReturnUtil.returnDataOperation("添加", num);
         return message;
     }
 
     @Override
-    public Message changeEmploying(Employing employing) {
-        employing.setGmtModified(new Date());
-        Integer num = employingDaoMapper.updateEmploying(employing);
+    public Message changeEmploying(EmployingVO employingVO) {
+        employingVO.setGmtModified(new Date());
+        Integer num = employingDaoMapper.updateEmploying(employingVO);
         Message message = ReturnUtil.returnDataOperation("修改", num);
         return message;
     }

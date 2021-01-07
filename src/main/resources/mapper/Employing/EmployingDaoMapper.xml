@@ -51,7 +51,7 @@
     from employing
     where del_id=0
   </select>
-  <insert id="insertEmploying" parameterType="com.population.pojo.Employing">
+  <insert id="insertEmploying" parameterType="com.population.vo.EmployingVO">
     insert into employing
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="emId != null">
@@ -214,7 +214,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateEmploying" parameterType="com.population.pojo.Employing">
+  <update id="updateEmploying" parameterType="com.population.vo.EmployingVO">
     update employing
     <set>
       <if test="employingName != null">
