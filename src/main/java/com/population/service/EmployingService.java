@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface EmployingService {
     //添加
-    Message addEmploying(Employing employing);
+    Message addEmploying(EmployingVO employingVO);
     //修改
-    Message changeEmploying(Employing employing);
+    Message changeEmploying(EmployingVO employingVO);
     //删除
     Message removeEmployingUpdate(Integer empId);
     //查询

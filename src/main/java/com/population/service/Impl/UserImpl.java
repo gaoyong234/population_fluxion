@@ -1,5 +1,8 @@
 package com.population.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.population.dao.UserDao.UserDaoMapper;
 import com.population.dao.UserMapper;
 import com.population.dao.powerMapper;
 import com.population.pojo.User;
@@ -18,6 +21,8 @@ public class UserImpl implements UserService {
 
     @Autowired
     private powerMapper powerMapper;
+    @Autowired
+    private UserDaoMapper userDaoMapper;
 
     @Override
     public User getUserByAccount(String userPhone) {
@@ -47,6 +52,14 @@ public class UserImpl implements UserService {
     @Override
     public List<power> findAllPorwer(Integer userId) {
         return powerMapper.findAllPower(userId);
+    }
+
+    @Override
+    public PageInfo<User> findAllUser(Integer pageNum, Integer pageSize, User user) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<User> userList = userDaoMapper.selectAllUser(user);
+        PageInfo<User> pageInfo = new PageInfo<>(userList);
+        return pageInfo;
     }
 
 

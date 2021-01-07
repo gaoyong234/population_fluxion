@@ -54,7 +54,20 @@
                 method:"post"
             }).success(function (response) {
                 $scope.employing=response;
+                setTimeout($scope.SaveCheck,500);
             })
+            $scope.SaveCheck=function(){
+                var names=$scope.employing.insuranceId;
+                //var inputs = document.getElementsByTagName('input');
+                var inputs=document.getElementsByName('insurance');
+                for (var i =0;i<inputs.length;i++) {
+                    for (var n =0;n<names.length;n++) {
+                        if (names[n]==inputs[i].value) {
+                            inputs[i].checked = true;
+                        }
+                    }
+                }
+            }
             //查询所有单位类型
             $http({
                 url:"/Dic/findDicByParentId",
@@ -120,19 +133,114 @@
                     }
                 });
             }
+            //数据验证
+            $scope.formVerify = function(employing){
+                var judge = true;
+                var employingName = employing.employingName;
+                var unitType = employing.unitType;
+                var unitSiteProvine = employing.unitSiteProvine;
+                var unitSiteAvenue = employing.unitSiteAvenue;
+                var unitSiteCommunity = employing.unitSiteCommunity;
+                var unitSiteWay = employing.unitSiteWay;
+                var unitSiteHouse = employing.unitSiteHouse;
+                var unitSiteBar = employing.unitSiteBar;
+                var organization = employing.organization;
+                var legalPerson = employing.legalPerson;
+                var contractTime = employing.contractTime;
+                var unitPhone = employing.unitPhone;
+                var regUnitPhone = /^1[3|4|5|7|8][0-9]{9}$/;
+                var unitSocial = employing.unitSocial;
+                var unitNumber = employing.unitNumber;
+                var  unitPerson =employing.unitPerson;
+                var industrySort = employing.industrySort;
+                var grade = employing.grade;
+                var professionSkill = employing.professionSkill;
+                var profession = employing.profession;
+
+                if (employingName==null||employingName==''){
+                    $scope.showModalButton1("请填写工作单位名称！");
+                    judge=false;
+                }else if (unitType==null||unitType==''){
+                    $scope.showModalButton1("请选择单位类型！");
+                    judge=false;
+                }else if (unitSiteProvine==null||unitSiteProvine==''){
+                    $scope.showModalButton1("请填写单位所在市！");
+                    judge=false;
+                }else if (unitSiteAvenue==null||unitSiteAvenue==''){
+                    $scope.showModalButton1("请填写单位所在街办！");
+                    judge=false;
+                }else if (unitSiteCommunity==null||unitSiteCommunity==''){
+                    $scope.showModalButton1("请填写单位所在社区！");
+                    judge=false;
+                }else if (unitSiteWay==null||unitSiteWay==''){
+                    $scope.showModalButton1("请填写单位所在街道！");
+                    judge=false;
+                }else if (unitSiteHouse==null||unitSiteHouse==''){
+                    $scope.showModalButton1("请填写单位门牌号！");
+                    judge=false;
+                }else if (unitSiteBar==null||unitSiteBar==''){
+                    $scope.showModalButton1("请填写单位门楼详情！");
+                    judge=false;
+                }else if (organization==null||organization==''){
+                    $scope.showModalButton1("请填写机构代码！");
+                    judge=false;
+                }else if (legalPerson==null||legalPerson==''){
+                    $scope.showModalButton1("请填写法人代表！");
+                    judge=false;
+                }else if (contractTime==null||contractTime==''){
+                    $scope.showModalButton1("请选择合同年限！");
+                    judge=false;
+                }else if (unitPhone==null||unitPhone==''){
+                    $scope.showModalButton1("请填写联系电话！");
+                    judge=false;
+                }else if(!regUnitPhone.test(unitPhone)){
+                    $scope.showModalButton1("请填写正确的手机号！");
+                    judge=false;
+                }else if (unitSocial==null||unitSocial==''){
+                    $scope.showModalButton1("请填写社保号！");
+                    judge=false;
+                }else if (unitNumber==null||unitNumber==''){
+                    $scope.showModalButton1("请填写单位编号！");
+                    judge=false;
+                }else if (unitPerson==null||unitPerson==''){
+                    $scope.showModalButton1("请填写用工人数！");
+                    judge=false;
+                }else if (industrySort==null||industrySort==''){
+                    $scope.showModalButton1("请选择行业类别！");
+                    judge=false;
+                }else if (grade==null||grade==''){
+                    $scope.showModalButton1("请选择职称！");
+                    judge=false;
+                }else if (professionSkill==null||professionSkill==''){
+                    $scope.showModalButton1("请选择技能等级！");
+                    judge=false;
+                }else if (profession==null||profession==''){
+                    $scope.showModalButton1("请填写职业！");
+                    judge=false;
+                }
+
+                return judge;
+            }
             //添加数据
             $scope.addEmploying=function () {
 
+                var vals = [];
+                $('input:checkbox:checked').each(function (index, item) {
+                    vals.push($(this).val());
+                });
+                $scope.employing.insuranceId=vals;
                 var employing = $scope.employing;
                 console.log(employing);
-                $http({
-                    url:"/Employing/addEmploying",
-                    method:"post",
-                    params:employing
-                }).success(function (response){
-                    console.log(response);
-                    $scope.showModalButton1(response.slogan);
-                })
+                var judge =$scope.formVerify(employing);
+                if(judge) {
+                    $http({
+                        url: "/Employing/addEmploying",
+                        method: "post",
+                        params: employing
+                    }).success(function (response) {
+                        $scope.showModalButton1(response.slogan);
+                    })
+                }
 
             }
         })
@@ -202,7 +310,7 @@
             <td>参保情况:</td>
             <td width="85%">
                 <span ng-repeat="ins in insuranceState" class="s-job">
-                    <input type="checkbox" name="insurance" ng-model="employing.insurance" ng-value="ins.id">{{ins.name}}
+                    <input type="checkbox" name="insurance"  ng-value="ins.id">{{ins.name}}
                 </span>
             </td>
         </tr>

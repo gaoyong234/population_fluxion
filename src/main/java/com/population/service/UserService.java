@@ -1,5 +1,6 @@
 package com.population.service;
 
+import com.github.pagehelper.PageInfo;
 import com.population.pojo.User;
 import com.population.pojo.power;
 import com.population.vo.Message;
@@ -14,4 +15,6 @@ public interface UserService {
     Message recuRuser(User user);
 
     List<power> findAllPorwer(Integer userId);
+
+    PageInfo<User> findAllUser(Integer pageNum,Integer pageSize,User user);
 }
