@@ -8,7 +8,9 @@ import com.population.dao.powerMapper;
 import com.population.pojo.User;
 import com.population.pojo.power;
 import com.population.service.UserService;
+import com.population.util.ReturnUtil;
 import com.population.vo.Message;
+import com.population.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,6 +62,23 @@ public class UserImpl implements UserService {
         List<User> userList = userDaoMapper.selectAllUser(user);
         PageInfo<User> pageInfo = new PageInfo<>(userList);
         return pageInfo;
+    }
+
+    @Override
+    public Message changeUserAudit(List<Integer> auditList, Integer auditStatus) {
+
+        Integer num = 0;
+        for (int i = 0; i < auditList.size(); i++) {
+            num += userDaoMapper.updateUserAudit(auditList.get(i), auditStatus);
+        }
+        Message message = ReturnUtil.returnData("审核", num);
+
+        return message;
+    }
+
+    @Override
+    public UserVO findOneUser(Integer userId) {
+        return userDaoMapper.selectOneUser(userId);
     }
 
 

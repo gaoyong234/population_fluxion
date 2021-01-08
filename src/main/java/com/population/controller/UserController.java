@@ -5,6 +5,7 @@ import com.population.pojo.User;
 import com.population.pojo.power;
 import com.population.service.UserService;
 import com.population.vo.Message;
+import com.population.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -115,8 +116,22 @@ public class UserController {
     @ResponseBody
     public PageInfo<User> findAllUser(
             @RequestParam(value = "pageNum",defaultValue = "1")Integer pageNum,
-            @RequestParam(value ="pageSize" )Integer pageSize,
-            User user){
+            @RequestParam(value ="pageSize",defaultValue = "10")Integer pageSize,
+            User user,HttpSession session){
+        User admin = (User) session.getAttribute("admin");
+        user.setRoleId(admin.getRoleId());
+        System.out.println(user.getAuditStatus());
         return userService.findAllUser(pageNum,pageSize,user);
+    }
+
+    /**
+     * 根据id查单个用户信息
+     * @param userId 用户id
+     * @return 用户信息
+     */
+    @RequestMapping("/findOneUser")
+    @ResponseBody
+    public UserVO findOneUser(Integer userId){
+        return userService.findOneUser(userId);
     }
 }

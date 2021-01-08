@@ -15,6 +15,15 @@
     <link rel="stylesheet" href="../../static/plugins/angularjs/pagination.css">
     <script type="text/javascript" src="../../static/plugins/angularjs/pagination.js"></script>
     <script src="../../static/js/showLoading.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+        .aaa{
+            margin-top: 5px;
+            width: 30%;
+        }
+        .bbb{
+            width: 45%;
+        }
+    </style>
     <script>
         var app = angular.module("myApp", ["pagination"]);
         app.controller("myController", function ($scope, $http) {
@@ -28,7 +37,7 @@
                     $scope.find($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage)
                 }
             }
-            $scope.dictionaries = {
+            $scope.userMessage = {
                 pageNum: 0,
                 pageSize: 10
             }
@@ -37,28 +46,111 @@
                 if (pageNum == null || pageNum == "") {
                     pageNum = 1;
                 }
-                $scope.dictionaries.pageNum = pageNum;
-                $scope.dictionaries.pageSize = items;
-                var dictionariesMessage = $scope.dictionaries;
-                console.log(dictionariesMessage)
+                $scope.userMessage.pageNum = pageNum;
+                $scope.userMessage.pageSize = items;
+                var user = $scope.userMessage;
+                console.log(user)
                 $http({
-                    url: "/Dictionaries/findAllDictionaries",
+                    url: "/userLogin/findAllUser",
                     method: "post",
-                    params: dictionariesMessage
+                    params: user
                 }).success(function (response) {
                     $scope.lists = response.list;
                     $scope.paginationConf.totalItems = response.total;
                 })
+            }
+            //返回结果提示
+            $scope.showModalButton1 = function (slogan) {
+                showModal({
+                    title: "温馨提示",  //提示的标题
+                    content: slogan,  //提示的内容
+                    showCancel: false,  //是否显示取消按钮，默认为 true
+                    cancelText: '取消',  //取消按钮的文字，默认为"取消"，最多 4 个字符
+                    cancelColor: "#fff",  //取消按钮的文字颜色，默认为"#000000"
+                    cancelBgColor: '#4c4c4c',  //取消按钮的背景颜色
+                    confirmText: '确定',
+                    confirmColor: '#fff',
+                    confirmBgColor: '#ff130a',
+                    success: function () {
 
+                    }
+                });
+            }
+            //查看数据
+            $scope.examineMassage = function (userId) {
+                $http({
+                    url: "/userLogin/findOneUser",
+                    method: "post",
+                    params: {"userId": userId}
+                }).success(function (response) {
+                    $scope.examine=response;
+                })
+            }
+            //审核
+            $scope.audit = function (auditStatus) {
+
+                $scope.auditList=[];
+                var checkBoxs=document.getElementsByName("pitchOn");
+                for (var i = 0; i <checkBoxs.length ; i++) {
+                    if (checkBoxs[i].checked){
+                        $scope.auditList.push(checkBoxs[i].value);
+                    }
+                }
+                var auditList = $scope.auditList;
+                console.log(auditList);
+                $http({
+                    url: "/AuditRegister/AuditUser",
+                    method: "post",
+                    params: {"auditList":auditList,"auditStatus":auditStatus}
+                }).success(function (response) {
+                    $scope.showModalButton1(response.slogan)
+                    $scope.find($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage)
+                })
             }
         })
     </script>
 </head>
 <body  ng-app="myApp" ng-controller="myController">
 <div>
+    <h4 class="alert alert-infoalert alert-info">填写就业信息</h4>
+</div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <td>公司名称:</td>
+        <td >
+            <input ng-model="userMessage.userUnit" class="form-control bbb">
+        </td>
+
+    </tr>
+    <tr>
+        <td>审核状态:</td>
+        <td >
+            <select ng-model="userMessage.auditStatus"  class="form-control bbb">
+                <option value="">请选择</option>
+                <option ng-value="0">未审核</option>
+                <option ng-value="1">通过审核</option>
+                <option ng-value="2">未通过</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><button type="button" class="btn btn-info" ng-click="find()">查询</button></td>
+    </tr>
+</table>
+<div>
+    <button type="button" class="btn btn-primary" style="margin-left: 35px"
+            ng-click="audit(1)">通过审核
+    </button>
+    <button type="button" class="btn btn-primary" style="margin-left: 35px"
+            ng-click="audit(2)">不通过审核
+    </button>
+</div>
+<div>
     <table id="dataList" class="table">
     <thead>
     <tr>
+        <th></th>
         <th>编号</th>
         <th>单位名称</th>
         <th>手机号</th>
@@ -69,23 +161,82 @@
     </thead>
 
     <tbody id="tbody">
-    <tr ng-repeat="dic in lists">
-        <td>{{dic.dicId}}</td>
-        <td>{{dic.dictionariesName}}</td>
-        <td>{{dic.parentName}}</td>
-        <td>{{dic.createTime}}</td>
+    <tr ng-repeat="us in lists">
+        <td><input type="checkbox" name="pitchOn" ng-value="us.userId"></td>
+        <td>{{us.userId}}</td>
+        <td>{{us.userUnit}}</td>
+        <td>{{us.userPhone}}</td>
+        <td>{{us.gmtCreate}}</td>
         <td>
-            <button class="btn btn-success" data-toggle="modal" data-target="#detailed" ng-click="detailedMassage(dic.dicId)">详细</button>
+            <button class="btn btn-success" data-toggle="modal" data-target="#detailed" ng-click="examineMassage(us.userId)">详细</button>
         </td>
         <td>
-            <button class="btn btn-warning" data-toggle="modal" data-target="#modification"
-                    ng-click="reviseMassage(dic.dicId)">修改
-            </button>
+            <span ng-if="us.auditStatus==0">未审核</span>
+            <span ng-if="us.auditStatus==1">审核通过</span>
+            <span ng-if="us.auditStatus==2">审核未通过</span>
         </td>
     </tr>
     </tbody>
 </table>
 <tm-pagination conf="paginationConf"></tm-pagination>
+</div>
+<!--详细数据-->
+<div class="modal fade" id="detailed" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:80%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="bt1" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabe1">用户详细信息</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <td>用户id:</td>
+                        <td><input  ng-model="examine.userId"  class="form-control" disabled="disabled"></td>
+                        <td>手机号:</td>
+                        <td><input ng-model="examine.userPhone" class="form-control" disabled="disabled">
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td>用户密码:</td>
+                        <td><input  ng-model="examine.userPassword" class="form-control" disabled="disabled"></td>
+                        <td>公司:</td>
+                        <td><input  ng-model="examine.userUnit" class="form-control" disabled="disabled"></td>
+                    </tr>
+                    <tr>
+                        <td>省:</td>
+                        <td>
+                            <input  ng-model="examine.provinceName" class="form-control" disabled="disabled">
+                        </td>
+                        <td>市:</td>
+                        <td><input  ng-model="examine.cityName" class="form-control" disabled="disabled"></td>
+
+                    </tr>
+                    <tr>
+                        <td>县:</td>
+                        <td><input  ng-model="examine.areaName" class="form-control" disabled="disabled"></td>
+                        <td>创建时间:</td>
+                        <td><input  ng-model="examine.gmtCreate" class="form-control" disabled="disabled"></td>
+                    </tr>
+                    <tr>
+                        <td>修改时间:</td>
+                        <td><input  ng-model="examine.gmtModifile" class="form-control" disabled="disabled"></td>
+                        <td>审核状态:</td>
+                        <td>
+                            <span ng-if="examine.auditStatus==0" class="form-control" disabled="disabled">未审核</span>
+                            <span ng-if="examine.auditStatus==1" class="form-control" disabled="disabled">审核通过</span>
+                            <span ng-if="examine.auditStatus==2" class="form-control" disabled="disabled">审核未通过</span>
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>

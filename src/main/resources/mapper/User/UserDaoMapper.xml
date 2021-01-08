@@ -6,7 +6,7 @@
     <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
     <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
     <result column="user_unit" jdbcType="VARCHAR" property="userUnit" />
-    <result column="user_ city" jdbcType="INTEGER" property="userCity" />
+    <result column="user_city" jdbcType="INTEGER" property="userCity" />
     <result column="user_province" jdbcType="INTEGER" property="userProvince" />
     <result column="user_area" jdbcType="INTEGER" property="userArea" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
@@ -17,8 +17,27 @@
     <result column="spare_str" jdbcType="VARCHAR" property="spareStr" />
     <result column="spare_int" jdbcType="INTEGER" property="spareInt" />
   </resultMap>
+  <resultMap id="BaseMap" type="com.population.vo.UserVO">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="user_unit" jdbcType="VARCHAR" property="userUnit" />
+    <result column="user_city" jdbcType="INTEGER" property="userCity" />
+    <result column="user_province" jdbcType="INTEGER" property="userProvince" />
+    <result column="user_area" jdbcType="INTEGER" property="userArea" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="del_id" jdbcType="INTEGER" property="delId" />
+    <result column="audit_status" jdbcType="INTEGER" property="auditStatus" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modifile" jdbcType="TIMESTAMP" property="gmtModifile" />
+    <result column="spare_str" jdbcType="VARCHAR" property="spareStr" />
+    <result column="spare_int" jdbcType="INTEGER" property="spareInt" />
+    <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+  </resultMap>
   <sql id="Base_Column_List">
-    user_id, user_phone, user_password, user_unit, "user_ city", user_province, user_area, 
+    user_id, user_phone, user_password, user_unit,user_city, user_province, user_area,
     role_id, del_id, audit_status, gmt_create, gmt_modifile, spare_str, spare_int
   </sql>
   <select id="selectAllUser" parameterType="com.population.pojo.User" resultMap="BaseResultMap">
@@ -29,9 +48,27 @@
       <if test="userUnit != null and userUnit != ''">
         and user_unit like CONCAT("%",#{userUnit},"%")
       </if>
-      <if test="auditStatus != null and auditStatus != ''">
+      <if test="auditStatus != null ">
         and audit_status=#{auditStatus}
       </if>
+      <if test="roleId != null and roleId != ''">
+        and role_id>#{roleId}
+      </if>
     </where>
+    order by gmt_create DESC
+  </select>
+  <update id="updateUserAudit">
+    update user set audit_status=#{auditStatus},gmt_modifile=now()
+    where user_id=#{userId}
+  </update>
+  <select id="selectOneUser" parameterType="integer" resultMap="BaseMap">
+    select  user_id, user_phone, user_password, user_unit,
+	user_city, prov.name city_name,user_province,pro.name province_name,user_area,provi.name area_name,
+    role_id, u.del_id, audit_status, u.gmt_create, u.gmt_modifile, u.spare_str, u.spare_int
+	from user u
+	LEFT JOIN province pro on u.user_province = pro.id
+	LEFT JOIN province prov on u.user_city = prov.id
+	LEFT JOIN province provi on u.user_area = provi.id
+	where user_id=#{userId}
   </select>
 </mapper>
