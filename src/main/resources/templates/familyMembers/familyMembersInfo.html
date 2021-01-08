@@ -63,14 +63,77 @@
                     }
                 }*/
                 // 请求成功执行代码
-                console.log($scope.list);
+                //console.log($scope.list);
             }, function errorCallback(response) {
                 // 请求失败执行代码
             });
         }
 
-        $scope.saveFamily = function(){
-            alert("ook")
+        //保存
+        $scope.list={};
+        $scope.updateFamily = function(){
+            var data = $scope.list
+            for (var i = 0; i <data.length ; i++) {
+                if (data[i].spareInt == "父亲"){
+                    data[i].spareInt = 10957
+                }
+                if (data[i].spareInt == "母亲"){
+                    data[i].spareInt = 10958
+                }
+                if (data[i].spareInt == "儿子"){
+                    data[i].spareInt = 10959
+                }
+                if (data[i].spareInt == "女儿"){
+                    data[i].spareInt = 10960
+                }
+                if (data[i].spareInt == "哥哥"){
+                    data[i].spareInt = 10961
+                }
+                if (data[i].spareInt == "姐姐"){
+                    data[i].spareInt = 10962
+                }
+                if (data[i].spareInt == "弟弟"){
+                    data[i].spareInt = 10963
+                }
+                if (data[i].spareInt == "妻子"){
+                    data[i].spareInt = 10964
+                }
+                if (data[i].spareInt == "朋友"){
+                    data[i].spareInt = 10965
+                }
+                if (data[i].spareInt == "无"){
+                    data[i].spareInt = 10966
+                }
+            }
+            var list = [];
+            /*addList.push("{}")*/
+            for (var i = 0; i <data.length ; i++) {
+                list.push(data[i])
+            }
+            console.log(list);
+            $http({
+                method: 'POST',
+                url: '/familyMembers/updateFamily',
+                params:{list:list},
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                transformRequest: function(obj) {
+                    var str = [];
+                    for (var s in obj) {
+                        str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
+                    }
+                    return str.join("&");
+                }
+            }).then(function successCallback(response) {
+                if (response.data>0){
+                    alert("保存成功!")
+                    //location.reload();
+                }else {
+                    alert("保存失败!")
+                }
+                // 请求成功执行代码
+            }, function errorCallback(response) {
+                // 请求失败执行代码
+            });
         }
 
         //查找字典表关系信息
@@ -90,7 +153,6 @@
                 // 请求失败执行代码
             });
         }
-
         //截取身份证日期并显示
         $scope.checkDate = function(){
             var familyNumber = $("input[name='familyNumber']").val();
@@ -100,16 +162,6 @@
             var date2 = (year+"-"+month+"-"+date);
             $scope.familyBrithday = date2
         }
-
-        $scope.checkDate2 = function(){
-            var familyNumber = $("input[ng-name='familyNumber']").val();
-            var year = familyNumber.substring(6, 10);
-            var month = familyNumber.substring(10, 12);
-            var date = familyNumber.substring(12, 14);
-            var date2 = (year+"-"+month+"-"+date);
-            $scope.familyBrithday = "无须填写！！！"
-        }
-
         //验证
         $scope.verification = function(data){
             //console.log(data);
@@ -206,7 +258,7 @@
             return msg;
         }
 
-        //保存同住家庭成员信息
+        //添加同住家庭成员信息
         $scope.obj={};
         $scope.save = function () {
             var data = $scope.obj
@@ -218,10 +270,10 @@
                     params:data
                 }).then(function successCallback(response) {
                     if (response.data>0){
-                        alert("保存成功!")
+                        alert("添加成功!")
                         location.reload();
                     }else {
-                        alert("保存失败!")
+                        alert("添加失败!")
                     }
                     // 请求成功执行代码
                 }, function errorCallback(response) {
@@ -279,35 +331,35 @@
                     <td>有无预防接种证</td>
                     <td>是否在本市就学</td>
                 </tr>
-            <tbody ng-repeat="x in list">
+            <tbody ng-repeat="ls in list">
                 <tr>
-                    <td>{{x.famId}}</td>
+                    <td>{{ls.famId}}</td>
                     <td>
-                        <select id="spareInt" ng-model="x.spareInt" ng-name="spareInt">
+                        <select id="spareInt" ng-model="ls.spareInt" ng-name="spareInt">
                             <option value="">请选择</option>
-                            <option ng-repeat="xs in relationship" ng-value="xs.id" ng-selected="x.spareInt==xs.name">{{xs.name}}</option>
+                            <option ng-repeat="xs in relationship" ng-value="xs.id" ng-selected="ls.spareInt==xs.name">{{xs.name}}</option>
                         </select>
                     </td>
                     <td>
-                        <input type="text" ng-model="x.familyNumber" ng-name="familyNumber" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" ng-blur="checkDate2()" placeholder="请输入...">
+                        <input type="text" ng-model="ls.familyNumber" ng-name="familyNumber" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" disabled="disabled">
                     </td>
                     <td>
-                        <input type="text" ng-model="x.familyName" ng-name="familyName" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入...">
+                        <input type="text" ng-model="ls.familyName" ng-name="familyName" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入...">
                     </td>
                     <td>
-                        <input type="radio" ng-model="x.familySex" ng-name="familySex" ng-value="1"/>男
-                        <input type="radio" ng-model="x.familySex" ng-name="familySex" ng-value="0"/>女
+                        <input type="radio" ng-model="ls.familySex" ng-name="familySex" ng-value="1"/>男
+                        <input type="radio" ng-model="ls.familySex" ng-name="familySex" ng-value="0"/>女
                     </td>
                     <td>
-                        <input type="text" disabled="disabled" ng-model="familyBrithday" placeholder="{{x.familyBrithday}}" ng-name="familyBrithday">
+                        <input type="text" disabled="disabled" ng-model="familyBrithday" placeholder="{{ls.familyBrithday}}" ng-name="familyBrithday">
                     </td>
                     <td>
-                        <input type="radio" ng-model="x.familyVaccine" ng-name="familyVaccine" ng-value="1"/>有
-                        <input type="radio" ng-model="x.familyVaccine" ng-name="familyVaccine" ng-value="0"/>无
+                        <input type="radio" ng-model="ls.familyVaccine" ng-name="familyVaccine" ng-value="1"/>有
+                        <input type="radio" ng-model="ls.familyVaccine" ng-name="familyVaccine" ng-value="0"/>无
                     </td>
                     <td>
-                        <input type="radio" ng-model="x.familyLearn" ng-name="familyLearn" ng-value="1"/>是
-                        <input type="radio" ng-model="x.familyLearn" ng-name="familyLearn" ng-value="0"/>否
+                        <input type="radio" ng-model="ls.familyLearn" ng-name="familyLearn" ng-value="1"/>是
+                        <input type="radio" ng-model="ls.familyLearn" ng-name="familyLearn" ng-value="0"/>否
                     </td>
                 </tr>
             </tbody>
@@ -315,7 +367,7 @@
             <div style="height: 50px;"></div>
             <center>
                 <button type="button" class="btn1" data-toggle="modal" data-target="#addition" ng-click="addClick()">添加</button>
-                <button data-toggle="modal" data-target="#chage" ng-click="save()" >保 存</button>
+                <button data-toggle="modal" data-target="#chage" ng-click="updateFamily()" >保 存</button>
                 <button data-toggle="modal" data-target="#chage" ng-click="toFamilyPlanning()" >下一项</button>
             </center>
     </div>

@@ -14,4 +14,8 @@ public interface ChildMapper {
     int updateByPrimaryKeySelective(Child record);
 
     int updateByPrimaryKey(Child record);
+    //查询计生信息根据用户id
+    Child findFamilyPlanningInfo(Integer userId);
+    //查询是否有用户的数据根据用户id
+    Integer findCountFamilyPlanningInfo(Integer userId);
 }

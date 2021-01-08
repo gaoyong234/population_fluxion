@@ -20,4 +20,19 @@ public class FamilyPlanningServiceImpl implements FamilyPlanningService {
         child.setGmtCreate(date);
         return childMapper.insertSelective(child);
     }
+
+    @Override
+    public Child findFamilyPlanningInfo(Integer userId) {
+        return childMapper.findFamilyPlanningInfo(userId);
+    }
+
+    @Override
+    public Integer findCountFamilyPlanningInfo(Integer userId) {
+        return childMapper.findCountFamilyPlanningInfo(userId);
+    }
+
+    @Override
+    public Integer updateFamilyPlanning(Child child) {
+        return childMapper.updateByPrimaryKeySelective(child);
+    }
 }

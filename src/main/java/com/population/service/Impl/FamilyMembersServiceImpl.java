@@ -33,4 +33,15 @@ public class FamilyMembersServiceImpl implements FamilyMembersService {
     public Integer saveFamilyInfo(FamilyVO familyVO) {
         return familyMembersMapper.saveFamilyInfo(familyVO);
     }
+
+    @Override
+    public Integer findCountFamily(Integer userId) {
+        Integer countFamily = familyMembersMapper.findCountFamily(userId);
+        return countFamily;
+    }
+
+    @Override
+    public Integer updateFamily(List list) {
+        return familyMembersMapper.updateFamily(list);
+    }
 }

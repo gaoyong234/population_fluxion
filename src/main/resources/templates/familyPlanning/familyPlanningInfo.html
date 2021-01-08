@@ -27,6 +27,17 @@
     var app = angular.module("myApp",[]);
     app.controller("myCtrl",function ($scope,$http) {
 
+        //查询计生信息
+        $http({
+            method:"GET",
+            url:"/familyPlanning/findFamilyPlanningInfo"
+        }).then(function success(response) {
+            console.log(response);
+            $scope.list = response.data;
+        }),function error(response){
+            console.log(response);
+        }
+
         //验证
         $scope.verification = function(data){
             //console.log(data);
@@ -84,9 +95,8 @@
         }
 
         //保存
-        $scope.obj = {};
         $scope.save = function (){
-            var data = $scope.obj;
+            var data = $scope.list;
             var msg = $scope.verification(data);
             if (msg){
                 $http({
@@ -164,24 +174,24 @@
                 <tr>
                     <td>夫妻同行：</td>
                     <td>
-                        <input type="radio" ng-model="obj.matePeer" name="matePeer" ng-value="1"/>是
-                        <input type="radio" ng-model="obj.matePeer" name="matePeer" ng-value="0"/>否
+                        <input type="radio" ng-model="list.matePeer" name="matePeer" ng-value="1"/>是
+                        <input type="radio" ng-model="list.matePeer" name="matePeer" ng-value="0"/>否
                     </td>
                     <td>婚育证明：</td>
                     <td>
-                        <input type="radio" ng-model="obj.marital" name="marital" ng-value="1"/>有
-                        <input type="radio" ng-model="obj.marital" name="marital" ng-value="0"/>无
+                        <input type="radio" ng-model="list.marital" name="marital" ng-value="1"/>有
+                        <input type="radio" ng-model="list.marital" name="marital" ng-value="0"/>无
                     </td>
                 </tr>
                 <tr>
                     <td>婚育证编码：</td>
                     <td>
-                        <input type="text" ng-model="obj.maritalNumber" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" name="maritalNumber" placeholder="请输入..."/>
+                        <input type="text" ng-model="list.maritalNumber" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" name="maritalNumber" placeholder="请输入..."/>
                     </td>
                     <td>是否验证：</td>
                     <td>
-                        <input type="radio" ng-model="obj.verify" name="verify" ng-value="1"/>是
-                        <input type="radio" ng-model="obj.verify" name="verify" ng-value="0"/>否
+                        <input type="radio" ng-model="list.verify" name="verify" ng-value="1"/>是
+                        <input type="radio" ng-model="list.verify" name="verify" ng-value="0"/>否
                     </td>
                 </tr>
                 <tr>
@@ -190,60 +200,60 @@
                 <tr>
                     <td>生育子女数：</td>
                     <td>
-                        男&nbsp&nbsp<input type="text" style="width: 60px" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" ng-model="obj.boy" name="boy" placeholder="请输入..."/>&nbsp&nbsp人&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                        女&nbsp&nbsp<input type="text" style="width: 60px" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" ng-model="obj.girl" name="girl" placeholder="请输入..."/>&nbsp&nbsp人
+                        男&nbsp&nbsp<input type="text" style="width: 60px" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" ng-model="list.boy" name="boy" placeholder="请输入..."/>&nbsp&nbsp人&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        女&nbsp&nbsp<input type="text" style="width: 60px" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" ng-model="list.girl" name="girl" placeholder="请输入..."/>&nbsp&nbsp人
                     </td>
                 </tr>
                 <tr>
                     <td>政策内：</td>
                     <td>
-                        <input type="radio" ng-model="obj.policyIn" name="policyIn" ng-value="0"/>2孩
-                        <input type="radio" ng-model="obj.policyIn" name="policyIn" ng-value="1"/>3孩
+                        <input type="radio" ng-model="list.policyIn" name="policyIn" ng-value="0"/>2孩
+                        <input type="radio" ng-model="list.policyIn" name="policyIn" ng-value="1"/>3孩
                     </td>
                     <td>政策外：</td>
                     <td>
-                        <input type="radio" ng-model="obj.policyOut" name="policyOut" ng-value="0"/>2孩
-                        <input type="radio" ng-model="obj.policyOut" name="policyOut" ng-value="1"/>3孩
+                        <input type="radio" ng-model="list.policyOut" name="policyOut" ng-value="0"/>2孩
+                        <input type="radio" ng-model="list.policyOut" name="policyOut" ng-value="1"/>3孩
                     </td>
                 </tr>
                 <tr>
                     <td>独生子女证：</td>
                     <td>
-                        <input type="radio" ng-model="obj.onlyChild" name="onlyChild" ng-value="1"/>有
-                        <input type="radio" ng-model="obj.onlyChild" name="onlyChild" ng-value="0"/>无
+                        <input type="radio" ng-model="list.onlyChild" name="onlyChild" ng-value="1"/>有
+                        <input type="radio" ng-model="list.onlyChild" name="onlyChild" ng-value="0"/>无
                     </td>
                     <td>社会抚养费征收：</td>
                     <td>
-                        <input type="radio" ng-model="obj.alimony" name="alimony" ng-value="1"/>已缴
-                        <input type="radio" ng-model="obj.alimony" name="alimony" ng-value="0"/>未缴
+                        <input type="radio" ng-model="list.alimony" name="alimony" ng-value="1"/>已缴
+                        <input type="radio" ng-model="list.alimony" name="alimony" ng-value="0"/>未缴
                     </td>
                 </tr>
                 <tr>
                     <td>怀孕避孕状况：</td>
                     <td>
                         <span ng-repeat="c in contraception">
-                            <input type="radio"  ng-model="obj.contraception" name="contraception" ng-value="c.id"/>{{c.name}}
+                            <input type="radio"  ng-model="list.contraception" name="contraception" ng-value="c.id"/>{{c.name}}
                         </span>
                     </td>
                     <td>措施时间：</td>
                     <td>
-                        <input type="date" ng-model="obj.contraceptionTime" name="contraceptionTime"/>
+                        <input type="date" ng-model="list.contraceptionTime" name="contraceptionTime"/>
                     </td>
                 </tr>
                 <tr>
                     <td>当年生育子女：</td>
                     <td>
-                        <input type="radio" ng-model="obj.onceBog" name="onceBog" ng-value="1"/>男
-                        <input type="radio" ng-model="obj.onceBog" name="onceBog" ng-value="0"/>女
+                        <input type="radio" ng-model="list.onceBog" name="onceBog" ng-value="1"/>男
+                        <input type="radio" ng-model="list.onceBog" name="onceBog" ng-value="0"/>女
                     </td>
                     <td>出生日期：</td>
                     <td>
-                        <input type="date" ng-model="obj.onceBirthday" name="onceBirthday"/>
+                        <input type="date" ng-model="list.onceBirthday" name="onceBirthday"/>
                     </td>
                     <td>政策外：</td>
                     <td>
-                        <input type="radio" ng-model="obj.oncePolicy" name="oncePolicy" ng-value="0"/>内
-                        <input type="radio" ng-model="obj.oncePolicy" name="oncePolicy" ng-value="1"/>外
+                        <input type="radio" ng-model="list.oncePolicy" name="oncePolicy" ng-value="0"/>内
+                        <input type="radio" ng-model="list.oncePolicy" name="oncePolicy" ng-value="1"/>外
                     </td>
                 </tr>
         </table>
