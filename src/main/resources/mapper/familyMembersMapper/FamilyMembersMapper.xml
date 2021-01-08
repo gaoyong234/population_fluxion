@@ -27,7 +27,7 @@
 		LEFT JOIN dic d on f.spare_int = d.id
 	WHERE f.personal = #{userId}
   </select>
-    <insert id="saveFamilyInfo" parameterType="com.population.vo.FamilyVO">
+  <insert id="saveFamilyInfo" parameterType="com.population.vo.FamilyVO">
         insert into family (fam_id, family_name, family_number,
       family_sex, family_brithday, family_vaccine,
       family_learn, del_id, personal,
@@ -39,6 +39,23 @@
       #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, #{spareStr,jdbcType=VARCHAR},
       #{spareInt,jdbcType=INTEGER})
     </insert>
+  <select id="findCountFamily" parameterType="integer" resultType="integer">
+    SELECT count(0)
+	FROM family f
+		LEFT JOIN dic d on f.spare_int = d.id
+	WHERE f.personal = #{userId}
+  </select>
+  <update id="updateFamily" parameterType="java.util.List">
+    <foreach collection="list" item="param" index= "index" open="" close="" separator =";">
+      update family
+      <set>
+        family_name = #{param.familyName}
+      </set>
+      <where>
+        fam_id = #{param.famId}
+      </where>
+    </foreach>
+  </update>
   <!--<select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 'true' as QUERYID,
     <include refid="Base_Column_List" />

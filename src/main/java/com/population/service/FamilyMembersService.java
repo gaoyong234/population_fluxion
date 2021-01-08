@@ -12,4 +12,8 @@ public interface FamilyMembersService {
     List<Dic> findRelationshipInfo();
     //保存同住家庭成员信息
     Integer saveFamilyInfo(FamilyVO familyVO);
+
+    Integer findCountFamily(Integer userId);
+    //修改
+    Integer updateFamily(List list);
 }
