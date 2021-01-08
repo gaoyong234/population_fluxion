@@ -14,6 +14,7 @@ import com.population.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -40,8 +41,9 @@ public class UserImpl implements UserService {
             m.setEstimate(false);
             m.setSlogan("该账号已被注册！！");
         }else {
-
-           Integer uin= userMapper.inertUser(user);
+            Date date = new Date();
+            user.setGmtCreate(date);
+            Integer uin= userMapper.inertUser(user);
            if (uin>0){
                m.setSlogan("注册成功！！");
                m.setEstimate(true);
