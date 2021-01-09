@@ -74,9 +74,9 @@
             }
         }
 
-        //
-        $scope.toPopulationInfoDetails = function () {
-            window.location.href = "/population/toPopulationInfoDetails"
+        $scope.toAllMessage = function (userId) {
+            window.location.href="/AllMessage/toAllMessage?userId="+userId;
+
         }
 
     })
@@ -184,7 +184,8 @@
                     <td>{{x.personalPhone}}</td>
                     <td>{{x.gmtCreate}}</td>
                     <td>
-                        <button ng-click="toPopulationInfoDetails()">查看详情</button>
+                        <button ng-click="toAllMessage(x.userId)" class="btn btn-success">查看详情</button>
+
                     </td>
                 </tr>
             </table>

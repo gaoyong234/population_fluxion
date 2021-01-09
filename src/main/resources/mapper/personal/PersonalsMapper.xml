@@ -49,7 +49,7 @@
     <result column="employing_name" jdbcType="VARCHAR" property="employingName" />
   </resultMap>
   <select id="findPersonalInfo" resultMap="BaseResultMap">
-    SELECT p.personal,e.employing_name,p.personal_name,p.personal_phone,p.gmt_create
+    SELECT p.personal,p.user_id,e.employing_name,p.personal_name,p.personal_phone,p.gmt_create
     FROM personal p
 	LEFT JOIN employing e on e.spare_int = p.personal
 	<where>

@@ -43,10 +43,12 @@
                 method:"post"
             }).success(function (response) {
                 $scope.mate=response;
-                console.log(response);
-                $scope.getCity();
-                $scope.getCounty();
-                $scope.getArea();
+                if($scope.mate.mateProvince!=null){
+                    $scope.getCity();
+                    $scope.getCounty();
+                    $scope.getArea();
+                }
+
             })
 
             //获取全部省信息
