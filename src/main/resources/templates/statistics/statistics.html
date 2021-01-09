@@ -4,66 +4,67 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="../../static/plugins/angularjs/toaster.min.css">
-    <script src="../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
-    <script src="../static/plugins/angularjs/angular.min.js"></script>
-    <link rel="stylesheet" href="../static/css/common.css">
-    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../static/css/reset.css">
-
-    <script src="../static/plugins/angularjs/angular.min.js"></script>
-    <script src="../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
-    <script src="../static/js/login/common.js"></script>
-    <script src="../static/js/showLoading.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../../static/plugins/angularjs/angular.min.js"></script>
     <script src="../static/echarts/echarts.js"></script>
     <script>
+        var app= angular.module("myApp",[]);
+        app.controller("myContr",function ($scope,$http) {
+            //查询现居住市
+            $scope.findPro = function () {
+                $http({
+                    url: "/statistics/findCity",
+                    method: "post",
+                    params: {}
+                }).success(function (response) {
+                    $scope.citys = response;
+                })
 
-        option = {
-            color: ['#3398DB'],
-            tooltip: {
-                trigger: 'axis',
-                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                }
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            xAxis: [
-                {
-                    type: 'category',
-                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                    axisTick: {
-                        alignWithLabel: true
-                    }
-                }
-            ],
-            yAxis: [
-                {
-                    type: 'value'
-                }
-            ],
-            series: [
-                {
-                    name: '直接访问',
-                    type: 'bar',
-                    barWidth: '60%',
-                    data: [1, 52, 210, 34, 90, 30, 220]
-                }
-            ]
-        };
+            }
+
+            //查询现居住县
+            $scope.nowarea = function () {
+                var provinceId = $scope.personal.nowLivingProvine;
+                var cityId = $scope.personal.nowLivingCity;
+
+                $http({
+                    url: "/Province/findCounty",
+                    method: "post",
+                    params: {"provinceId": provinceId, "cityId": cityId}
+                }).success(function (response) {
+                    $scope.nowuserarea = response;
+                })
+
+            }
+
+            //查询现居住村
+            $scope.nowfindvillage = function () {
+                var provinceId = $scope.personal.nowLivingProvine;
+                var cityId = $scope.personal.nowLivingCity;
+                var countyId = $scope.personal.nowLivingCounty;
+                $http({
+                    url: "/Province/findArea",
+                    method: "post",
+                    params: {"provinceId": provinceId, "cityId": cityId, "countyId": countyId}
+                }).success(function (response) {
+                    $scope.nowallTown = response;
+                })
+            }
+        })
     </script>
 </head>
-<body>
+<body ng-app="myApp" ng-controller="myContr" ng-init="findPro()">
 <div align="center">
 
         <h2>流动人口服务管理系统</h2>
 
 </div>
-<div>
-
+<div align="center">
+从<input type="date"> 到<input type="date">  <button>搜索</button>
+    <br>
+    区域<select>
+    <option></option>
+</select>
 </div>
 </body>
 </html>
