@@ -69,44 +69,44 @@
             });
         }
 
-        //保存
+        //保存（批量修改多条住家庭成员信息）
         $scope.list={};
         $scope.updateFamily = function(){
             var data = $scope.list
             for (var i = 0; i <data.length ; i++) {
-                if (data[i].spareInt == "父亲"){
+                if (data[i].spareInt == "10957"){
                     data[i].spareInt = 10957
                 }
-                if (data[i].spareInt == "母亲"){
+                if (data[i].spareInt == "10958"){
                     data[i].spareInt = 10958
                 }
-                if (data[i].spareInt == "儿子"){
+                if (data[i].spareInt == "10959"){
                     data[i].spareInt = 10959
                 }
-                if (data[i].spareInt == "女儿"){
+                if (data[i].spareInt == "10960"){
                     data[i].spareInt = 10960
                 }
-                if (data[i].spareInt == "哥哥"){
+                if (data[i].spareInt == "10961"){
                     data[i].spareInt = 10961
                 }
-                if (data[i].spareInt == "姐姐"){
+                if (data[i].spareInt == "10962"){
                     data[i].spareInt = 10962
                 }
-                if (data[i].spareInt == "弟弟"){
+                if (data[i].spareInt == "10963"){
                     data[i].spareInt = 10963
                 }
-                if (data[i].spareInt == "妻子"){
+                if (data[i].spareInt == "10964"){
                     data[i].spareInt = 10964
                 }
-                if (data[i].spareInt == "朋友"){
+                if (data[i].spareInt == "10965"){
                     data[i].spareInt = 10965
                 }
-                if (data[i].spareInt == "无"){
+                if (data[i].spareInt == "10965"){
                     data[i].spareInt = 10966
                 }
             }
             var list = [];
-            /*addList.push("{}")*/
+            list.push("{}")
             for (var i = 0; i <data.length ; i++) {
                 list.push(data[i])
             }
@@ -126,9 +126,10 @@
             }).then(function successCallback(response) {
                 if (response.data>0){
                     alert("保存成功!")
-                    //location.reload();
+                    location.reload();
                 }else {
                     alert("保存失败!")
+                    location.reload();
                 }
                 // 请求成功执行代码
             }, function errorCallback(response) {
@@ -336,8 +337,8 @@
                     <td>{{ls.famId}}</td>
                     <td>
                         <select id="spareInt" ng-model="ls.spareInt" ng-name="spareInt">
-                            <option value="">请选择</option>
-                            <option ng-repeat="xs in relationship" ng-value="xs.id" ng-selected="ls.spareInt==xs.name">{{xs.name}}</option>
+                            <!--<option value="">请选择</option>-->
+                            <option ng-repeat="xs in relationship" ng-value="xs.id" ng-selected="ls.spareInt==xs.id">{{xs.name}}</option>
                         </select>
                     </td>
                     <td>

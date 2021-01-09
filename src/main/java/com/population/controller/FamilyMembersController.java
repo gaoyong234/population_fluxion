@@ -66,26 +66,34 @@ public class FamilyMembersController {
         return familyMembersService.saveFamilyInfo(familyVO);
     }
 
+    /**
+     * 批量修改多条住家庭成员信息
+     * @param list
+     * @param session
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/updateFamily")
     public Integer updateFamily(@RequestParam(value = "list")List list, HttpSession session){
-        System.out.println(list);
+        Integer msg = 0;
         ArrayList<FamilyVO> objects = new ArrayList<>();
         for (int i = 0; i <list.size() ; i++) {
             JSONObject jsonObject = JSONObject.parseObject(list.get(i).toString());
-            System.out.println(list.get(i));
-            System.out.println();
             FamilyVO familyVO = new FamilyVO();
+            familyVO.setFamId(jsonObject.getInteger("famId"));
+            familyVO.setSpareInt(jsonObject.getInteger("spareInt"));
             familyVO.setFamilyName(jsonObject.getString("familyName"));
+            familyVO.setFamilySex(jsonObject.getInteger("familySex"));
+            familyVO.setFamilyVaccine(jsonObject.getInteger("familyVaccine"));
+            familyVO.setFamilyLearn(jsonObject.getInteger("familyLearn"));
             objects.add(familyVO);
         }
         User admin = (User) session.getAttribute("admin");
         Integer countFamily = familyMembersService.findCountFamily(admin.getUserId());
         if(countFamily>0){
-            Integer i = familyMembersService.updateFamily(objects);
-        }else {
-            System.out.println("无数据");
+            familyMembersService.updateFamily(objects);
+            msg = 1;
         }
-        return countFamily;
+        return msg;
     }
 }

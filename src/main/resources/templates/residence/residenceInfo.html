@@ -25,6 +25,16 @@
         var app = angular.module("myApp",[]);
         app.controller("myCtrl",function ($scope,$http) {
 
+            $http({
+                method:"GET",
+                url:"/residence/findResidenceInfo"
+            }).then(function success(response) {
+                console.log(response);
+                $scope.data = response.data;
+            }),function error(response){
+
+            }
+
             //验证
             $scope.verification = function(data){
                 //console.log(data);
@@ -187,7 +197,6 @@
             }
 
             //提交
-            $scope.data = {};
             $scope.save = function(){
                 var obj = $scope.data;
                 var msg = $scope.verification(obj);
@@ -198,10 +207,12 @@
                         params:obj
                     }).then(function success(response) {
                         console.log(response);
-                        if (response.data==1){
+                        if (response.data>0){
                             alert("提交成功！！！")
+                            location.reload();
                         }else {
                             alert("提交失败！！！")
+                            location.reload();
                         }
                     }),function error(response) {
 

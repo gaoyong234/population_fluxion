@@ -76,6 +76,7 @@
 
         $scope.toAllMessage = function (userId) {
             window.location.href="/AllMessage/toAllMessage?userId="+userId;
+
         }
 
     })
@@ -184,6 +185,7 @@
                     <td>{{x.gmtCreate}}</td>
                     <td>
                         <button ng-click="toAllMessage(x.userId)" class="btn btn-success">查看详情</button>
+
                     </td>
                 </tr>
             </table>

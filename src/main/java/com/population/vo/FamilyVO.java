@@ -36,7 +36,7 @@ public class FamilyVO {
 
     private String spareStr;
 
-    private String spareInt;
+    private Integer spareInt;
 
     public Integer getFamId() {
         return famId;
@@ -134,11 +134,11 @@ public class FamilyVO {
         this.spareStr = spareStr;
     }
 
-    public String getSpareInt() {
+    public Integer getSpareInt() {
         return spareInt;
     }
 
-    public void setSpareInt(String spareInt) {
+    public void setSpareInt(Integer spareInt) {
         this.spareInt = spareInt;
     }
 }
