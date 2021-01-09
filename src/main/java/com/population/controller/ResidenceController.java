@@ -50,7 +50,6 @@ public class ResidenceController {
         dwellVO.setSpareInt(admin.getUserId());
         Integer count = residenceService.findResidenceCountInfo(admin.getUserId());
         if(count>0){
-            System.out.println("有数据");
             return residenceService.updateResidenceInfo(dwellVO);
         }
         return residenceService.saveResidenceInfo(dwellVO);
