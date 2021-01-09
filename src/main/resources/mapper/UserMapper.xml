@@ -33,7 +33,7 @@
   </delete>
   <insert id="insert" parameterType="com.population.pojo.User">
     insert into user (user_id, user_phone, user_password, 
-      user_unit, "user_ city", user_province, 
+      user_unit, user_city, user_province,
       user_area, role_id, del_id, 
       audit_status, gmt_create, gmt_modifile, 
       spare_str, spare_int)
@@ -151,7 +151,7 @@
         user_unit = #{userUnit,jdbcType=VARCHAR},
       </if>
       <if test="userCity != null">
-        "user_ city" = #{userCity,jdbcType=INTEGER},
+        user_city = #{userCity,jdbcType=INTEGER},
       </if>
       <if test="userProvince != null">
         user_province = #{userProvince,jdbcType=INTEGER},
@@ -194,7 +194,7 @@
     set user_phone = #{userPhone,jdbcType=VARCHAR},
       user_password = #{userPassword,jdbcType=VARCHAR},
       user_unit = #{userUnit,jdbcType=VARCHAR},
-      "user_ city" = #{userCity,jdbcType=INTEGER},
+      user_city = #{userCity,jdbcType=INTEGER},
       user_province = #{userProvince,jdbcType=INTEGER},
       user_area = #{userArea,jdbcType=INTEGER},
       role_id = #{roleId,jdbcType=INTEGER},
