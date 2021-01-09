@@ -74,6 +74,11 @@
             }
         }
 
+        //
+        $scope.toPopulationInfoDetails = function () {
+            window.location.href = "/population/toPopulationInfoDetails"
+        }
+
     })
 </script>
 <script type="text/javascript">
@@ -179,7 +184,7 @@
                     <td>{{x.personalPhone}}</td>
                     <td>{{x.gmtCreate}}</td>
                     <td>
-                        <button>查看详情</button>
+                        <button ng-click="toPopulationInfoDetails()">查看详情</button>
                     </td>
                 </tr>
             </table>

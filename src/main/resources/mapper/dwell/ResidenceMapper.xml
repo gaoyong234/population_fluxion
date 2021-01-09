@@ -22,12 +22,38 @@
     <result column="del_id" jdbcType="INTEGER" property="delId" />
     <result column="spare_str" jdbcType="VARCHAR" property="spareStr" />
     <result column="spare_int" jdbcType="INTEGER" property="spareInt" />
+
+    <result column="landlord_name" jdbcType="VARCHAR" property="landlordName" />
+    <result column="landlord_phone" jdbcType="VARCHAR" property="landlordPhone" />
+    <result column="landlord_duty" jdbcType="INTEGER" property="landlordDuty" />
+    <result column="landlord_number" jdbcType="VARCHAR" property="landlordNumber" />
+    <result column="agent_name" jdbcType="VARCHAR" property="agentName" />
+    <result column="agent_phone" jdbcType="VARCHAR" property="agentPhone" />
+    <result column="agent_duty" jdbcType="INTEGER" property="agentDuty" />
+    <result column="agent_number" jdbcType="VARCHAR" property="agentNumber" />
   </resultMap>
   <sql id="Base_Column_List">
     dwe_id, dwell_way, dwell_why, house_category, house_provine, house_avenue, house_community, 
     house_way, house_house, house_bar, house_room, leaser_id, house_type, house_use, 
     message, gmt_create, gmt_modified, del_id, spare_str, spare_int
   </sql>
+  <select id="findResidenceInfo" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT d.dwe_id,d.dwell_way,d.dwell_why,d.house_category,d.leaser_id,
+				d.house_provine,d.house_avenue,d.house_community,d.house_way,d.house_house,
+				d.house_bar,d.house_room,
+				l.landlord_name,l.landlord_phone,l.landlord_duty,l.landlord_number,
+				l.agent_name,l.agent_phone,l.agent_duty,l.agent_number,
+				d.house_type,d.house_use,d.message
+        FROM dwell d
+        LEFT JOIN leaser l on d.leaser_id = l.lea_id
+        WHERE d.spare_int = #{userId}
+  </select>
+  <select id="findResidenceCountInfo" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT COUNT(0)
+        FROM dwell d
+            LEFT JOIN leaser l on d.leaser_id = l.lea_id
+            WHERE d.spare_int = #{userId}
+  </select>
   <insert id="saveResidenceInfo" parameterType="com.population.vo.DwellVO">
     insert into dwell
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -155,4 +181,67 @@
       </if>
     </trim>
   </insert>
+  <update id="updateResidenceInfo" parameterType="com.population.pojo.Dwell">
+    update dwell
+    <set>
+      <if test="dwellWay != null">
+        dwell_way = #{dwellWay,jdbcType=INTEGER},
+      </if>
+      <if test="dwellWhy != null">
+        dwell_why = #{dwellWhy,jdbcType=INTEGER},
+      </if>
+      <if test="houseCategory != null">
+        house_category = #{houseCategory,jdbcType=INTEGER},
+      </if>
+      <if test="houseProvine != null">
+        house_provine = #{houseProvine,jdbcType=VARCHAR},
+      </if>
+      <if test="houseAvenue != null">
+        house_avenue = #{houseAvenue,jdbcType=VARCHAR},
+      </if>
+      <if test="houseCommunity != null">
+        house_community = #{houseCommunity,jdbcType=VARCHAR},
+      </if>
+      <if test="houseWay != null">
+        house_way = #{houseWay,jdbcType=VARCHAR},
+      </if>
+      <if test="houseHouse != null">
+        house_house = #{houseHouse,jdbcType=VARCHAR},
+      </if>
+      <if test="houseBar != null">
+        house_bar = #{houseBar,jdbcType=VARCHAR},
+      </if>
+      <if test="houseRoom != null">
+        house_room = #{houseRoom,jdbcType=VARCHAR},
+      </if>
+      <if test="leaserId != null">
+        leaser_id = #{leaserId,jdbcType=INTEGER},
+      </if>
+      <if test="houseType != null">
+        house_type = #{houseType,jdbcType=INTEGER},
+      </if>
+      <if test="houseUse != null">
+        house_use = #{houseUse,jdbcType=INTEGER},
+      </if>
+      <if test="message != null">
+        message = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delId != null">
+        del_id = #{delId,jdbcType=INTEGER},
+      </if>
+      <if test="spareStr != null">
+        spare_str = #{spareStr,jdbcType=VARCHAR},
+      </if>
+      <if test="spareInt != null">
+        spare_int = #{spareInt,jdbcType=INTEGER},
+      </if>
+    </set>
+    where dwe_id = #{dweId,jdbcType=INTEGER}
+  </update>
 </mapper>

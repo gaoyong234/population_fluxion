@@ -25,6 +25,22 @@ public class PopulationController {
         return "population/populationInfo";
     }
 
+    /**
+     * 跳转到流动人口信息详情页面
+     * @return
+     */
+    @RequestMapping("/toPopulationInfoDetails")
+    public String toPopulationInfoDetails(){
+        return "population/populationInfoDetails";
+    }
+
+    /**
+     *  查询所有流动人口信息+模糊查询+分页
+     * @param pageNum
+     * @param pageSize
+     * @param personalVO
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/findPersonalInfo")
     public PageInfo<PersonalVO> findPersonalInfo(@RequestParam(value = "pageNum",defaultValue = "1")Integer pageNum,
@@ -32,5 +48,6 @@ public class PopulationController {
                                                  PersonalVO personalVO){
         return populationService.findPersonalInfo(pageNum,pageSize,personalVO);
     }
+
 
 }

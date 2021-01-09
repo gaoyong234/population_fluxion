@@ -14,14 +14,14 @@
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="spare_str" jdbcType="VARCHAR" property="spareStr" />
-    <result column="spare_int" jdbcType="VARCHAR" property="spareInt" />
+    <result column="spare_int" jdbcType="INTEGER" property="spareInt" />
   </resultMap>
   <sql id="Base_Column_List">
     fam_id, family_name, family_number, family_sex, family_brithday, family_vaccine, 
     family_learn, del_id, personal, gmt_create, gmt_modified, spare_str, spare_int
   </sql>
   <select id="findFaminyInfo" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    SELECT f.fam_id,d.name as spare_int,f.family_number,f.family_name,f.family_sex,f.family_brithday,
+    SELECT f.fam_id,f.spare_int,f.family_number,f.family_name,f.family_sex,f.family_brithday,
 			f.family_vaccine,f.family_learn
 	FROM family f
 		LEFT JOIN dic d on f.spare_int = d.id
@@ -49,7 +49,11 @@
     <foreach collection="list" item="param" index= "index" open="" close="" separator =";">
       update family
       <set>
-        family_name = #{param.familyName}
+        spare_int = #{param.spareInt},
+        family_name = #{param.familyName},
+        family_sex = #{param.familySex},
+        family_vaccine = #{param.familyVaccine},
+        family_learn = #{param.familyLearn}
       </set>
       <where>
         fam_id = #{param.famId}
