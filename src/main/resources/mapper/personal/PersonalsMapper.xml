@@ -51,10 +51,10 @@
   <select id="findPersonalInfo" resultMap="BaseResultMap">
     SELECT p.personal,p.user_id,e.employing_name,p.personal_name,p.personal_phone,p.gmt_create
     FROM personal p
-	LEFT JOIN employing e on e.spare_int = p.personal
+	LEFT JOIN employing e on e.spare_int = p.user_id
 	<where>
         <if test="gmtCreate != null and endCreate != null">
-            and p.gmt_create BETWEEN #{gmtCreate} and #{endCreate}
+            p.gmt_create &gt;= #{gmtCreate} and p.gmt_create &lt;= #{endCreate}
         </if>
         <if test="employingName != null and employingName != ''">
             and e.employing_name like CONCAT("%",#{employingName},"%")
