@@ -53,6 +53,7 @@
         $scope.query = function(pageNum){
             $scope.fuzzyQuery.pageNum = pageNum;
             var dataList = $scope.fuzzyQuery;
+            console.log(dataList)
             $http({
                 method:"GET",
                 url:"/population/findPersonalInfo",
@@ -65,7 +66,7 @@
                     totalNum: response.data.pages, // 总页码
                     totalList: response.data.total, // 记录总数量
                     callback: function (pageNum) { //回调函数
-                        console.log(pageNum);
+                        //console.log(pageNum);
                         $scope.query(pageNum);
                     }
                 });
@@ -178,7 +179,7 @@
                 </tr>
                 <tr ng-repeat="x in list">
                     <td><input type="checkbox" name="c1"></td>
-                    <td>{{x.personal}}</td>
+                    <td>{{x.userId}}</td>
                     <td>{{x.employingName}}</td>
                     <td>{{x.personalName}}</td>
                     <td>{{x.personalPhone}}</td>
@@ -191,7 +192,7 @@
             </table>
             <!--分页-->
             <div id="pages" class="page_div"></div>
-            <button style="width: 150px">提交</button>
+            <button style="width: 150px" ng-click="submit()">提交</button>
         </div>
     </div>
 </body>
