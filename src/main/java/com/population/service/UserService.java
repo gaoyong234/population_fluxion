@@ -22,4 +22,6 @@ public interface UserService {
     Message changeUserAudit(List<Integer> auditList,Integer auditStatus);
 
     UserVO findOneUser(Integer userId);
+
+    PageInfo<UserVO> findUserByRoleId(Integer pageNum,Integer pageSize,User user);
 }

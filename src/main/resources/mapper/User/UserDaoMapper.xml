@@ -35,6 +35,7 @@
     <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
     <result column="city_name" jdbcType="VARCHAR" property="cityName" />
     <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
   </resultMap>
   <sql id="Base_Column_List">
     user_id, user_phone, user_password, user_unit,user_city, user_province, user_area,
@@ -54,6 +55,18 @@
       <if test="roleId != null and roleId != ''">
         and role_id>#{roleId}
       </if>
+      <if test="roleId==2">
+        and user_province =#{userProvince}
+      </if>
+      <if test="roleId==3">
+        and user_province =#{userProvince}
+        and user_city = #{userCity}
+      </if>
+      <if test="roleId==4">
+        and user_province =#{userProvince}
+        and user_city = #{userCity}
+        and user_area =#{userArea}
+      </if>
     </where>
     order by gmt_create DESC
   </select>
@@ -70,5 +83,33 @@
 	LEFT JOIN province prov on u.user_city = prov.id
 	LEFT JOIN province provi on u.user_area = provi.id
 	where user_id=#{userId}
+  </select>
+  <select id="selectUserByRoleId" resultMap="BaseMap" parameterType="integer">
+    select
+    user_id, user_phone, user_password, user_unit,user_city, user_province, user_area,
+    us.role_id, us.del_id, audit_status, us.gmt_create, us.gmt_modifile, us.spare_str,
+    us.spare_int,r.role_name
+    from user us
+    left join role r on r.role_id=us.role_id
+    <where>
+      and us.role_id>#{roleId}
+      <if test="userUnit != null and userUnit != ''">
+        and user_unit like CONCAT("%",#{userUnit},"%")
+      </if>
+      <if test="roleId==2">
+        and user_province =#{userProvince}
+      </if>
+      <if test="roleId==3">
+        and user_province =#{userProvince}
+        and user_city = #{userCity}
+      </if>
+      <if test="roleId==4">
+        and user_province =#{userProvince}
+        and user_city = #{userCity}
+        and user_area =#{userArea}
+      </if>
+      and us.del_id=0
+    </where>
+
   </select>
 </mapper>
