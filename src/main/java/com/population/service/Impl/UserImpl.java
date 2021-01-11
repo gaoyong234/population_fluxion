@@ -83,5 +83,13 @@ public class UserImpl implements UserService {
         return userDaoMapper.selectOneUser(userId);
     }
 
+    @Override
+    public PageInfo<UserVO> findUserByRoleId(Integer pageNum, Integer pageSize,User user) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<UserVO> list = userDaoMapper.selectUserByRoleId(user);
+        PageInfo<UserVO> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+
 
 }
