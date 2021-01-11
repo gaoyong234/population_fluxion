@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.population.dao.OutsiderMapper">
+  <resultMap id="BaseMap" type="com.population.vo.OutsiderVo">
+    <result column="outnumber" jdbcType="INTEGER" property="outnumber" />
+    <result column="site" jdbcType="VARCHAR" property="site" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, fid
+  </sql>
+  <select id="findOutsider" parameterType="com.population.pojo.User" resultMap="BaseMap">
+    select count(0) as outnumber,p.name as site
+    from personal per
+    LEFT JOIN province p on p.id=per.census_provine
+    <where>
+      AND per.census_provine &lt;&gt; per.now_living_provine
+      AND per.now_living_provine = #{userProvince}
+      <if test="userCity != null">
+        AND per.now_living_city = #{userCity}
+      </if>
+      <if test="userArea != null">
+        AND per.now_living_county = #{userArea}
+      </if>
+      <if test="censusVill != null">
+        AND per.now_living_vill = #{censusVill}
+      </if>
+      <if test="gmtCreate != null">
+        AND per.gmt_modified &lt; #{gmtCteate}
+      </if>
+      <if test="gmtModifile != null">
+        AND per.gmt_modifile &gt; #{gmtModifile}
+      </if>
+    </where>
+    GROUP BY per.census_provine
+  </select>
+</mapper>
