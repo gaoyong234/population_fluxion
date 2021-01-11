@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -75,6 +76,7 @@ public class PersonalController {
     @RequestMapping("updatePersonal")
     @ResponseBody
     public Integer updatePersonal(personal personal){
+        personal.setGmtModified(new Date());
        Integer integer= personalService.updatePersonal(personal);
        return integer;
     }

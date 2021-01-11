@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 @Service
 public class PersonalImpl implements PersonalService {
     @Autowired
@@ -24,6 +26,7 @@ public class PersonalImpl implements PersonalService {
         personal personal=personalMapper.findUserId(userId);
         if(personal==null){
             com.population.pojo.personal per = new personal();
+            per.setGmtCreate(new Date());
             per.setUserId(userId);
             personalMapper.insertSelective(per);
         }

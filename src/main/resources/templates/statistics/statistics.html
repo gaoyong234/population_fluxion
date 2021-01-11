@@ -10,61 +10,162 @@
     <script>
         var app= angular.module("myApp",[]);
         app.controller("myContr",function ($scope,$http) {
-            //查询现居住市
-            $scope.findPro = function () {
+            //查询户籍省
+            $scope.findCity=function () {
                 $http({
-                    url: "/statistics/findCity",
+                    url: "/Province/findProvince",
                     method: "post",
-                    params: {}
                 }).success(function (response) {
-                    $scope.citys = response;
+                    $scope.usProvince=response;
+                })
+            }
+
+            //查询户籍市
+            $scope.province=function () {
+                var provinceId=$scope.userOut.userProvince;
+                $http({
+                    url: "/Province/findCity",
+                    method: "post",
+                    params: {"provinceId":provinceId}
+                }).success(function (response) {
+                    $scope.usCity=response;
                 })
 
             }
 
-            //查询现居住县
-            $scope.nowarea = function () {
-                var provinceId = $scope.personal.nowLivingProvine;
-                var cityId = $scope.personal.nowLivingCity;
+            //查询户籍县
+            $scope.area=function () {
+                var provinceId=$scope.userOut.userProvince;
+                var cityId=$scope.personal.userCity;
 
                 $http({
                     url: "/Province/findCounty",
                     method: "post",
-                    params: {"provinceId": provinceId, "cityId": cityId}
+                    params: {"provinceId":provinceId,"cityId":cityId}
                 }).success(function (response) {
-                    $scope.nowuserarea = response;
+                    $scope.usarea=response;
                 })
 
             }
 
-            //查询现居住村
-            $scope.nowfindvillage = function () {
-                var provinceId = $scope.personal.nowLivingProvine;
-                var cityId = $scope.personal.nowLivingCity;
-                var countyId = $scope.personal.nowLivingCounty;
+            //查询户籍村
+            $scope.findvillage=function(){
+                var provinceId=$scope.userOut.userProvince;
+                var cityId=$scope.personal.userCity;
+                var countyId = $scope.personal.userArea;
                 $http({
                     url: "/Province/findArea",
                     method: "post",
-                    params: {"provinceId": provinceId, "cityId": cityId, "countyId": countyId}
+                    params:{"provinceId":provinceId,"cityId":cityId,"countyId":countyId}
                 }).success(function (response) {
-                    $scope.nowallTown = response;
+                    $scope.allTown = response;
                 })
             }
+
+            $scope.findUser=function () {
+                $http({
+                    url:"/statistics/findUser",
+                    method:"get",
+                    params:{}
+                }).success(function (response) {
+                    $scope.userOut=response;
+                    $scope.findCity();
+                    $scope.province();
+
+                })
+            }
+
+            $scope.findOutsider=function(){
+                var userOut=$scope.personal;
+                $http({
+                    url:"/statistics/findOutsider",
+                    method:"get",
+                    params:{userOut}
+                }).success(function (response) {
+                    $scope.outSide=response;
+                })
+            }
+
+
+        })
+    </script>
+
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        $(document).ready(function() {
+            var myContainer = echarts.init(document.getElementById('main'));
+            // var myContainer = echarts.init(myChart);
+            function bindData() {
+                //为了效果明显，我们做了延迟读取数据
+                setTimeout(function() {
+                    //异步加载数据,get请求我们刚刚准备的json文件,正式开发中调用相应的接口
+                    $.get('/statistics/findOutsider', function(res) {
+
+                        console.log("res:"+res)
+                       var name=[];
+                        var date=[]
+                        for (var i = 0; i < res.length; i++) {
+                            name.push(res[i].site)
+                            date.push(res[i].outnumber)
+                        }
+                        //获取数据后，隐藏loading动画
+                        myContainer.setOption(option = {
+                            title: {
+                                text: 'echartsLoading加载'
+                            },
+                            tooltip: {},
+                            legend: {},
+                            // xAxis代表x轴的数据
+                            xAxis: {
+                                data: name,
+                                // 字段对应从json里面的字段
+                            },
+                            // yAxis代表y轴的数据,不写会自动适应数据
+                            yAxis: {},
+                            // series代表鼠标悬浮到图标上时提示的对应信息
+                            series: [{
+                                name: '访问量',
+                                type: 'bar',
+                                data: date,
+                                // 字段对应从json里面的字段
+                            }]
+                        });
+                    })
+                }, 0)
+            }
+            bindData();
+            // 使用刚指定的配置项和数据显示图表。
+            // myChart.setOption(option);
         })
     </script>
 </head>
-<body ng-app="myApp" ng-controller="myContr" ng-init="findPro()">
+<body ng-app="myApp" ng-controller="myContr" ng-init="findUser()">
 <div align="center">
 
         <h2>流动人口服务管理系统</h2>
 
 </div>
 <div align="center">
-从<input type="date"> 到<input type="date">  <button>搜索</button>
+从<input type="date" ng-model="personal.gmtCreate"> 到<input type="date" ng-model="personal.gmtModifile">  <button ng-click="findOutsider()">搜索</button>
     <br>
-    区域<select>
-    <option></option>
-</select>
+    <div class="form_text_ipt">
+        区域:
+    <select style="width: 95px; height: 40px" ng-click="area()" ng-model="personal.userCity">
+        <option ng-repeat="pr in usCity"  ng-value="pr.id" ng-selected="pr.id==personal.userCity">{{pr.name}}</option>
+    </select >
+
+    <select style="width: 100px; height: 40px" ng-click="findvillage()" ng-model="personal.userArea">
+        <option ng-repeat="re in usarea" ng-value="re.id" ng-selected="re.id==personal.userArea">{{re.name}}</option>
+    </select>
+
+    <select style="width: 100px; height: 40px" id="userCity" ng-model="personal.censusVill">
+        <option ng-repeat="al in allTown" ng-value="al.id" ng-selected="al.id==personal.censusVill">{{al.name}}</option>
+    </select>
+        <div id="main" style="width: 600px;height:400px;"></div>
+
+<div>
+    <table></table>
+
 </div>
 </body>
 </html>
