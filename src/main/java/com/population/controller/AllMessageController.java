@@ -14,16 +14,16 @@ public class AllMessageController {
     @Autowired
     private AllMessageService allMessageService;
 
-     @RequestMapping("/toAllMessage")
+    @RequestMapping("/toAllMessage")
     public ModelAndView toAllMessage(Integer userId, ModelAndView modelAndView){
          System.out.println(userId);
          modelAndView.setViewName("allMessage/AllMessage");
          modelAndView.addObject("userId",userId);
          return modelAndView;
-     }
-     @RequestMapping("/findAllMessage")
-     @ResponseBody
+    }
+    @RequestMapping("/findAllMessage")
+    @ResponseBody
     public AllMessage findAllMessage(Integer userId){
          return allMessageService.findAllMessage(userId);
-     }
+    }
 }

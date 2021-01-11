@@ -26,15 +26,6 @@ public class PopulationController {
     }
 
     /**
-     * 跳转到流动人口信息详情页面
-     * @return
-     */
-    @RequestMapping("/toPopulationInfoDetails")
-    public String toPopulationInfoDetails(){
-        return "population/populationInfoDetails";
-    }
-
-    /**
      *  查询所有流动人口信息+模糊查询+分页
      * @param pageNum
      * @param pageSize

@@ -35,7 +35,7 @@ public class AllMessageServiceImpl implements AllMessageService {
         allMessage.setChild(childMapper.findFamilyPlanningInfo(userId));
         allMessage.setEmployingVO(employingDaoMapper.selectEmploying(userId));
         //居住信息
-        allMessage.setDwellVO(null);
+        allMessage.setDwellVO(residenceMapper.findResidenceInfo(userId));
         return allMessage;
     }
 }

@@ -32,7 +32,910 @@
     </script>
 </head>
 <body ng-app="myApp" ng-controller="myController">
-<input type="hidden" th:value="${userId}" ng-model="allMessage.userId" id="userId">
+    <input type="hidden" th:value="${userId}" ng-model="allMessage.userId" id="userId">
+    <div align="center" style="width: 100%; height: 100px">
+        <div style="border: 1px solid black; width: 50%;height: 50px; margin-top: 20px">
+            <div style="margin-top: 10px"><span style="font-size: 20px">流动人口信息详情</span></div>
+        </div>
+    </div>
 
+    <div style="border: 1px solid black; width: 100%;height: 100%;">
+        <div style="width: 100px;height: 750px;border: 2px solid black;float: left;margin-left: 15%;">
+            <div align="center" style="margin-top: 350px;">个人信息</div>
+        </div>
+        <div style="float: left;margin-left: 50px;">
+            <table width="90%">
+                <tr>
+                    <td style="color: red">姓名:</td>
+                    <td>
+                        <input type="text" id="personalName" name="personalName" ng-model="personal.personalName">
+                    </td>
+                    <td style="color: red">曾用名:</td>
+                    <td><input type="text" id="rollName" name="rollName" ng-model="personal.rollName"></td>
+                    <td rowspan="3"><img src="" height="100px" width="100px"></td>
+                </tr>
+                <tr>
+                    <td>性别:</td>
+                    <td>
+                        <select ng-model="personal.personalSax">
+                            <option value="1">男</option>
+                            <option value="0">女</option>
+                        </select>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">来本地时间:</td>
+                    <td><input type="date" id="arrival" name="arrival" ng-model="personal.arrival"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">公民身份证号码:</td>
+                    <td><input type="text" id="idCard" name="idCard" ng-model="personal.idCard"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">民族:</td>
+                    <td><select >
+                        <option ng-repeat="na in nation" ng-value="{{na.id}}" ng-model="personal.notion">{{na.name}}</option>
+                    </select></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">户籍详细地址:</td>
+                    <td>     <div class="form_text_ipt">
+                        <select ng-model="personal.censusProvine"  type="text" style="width: 95px; height: 40px" ng-click="province()">
+                            <option ng-repeat="ci in city"  ng-value="ci.id" ng-selected="ci.id==personal.censusProvine">{{ci.name}}</option></select>
+
+                        <select style="width: 95px; height: 40px" ng-click="area()" ng-model="personal.censusCity">
+                            <option ng-repeat="pr in provi"  ng-value="pr.id" ng-selected="pr.id==personal.censusCity">{{pr.name}}</option>
+                        </select >
+
+                        <select style="width: 100px; height: 40px" ng-click="findvillage()" ng-model="personal.censusCounty">
+                            <option ng-repeat="re in userarea" ng-value="re.id" ng-selected="re.id==personal.censusCounty">{{re.name}}</option>
+                        </select>
+
+                        <select style="width: 100px; height: 40px" id="userCity" ng-model="personal.censusVill">
+                            <option ng-repeat="al in allTown" ng-value="al.id" ng-selected="al.id==personal.censusVill">{{al.name}}</option>
+                        </select>
+                        <input ng-model="personal.censusVillage">村(社区)
+                    </div>
+
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">现居住地址:</td>
+                    <td>  <div class="form_text_ipt">
+                        <select ng-model="personal.nowLivingProvine"  type="text" style="width: 95px; height: 40px" ng-click="nowprovince()">
+                            <option ng-repeat="ci in nowcity"  ng-value="ci.id" ng-selected="ci.id==personal.nowLivingProvine">{{ci.name}}</option></select>
+
+                        <select style="width: 95px; height: 40px" ng-click="nowarea()" ng-model="personal.nowLivingCity">
+                            <option ng-repeat="pr in nowprovi"  ng-value="pr.id" ng-selected="pr.id==personal.nowLivingCity">{{pr.name}}</option>
+                        </select >
+
+                        <select style="width: 100px; height: 40px" ng-click="nowfindvillage()" ng-model="personal.nowLivingCounty">
+                            <option ng-repeat="re in nowuserarea" ng-value="re.id" ng-selected="re.id==personal.nowLivingCounty">{{re.name}}</option>
+                        </select>
+
+                        <select style="width: 100px; height: 40px"  ng-model="personal.nowLivingVill">
+                            <option ng-repeat="al in nowallTown" ng-value="al.id" ng-selected="al.id==personal.nowLivingVill">{{al.name}}</option>
+                        </select>
+                        <input ng-model="personal.nowLivingVillage">村(社区)
+                    </div></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input ng-model="personal.nowLivingBar">(门楼详址)</td>
+                </tr>
+                <tr>
+                    <td>本人联系方式:</td>
+                </tr>
+                <tr>
+                    <td>固定电话:</td>
+                    <td><input ng-model="personal.personalLandlineNumber"></td>
+                    <td style="color: red">移动电话:</td>
+                    <td><input id="personalPhone" name="personalPhone" ng-model="personal.personalPhone"></td>
+                </tr>
+                <tr>
+                    <td>紧急联系方式:</td>
+                </tr>
+                <tr>
+                    <td>联系人:</td>
+                    <td><input ng-model="personal.linkman"></td>
+                </tr>
+                <tr>
+                    <td>固定电话:</td>
+                    <td><input ng-model="personal.linkmanLandlineNumber"></td>
+                    <td>移动电话:</td>
+                    <td><input ng-model="personal.linkmanPhone"></td>
+                </tr>
+                <!--        $scope.culture=[];//文化程度-->
+                <tr>
+                    <td>文化程度:</td>
+                    <td ><span ng-repeat="cu in culture"><input ng-model="personal.culture" ng-value="{{cu.id}}" type="radio" name="culture">{{cu.name}}</span></td>
+                </tr>
+                <tr>
+                    <!--            $scope.politics=[];//政治面貌-->
+                    <td>政治面貌:</td>
+                    <td ><span ng-repeat="po in politics"><input ng-model="personal.politicsStatus" ng-value="{{po.id}}" type="radio" name="politics">{{po.name}}</span></td>
+                </tr>
+                <tr>
+
+                    <!--            $scope.religion=[];//宗教信仰-->
+                    <td style="color: red">宗教信仰:</td>
+                    <td ><span ng-repeat="re in religion"><input id="religion" ng-model="personal.religion" ng-value="{{re.id}}" type="radio" name="religion">{{re.name}}</span></td>
+                </tr>
+                <tr>
+                    <td>身体状况:</td>
+                </tr>
+                <tr>
+                    <td>身高:</td>
+                    <td><input ng-model="personal.stature">cm</td>
+                    <td>体重:</td>
+                    <td><input ng-model="personal.weight">公斤</td>
+                </tr>
+                <tr>
+                    <!--            $scope.blood=[];//血型-->
+                    <td>血型:</td>
+                    <td ><span ng-repeat="blo in blood"><input ng-model="personal.bloodType" value="{{blo.id}}" type="radio" name="blood">{{blo.name}}</span></td>
+
+                </tr>
+                <tr>
+                    <td>健康状况:</td>
+                    <td><input type="radio" name="a" value="0" ng-model="personal.health">健康
+                        <input type="radio" name="a" value="1">一般
+                        <input type="radio" name="a" value="2">残疾( 残疾证号 )
+                        <input ng-model="personal.disabilityNumber"></td>
+                </tr>
+                <tr>
+                    <!--            $scope.work=[];//就业情况-->
+                    <td style="color: red">从业状况:</td>
+                    <td ><span ng-repeat="wo in work"><input id="workingConditions" name="workingConditions" ng-model="personal.workingConditions" ng-value="{{wo.id}}" type="radio" >{{wo.name}}</span></td>
+                </tr>
+                <tr>
+                    <!--            $scope.marriage=[];//婚姻状况-->
+                    <td>婚姻状况:</td>
+                    <td ><span ng-repeat="mar in marriage"><input ng-model="personal.maritalStatus" ng-value="{{mar.id}}" type="radio" name="marriage">{{mar.name}}</span></td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div style="border: 1px solid black; width: 100%;height: 100%;">
+        <div style="width: 100px;height: 750px;border: 2px solid black;float: left;margin-left: 15%;">
+            <div align="center" style="margin-top: 350px;">配偶信息</div>
+        </div>
+        <div style="float: left;margin-left: 50px;">
+            <table width="90%">
+                <tr>
+                    <td style="color: red">姓名:</td>
+                    <td>
+                        <input type="text" id="personalName" name="personalName" ng-model="personal.personalName">
+                    </td>
+                    <td style="color: red">曾用名:</td>
+                    <td><input type="text" id="rollName" name="rollName" ng-model="personal.rollName"></td>
+                    <td rowspan="3"><img src="" height="100px" width="100px"></td>
+                </tr>
+                <tr>
+                    <td>性别:</td>
+                    <td>
+                        <select ng-model="personal.personalSax">
+                            <option value="1">男</option>
+                            <option value="0">女</option>
+                        </select>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">来本地时间:</td>
+                    <td><input type="date" id="arrival" name="arrival" ng-model="personal.arrival"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">公民身份证号码:</td>
+                    <td><input type="text" id="idCard" name="idCard" ng-model="personal.idCard"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">民族:</td>
+                    <td><select >
+                        <option ng-repeat="na in nation" ng-value="{{na.id}}" ng-model="personal.notion">{{na.name}}</option>
+                    </select></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">户籍详细地址:</td>
+                    <td>     <div class="form_text_ipt">
+                        <select ng-model="personal.censusProvine"  type="text" style="width: 95px; height: 40px" ng-click="province()">
+                            <option ng-repeat="ci in city"  ng-value="ci.id" ng-selected="ci.id==personal.censusProvine">{{ci.name}}</option></select>
+
+                        <select style="width: 95px; height: 40px" ng-click="area()" ng-model="personal.censusCity">
+                            <option ng-repeat="pr in provi"  ng-value="pr.id" ng-selected="pr.id==personal.censusCity">{{pr.name}}</option>
+                        </select >
+
+                        <select style="width: 100px; height: 40px" ng-click="findvillage()" ng-model="personal.censusCounty">
+                            <option ng-repeat="re in userarea" ng-value="re.id" ng-selected="re.id==personal.censusCounty">{{re.name}}</option>
+                        </select>
+
+                        <select style="width: 100px; height: 40px" id="userCity" ng-model="personal.censusVill">
+                            <option ng-repeat="al in allTown" ng-value="al.id" ng-selected="al.id==personal.censusVill">{{al.name}}</option>
+                        </select>
+                        <input ng-model="personal.censusVillage">村(社区)
+                    </div>
+
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">现居住地址:</td>
+                    <td>  <div class="form_text_ipt">
+                        <select ng-model="personal.nowLivingProvine"  type="text" style="width: 95px; height: 40px" ng-click="nowprovince()">
+                            <option ng-repeat="ci in nowcity"  ng-value="ci.id" ng-selected="ci.id==personal.nowLivingProvine">{{ci.name}}</option></select>
+
+                        <select style="width: 95px; height: 40px" ng-click="nowarea()" ng-model="personal.nowLivingCity">
+                            <option ng-repeat="pr in nowprovi"  ng-value="pr.id" ng-selected="pr.id==personal.nowLivingCity">{{pr.name}}</option>
+                        </select >
+
+                        <select style="width: 100px; height: 40px" ng-click="nowfindvillage()" ng-model="personal.nowLivingCounty">
+                            <option ng-repeat="re in nowuserarea" ng-value="re.id" ng-selected="re.id==personal.nowLivingCounty">{{re.name}}</option>
+                        </select>
+
+                        <select style="width: 100px; height: 40px"  ng-model="personal.nowLivingVill">
+                            <option ng-repeat="al in nowallTown" ng-value="al.id" ng-selected="al.id==personal.nowLivingVill">{{al.name}}</option>
+                        </select>
+                        <input ng-model="personal.nowLivingVillage">村(社区)
+                    </div></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input ng-model="personal.nowLivingBar">(门楼详址)</td>
+                </tr>
+                <tr>
+                    <td>本人联系方式:</td>
+                </tr>
+                <tr>
+                    <td>固定电话:</td>
+                    <td><input ng-model="personal.personalLandlineNumber"></td>
+                    <td style="color: red">移动电话:</td>
+                    <td><input id="personalPhone" name="personalPhone" ng-model="personal.personalPhone"></td>
+                </tr>
+                <tr>
+                    <td>紧急联系方式:</td>
+                </tr>
+                <tr>
+                    <td>联系人:</td>
+                    <td><input ng-model="personal.linkman"></td>
+                </tr>
+                <tr>
+                    <td>固定电话:</td>
+                    <td><input ng-model="personal.linkmanLandlineNumber"></td>
+                    <td>移动电话:</td>
+                    <td><input ng-model="personal.linkmanPhone"></td>
+                </tr>
+                <!--        $scope.culture=[];//文化程度-->
+                <tr>
+                    <td>文化程度:</td>
+                    <td ><span ng-repeat="cu in culture"><input ng-model="personal.culture" ng-value="{{cu.id}}" type="radio" name="culture">{{cu.name}}</span></td>
+                </tr>
+                <tr>
+                    <!--            $scope.politics=[];//政治面貌-->
+                    <td>政治面貌:</td>
+                    <td ><span ng-repeat="po in politics"><input ng-model="personal.politicsStatus" ng-value="{{po.id}}" type="radio" name="politics">{{po.name}}</span></td>
+                </tr>
+                <tr>
+
+                    <!--            $scope.religion=[];//宗教信仰-->
+                    <td style="color: red">宗教信仰:</td>
+                    <td ><span ng-repeat="re in religion"><input id="religion" ng-model="personal.religion" ng-value="{{re.id}}" type="radio" name="religion">{{re.name}}</span></td>
+                </tr>
+                <tr>
+                    <td>身体状况:</td>
+                </tr>
+                <tr>
+                    <td>身高:</td>
+                    <td><input ng-model="personal.stature">cm</td>
+                    <td>体重:</td>
+                    <td><input ng-model="personal.weight">公斤</td>
+                </tr>
+                <tr>
+                    <!--            $scope.blood=[];//血型-->
+                    <td>血型:</td>
+                    <td ><span ng-repeat="blo in blood"><input ng-model="personal.bloodType" value="{{blo.id}}" type="radio" name="blood">{{blo.name}}</span></td>
+
+                </tr>
+                <tr>
+                    <td>健康状况:</td>
+                    <td><input type="radio" name="a" value="0" ng-model="personal.health">健康
+                        <input type="radio" name="a" value="1">一般
+                        <input type="radio" name="a" value="2">残疾( 残疾证号 )
+                        <input ng-model="personal.disabilityNumber"></td>
+                </tr>
+                <tr>
+                    <!--            $scope.work=[];//就业情况-->
+                    <td style="color: red">从业状况:</td>
+                    <td ><span ng-repeat="wo in work"><input id="workingConditions" name="workingConditions" ng-model="personal.workingConditions" ng-value="{{wo.id}}" type="radio" >{{wo.name}}</span></td>
+                </tr>
+                <tr>
+                    <!--            $scope.marriage=[];//婚姻状况-->
+                    <td>婚姻状况:</td>
+                    <td ><span ng-repeat="mar in marriage"><input ng-model="personal.maritalStatus" ng-value="{{mar.id}}" type="radio" name="marriage">{{mar.name}}</span></td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div style="border: 1px solid black; width: 100%;height: 100%;">
+        <div style="width: 100px;height: 750px;border: 2px solid black;float: left;margin-left: 15%;">
+            <div align="center" style="margin-top: 350px;">同住家庭</div>
+        </div>
+        <div style="float: left;margin-left: 50px;">
+            <table width="90%">
+                <tr>
+                    <td style="color: red">姓名:</td>
+                    <td>
+                        <input type="text" id="personalName" name="personalName" ng-model="personal.personalName">
+                    </td>
+                    <td style="color: red">曾用名:</td>
+                    <td><input type="text" id="rollName" name="rollName" ng-model="personal.rollName"></td>
+                    <td rowspan="3"><img src="" height="100px" width="100px"></td>
+                </tr>
+                <tr>
+                    <td>性别:</td>
+                    <td>
+                        <select ng-model="personal.personalSax">
+                            <option value="1">男</option>
+                            <option value="0">女</option>
+                        </select>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">来本地时间:</td>
+                    <td><input type="date" id="arrival" name="arrival" ng-model="personal.arrival"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">公民身份证号码:</td>
+                    <td><input type="text" id="idCard" name="idCard" ng-model="personal.idCard"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">民族:</td>
+                    <td><select >
+                        <option ng-repeat="na in nation" ng-value="{{na.id}}" ng-model="personal.notion">{{na.name}}</option>
+                    </select></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">户籍详细地址:</td>
+                    <td>     <div class="form_text_ipt">
+                        <select ng-model="personal.censusProvine"  type="text" style="width: 95px; height: 40px" ng-click="province()">
+                            <option ng-repeat="ci in city"  ng-value="ci.id" ng-selected="ci.id==personal.censusProvine">{{ci.name}}</option></select>
+
+                        <select style="width: 95px; height: 40px" ng-click="area()" ng-model="personal.censusCity">
+                            <option ng-repeat="pr in provi"  ng-value="pr.id" ng-selected="pr.id==personal.censusCity">{{pr.name}}</option>
+                        </select >
+
+                        <select style="width: 100px; height: 40px" ng-click="findvillage()" ng-model="personal.censusCounty">
+                            <option ng-repeat="re in userarea" ng-value="re.id" ng-selected="re.id==personal.censusCounty">{{re.name}}</option>
+                        </select>
+
+                        <select style="width: 100px; height: 40px" id="userCity" ng-model="personal.censusVill">
+                            <option ng-repeat="al in allTown" ng-value="al.id" ng-selected="al.id==personal.censusVill">{{al.name}}</option>
+                        </select>
+                        <input ng-model="personal.censusVillage">村(社区)
+                    </div>
+
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">现居住地址:</td>
+                    <td>  <div class="form_text_ipt">
+                        <select ng-model="personal.nowLivingProvine"  type="text" style="width: 95px; height: 40px" ng-click="nowprovince()">
+                            <option ng-repeat="ci in nowcity"  ng-value="ci.id" ng-selected="ci.id==personal.nowLivingProvine">{{ci.name}}</option></select>
+
+                        <select style="width: 95px; height: 40px" ng-click="nowarea()" ng-model="personal.nowLivingCity">
+                            <option ng-repeat="pr in nowprovi"  ng-value="pr.id" ng-selected="pr.id==personal.nowLivingCity">{{pr.name}}</option>
+                        </select >
+
+                        <select style="width: 100px; height: 40px" ng-click="nowfindvillage()" ng-model="personal.nowLivingCounty">
+                            <option ng-repeat="re in nowuserarea" ng-value="re.id" ng-selected="re.id==personal.nowLivingCounty">{{re.name}}</option>
+                        </select>
+
+                        <select style="width: 100px; height: 40px"  ng-model="personal.nowLivingVill">
+                            <option ng-repeat="al in nowallTown" ng-value="al.id" ng-selected="al.id==personal.nowLivingVill">{{al.name}}</option>
+                        </select>
+                        <input ng-model="personal.nowLivingVillage">村(社区)
+                    </div></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input ng-model="personal.nowLivingBar">(门楼详址)</td>
+                </tr>
+                <tr>
+                    <td>本人联系方式:</td>
+                </tr>
+                <tr>
+                    <td>固定电话:</td>
+                    <td><input ng-model="personal.personalLandlineNumber"></td>
+                    <td style="color: red">移动电话:</td>
+                    <td><input id="personalPhone" name="personalPhone" ng-model="personal.personalPhone"></td>
+                </tr>
+                <tr>
+                    <td>紧急联系方式:</td>
+                </tr>
+                <tr>
+                    <td>联系人:</td>
+                    <td><input ng-model="personal.linkman"></td>
+                </tr>
+                <tr>
+                    <td>固定电话:</td>
+                    <td><input ng-model="personal.linkmanLandlineNumber"></td>
+                    <td>移动电话:</td>
+                    <td><input ng-model="personal.linkmanPhone"></td>
+                </tr>
+                <!--        $scope.culture=[];//文化程度-->
+                <tr>
+                    <td>文化程度:</td>
+                    <td ><span ng-repeat="cu in culture"><input ng-model="personal.culture" ng-value="{{cu.id}}" type="radio" name="culture">{{cu.name}}</span></td>
+                </tr>
+                <tr>
+                    <!--            $scope.politics=[];//政治面貌-->
+                    <td>政治面貌:</td>
+                    <td ><span ng-repeat="po in politics"><input ng-model="personal.politicsStatus" ng-value="{{po.id}}" type="radio" name="politics">{{po.name}}</span></td>
+                </tr>
+                <tr>
+
+                    <!--            $scope.religion=[];//宗教信仰-->
+                    <td style="color: red">宗教信仰:</td>
+                    <td ><span ng-repeat="re in religion"><input id="religion" ng-model="personal.religion" ng-value="{{re.id}}" type="radio" name="religion">{{re.name}}</span></td>
+                </tr>
+                <tr>
+                    <td>身体状况:</td>
+                </tr>
+                <tr>
+                    <td>身高:</td>
+                    <td><input ng-model="personal.stature">cm</td>
+                    <td>体重:</td>
+                    <td><input ng-model="personal.weight">公斤</td>
+                </tr>
+                <tr>
+                    <!--            $scope.blood=[];//血型-->
+                    <td>血型:</td>
+                    <td ><span ng-repeat="blo in blood"><input ng-model="personal.bloodType" value="{{blo.id}}" type="radio" name="blood">{{blo.name}}</span></td>
+
+                </tr>
+                <tr>
+                    <td>健康状况:</td>
+                    <td><input type="radio" name="a" value="0" ng-model="personal.health">健康
+                        <input type="radio" name="a" value="1">一般
+                        <input type="radio" name="a" value="2">残疾( 残疾证号 )
+                        <input ng-model="personal.disabilityNumber"></td>
+                </tr>
+                <tr>
+                    <!--            $scope.work=[];//就业情况-->
+                    <td style="color: red">从业状况:</td>
+                    <td ><span ng-repeat="wo in work"><input id="workingConditions" name="workingConditions" ng-model="personal.workingConditions" ng-value="{{wo.id}}" type="radio" >{{wo.name}}</span></td>
+                </tr>
+                <tr>
+                    <!--            $scope.marriage=[];//婚姻状况-->
+                    <td>婚姻状况:</td>
+                    <td ><span ng-repeat="mar in marriage"><input ng-model="personal.maritalStatus" ng-value="{{mar.id}}" type="radio" name="marriage">{{mar.name}}</span></td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div style="border: 1px solid black; width: 100%;height: 37%;">
+        <div style="width: 100px;height: 275px;border: 2px solid black;float: left;margin-left: 15%;">
+            <div align="center" style="margin-top: 175px;">计生信息</div>
+        </div>
+        <div style="float: left;margin-left: 50px;margin-top: 40px;">
+            <table>
+                <tr>
+                    <td>夫妻同行：</td>
+                    <td>
+                        <input type="radio" ng-model="list.matePeer" name="matePeer" ng-value="1"/>是
+                        <input type="radio" ng-model="list.matePeer" name="matePeer" ng-value="0"/>否
+                    </td>
+                    <td>婚育证明：</td>
+                    <td>
+                        <input type="radio" ng-model="list.marital" name="marital" ng-value="1"/>有
+                        <input type="radio" ng-model="list.marital" name="marital" ng-value="0"/>无
+                    </td>
+                </tr>
+                <tr>
+                    <td>婚育证编码：</td>
+                    <td>
+                        <input type="text" ng-model="list.maritalNumber" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" name="maritalNumber" placeholder="请输入..."/>
+                    </td>
+                    <td>是否验证：</td>
+                    <td>
+                        <input type="radio" ng-model="list.verify" name="verify" ng-value="1"/>是
+                        <input type="radio" ng-model="list.verify" name="verify" ng-value="0"/>否
+                    </td>
+                </tr>
+                <tr>
+                    <td>生育状况：</td>
+                </tr>
+                <tr>
+                    <td>生育子女数：</td>
+                    <td>
+                        男&nbsp&nbsp<input type="text" style="width: 60px" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" ng-model="list.boy" name="boy" placeholder="请输入..."/>&nbsp&nbsp人&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        女&nbsp&nbsp<input type="text" style="width: 60px" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" ng-model="list.girl" name="girl" placeholder="请输入..."/>&nbsp&nbsp人
+                    </td>
+                </tr>
+                <tr>
+                    <td>政策内：</td>
+                    <td>
+                        <input type="radio" ng-model="list.policyIn" name="policyIn" ng-value="0"/>2孩
+                        <input type="radio" ng-model="list.policyIn" name="policyIn" ng-value="1"/>3孩
+                    </td>
+                    <td>政策外：</td>
+                    <td>
+                        <input type="radio" ng-model="list.policyOut" name="policyOut" ng-value="0"/>2孩
+                        <input type="radio" ng-model="list.policyOut" name="policyOut" ng-value="1"/>3孩
+                    </td>
+                </tr>
+                <tr>
+                    <td>独生子女证：</td>
+                    <td>
+                        <input type="radio" ng-model="list.onlyChild" name="onlyChild" ng-value="1"/>有
+                        <input type="radio" ng-model="list.onlyChild" name="onlyChild" ng-value="0"/>无
+                    </td>
+                    <td>社会抚养费征收：</td>
+                    <td>
+                        <input type="radio" ng-model="list.alimony" name="alimony" ng-value="1"/>已缴
+                        <input type="radio" ng-model="list.alimony" name="alimony" ng-value="0"/>未缴
+                    </td>
+                </tr>
+                <tr>
+                    <td>怀孕避孕状况：</td>
+                    <td>
+                        <span ng-repeat="c in contraception">
+                            <input type="radio"  ng-model="list.contraception" name="contraception" ng-value="c.id"/>{{c.name}}
+                        </span>
+                    </td>
+                    <td>措施时间：</td>
+                    <td>
+                        <input type="date" ng-model="list.contraceptionTime" name="contraceptionTime"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>当年生育子女：</td>
+                    <td>
+                        <input type="radio" ng-model="list.onceBog" name="onceBog" ng-value="1"/>男
+                        <input type="radio" ng-model="list.onceBog" name="onceBog" ng-value="0"/>女
+                    </td>
+                    <td>出生日期：</td>
+                    <td>
+                        <input type="date" ng-model="list.onceBirthday" name="onceBirthday"/>
+                    </td>
+                    <td>政策外：</td>
+                    <td>
+                        <input type="radio" ng-model="list.oncePolicy" name="oncePolicy" ng-value="0"/>内
+                        <input type="radio" ng-model="list.oncePolicy" name="oncePolicy" ng-value="1"/>外
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div style="border: 1px solid black; width: 100%;height: 100%;">
+        <div style="width: 100px;height: 750px;border: 2px solid black;float: left;margin-left: 15%;">
+            <div align="center" style="margin-top: 350px;">就业信息</div>
+        </div>
+        <div style="float: left;margin-left: 50px;">
+            <table width="90%">
+                <tr>
+                    <td style="color: red">姓名:</td>
+                    <td>
+                        <input type="text" id="personalName" name="personalName" ng-model="personal.personalName">
+                    </td>
+                    <td style="color: red">曾用名:</td>
+                    <td><input type="text" id="rollName" name="rollName" ng-model="personal.rollName"></td>
+                    <td rowspan="3"><img src="" height="100px" width="100px"></td>
+                </tr>
+                <tr>
+                    <td>性别:</td>
+                    <td>
+                        <select ng-model="personal.personalSax">
+                            <option value="1">男</option>
+                            <option value="0">女</option>
+                        </select>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">来本地时间:</td>
+                    <td><input type="date" id="arrival" name="arrival" ng-model="personal.arrival"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">公民身份证号码:</td>
+                    <td><input type="text" id="idCard" name="idCard" ng-model="personal.idCard"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">民族:</td>
+                    <td><select >
+                        <option ng-repeat="na in nation" ng-value="{{na.id}}" ng-model="personal.notion">{{na.name}}</option>
+                    </select></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">户籍详细地址:</td>
+                    <td>     <div class="form_text_ipt">
+                        <select ng-model="personal.censusProvine"  type="text" style="width: 95px; height: 40px" ng-click="province()">
+                            <option ng-repeat="ci in city"  ng-value="ci.id" ng-selected="ci.id==personal.censusProvine">{{ci.name}}</option></select>
+
+                        <select style="width: 95px; height: 40px" ng-click="area()" ng-model="personal.censusCity">
+                            <option ng-repeat="pr in provi"  ng-value="pr.id" ng-selected="pr.id==personal.censusCity">{{pr.name}}</option>
+                        </select >
+
+                        <select style="width: 100px; height: 40px" ng-click="findvillage()" ng-model="personal.censusCounty">
+                            <option ng-repeat="re in userarea" ng-value="re.id" ng-selected="re.id==personal.censusCounty">{{re.name}}</option>
+                        </select>
+
+                        <select style="width: 100px; height: 40px" id="userCity" ng-model="personal.censusVill">
+                            <option ng-repeat="al in allTown" ng-value="al.id" ng-selected="al.id==personal.censusVill">{{al.name}}</option>
+                        </select>
+                        <input ng-model="personal.censusVillage">村(社区)
+                    </div>
+
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td style="color: red">现居住地址:</td>
+                    <td>  <div class="form_text_ipt">
+                        <select ng-model="personal.nowLivingProvine"  type="text" style="width: 95px; height: 40px" ng-click="nowprovince()">
+                            <option ng-repeat="ci in nowcity"  ng-value="ci.id" ng-selected="ci.id==personal.nowLivingProvine">{{ci.name}}</option></select>
+
+                        <select style="width: 95px; height: 40px" ng-click="nowarea()" ng-model="personal.nowLivingCity">
+                            <option ng-repeat="pr in nowprovi"  ng-value="pr.id" ng-selected="pr.id==personal.nowLivingCity">{{pr.name}}</option>
+                        </select >
+
+                        <select style="width: 100px; height: 40px" ng-click="nowfindvillage()" ng-model="personal.nowLivingCounty">
+                            <option ng-repeat="re in nowuserarea" ng-value="re.id" ng-selected="re.id==personal.nowLivingCounty">{{re.name}}</option>
+                        </select>
+
+                        <select style="width: 100px; height: 40px"  ng-model="personal.nowLivingVill">
+                            <option ng-repeat="al in nowallTown" ng-value="al.id" ng-selected="al.id==personal.nowLivingVill">{{al.name}}</option>
+                        </select>
+                        <input ng-model="personal.nowLivingVillage">村(社区)
+                    </div></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input ng-model="personal.nowLivingBar">(门楼详址)</td>
+                </tr>
+                <tr>
+                    <td>本人联系方式:</td>
+                </tr>
+                <tr>
+                    <td>固定电话:</td>
+                    <td><input ng-model="personal.personalLandlineNumber"></td>
+                    <td style="color: red">移动电话:</td>
+                    <td><input id="personalPhone" name="personalPhone" ng-model="personal.personalPhone"></td>
+                </tr>
+                <tr>
+                    <td>紧急联系方式:</td>
+                </tr>
+                <tr>
+                    <td>联系人:</td>
+                    <td><input ng-model="personal.linkman"></td>
+                </tr>
+                <tr>
+                    <td>固定电话:</td>
+                    <td><input ng-model="personal.linkmanLandlineNumber"></td>
+                    <td>移动电话:</td>
+                    <td><input ng-model="personal.linkmanPhone"></td>
+                </tr>
+                <!--        $scope.culture=[];//文化程度-->
+                <tr>
+                    <td>文化程度:</td>
+                    <td ><span ng-repeat="cu in culture"><input ng-model="personal.culture" ng-value="{{cu.id}}" type="radio" name="culture">{{cu.name}}</span></td>
+                </tr>
+                <tr>
+                    <!--            $scope.politics=[];//政治面貌-->
+                    <td>政治面貌:</td>
+                    <td ><span ng-repeat="po in politics"><input ng-model="personal.politicsStatus" ng-value="{{po.id}}" type="radio" name="politics">{{po.name}}</span></td>
+                </tr>
+                <tr>
+
+                    <!--            $scope.religion=[];//宗教信仰-->
+                    <td style="color: red">宗教信仰:</td>
+                    <td ><span ng-repeat="re in religion"><input id="religion" ng-model="personal.religion" ng-value="{{re.id}}" type="radio" name="religion">{{re.name}}</span></td>
+                </tr>
+                <tr>
+                    <td>身体状况:</td>
+                </tr>
+                <tr>
+                    <td>身高:</td>
+                    <td><input ng-model="personal.stature">cm</td>
+                    <td>体重:</td>
+                    <td><input ng-model="personal.weight">公斤</td>
+                </tr>
+                <tr>
+                    <!--            $scope.blood=[];//血型-->
+                    <td>血型:</td>
+                    <td ><span ng-repeat="blo in blood"><input ng-model="personal.bloodType" value="{{blo.id}}" type="radio" name="blood">{{blo.name}}</span></td>
+
+                </tr>
+                <tr>
+                    <td>健康状况:</td>
+                    <td><input type="radio" name="a" value="0" ng-model="personal.health">健康
+                        <input type="radio" name="a" value="1">一般
+                        <input type="radio" name="a" value="2">残疾( 残疾证号 )
+                        <input ng-model="personal.disabilityNumber"></td>
+                </tr>
+                <tr>
+                    <!--            $scope.work=[];//就业情况-->
+                    <td style="color: red">从业状况:</td>
+                    <td ><span ng-repeat="wo in work"><input id="workingConditions" name="workingConditions" ng-model="personal.workingConditions" ng-value="{{wo.id}}" type="radio" >{{wo.name}}</span></td>
+                </tr>
+                <tr>
+                    <!--            $scope.marriage=[];//婚姻状况-->
+                    <td>婚姻状况:</td>
+                    <td ><span ng-repeat="mar in marriage"><input ng-model="personal.maritalStatus" ng-value="{{mar.id}}" type="radio" name="marriage">{{mar.name}}</span></td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div style="border: 1px solid black; width: 100%;height: 100%;">
+        <div style="width: 100px;height: 750px;border: 2px solid black;float: left;margin-left: 15%;">
+            <div align="center" style="margin-top: 350px;">居住信息</div>
+        </div>
+        <div style="float: left;margin-left: 50px;">
+            <table>
+                <tr>
+                    <td><div style="border: 1px solid black; width: 100px; height: 25px;"><center style="color: red;">居住方式:</center></div></td>
+                    <td>
+                    <span ng-repeat="x in dwellWays">
+                        <input type="radio" name="dwellWay" ng-model="data.dwellWay" ng-value="x.id"/>{{x.name}}&nbsp;&nbsp;
+                    </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><div style="border: 1px solid black; width: 100px; height: 25px;"><center style="color: red;">居住事由:</center></div></td>
+                    <td>
+                    <span ng-repeat="x in dwellWhys">
+                        <input type="radio" name="dwellWhy" ng-model="data.dwellWhy" ng-value="x.id"/>{{x.name}}&nbsp;&nbsp;
+                    </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><div style="border: 1px solid black; width: 100px; height: 25px;"><center style="color: red;">房屋类别:</center></div></td>
+                    <td>
+                    <span ng-repeat="x in houseCategorys">
+                        <input type="radio" name="houseCategory" ng-model="data.houseCategory" ng-value="x.id"/>{{x.name}}&nbsp;&nbsp;
+                    </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><div style="border: 1px solid black; width: 100px; height: 25px;"><center style="color: red;">房屋地址:</center></div></td>
+                    <td>
+                        <input type="text" name="houseProvine" ng-model="data.houseProvine" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 80px;"/>(市县区)
+                        <input type="text" name="houseAvenue" ng-model="data.houseAvenue" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 80px;"/>街办
+                        <input type="text" name="houseCommunity" ng-model="data.houseCommunity" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 80px;"/>社区、居（村）委会
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="text" name="houseWay" ng-model="data.houseWay" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 80px;"/>(街路巷)
+                        <input type="text" name="houseHouse" ng-model="data.houseHouse" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 80px;"/>门楼牌号
+                        <input type="text" name="houseBar" ng-model="data.houseBar" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 80px;"/>门楼详址
+                        <input type="text" name="houseRoom" ng-model="data.houseRoom" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 80px;"/>房间号
+                    </td>
+                </tr>
+                <tr>
+                    <td><div style="border: 1px solid black; width: 100px; height: 25px;"><center style="color: red;">出租人情况:</center></div></td>
+                    <td>
+                        <table border="1" width="800px">
+                            <tr>
+                                <td>房东姓名:</td>
+                                <td><input type="text" name="landlordName" ng-model="data.landlordName" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 85px;"/></td>
+                                <td>联系电话:</td>
+                                <td><input type="text" name="landlordPhone" ng-model="data.landlordPhone" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 110px;"/></td>
+                                <td>是否签订治安责任书:</td>
+                                <td>
+                                    <input type="radio" name="landlordDuty" ng-model="data.landlordDuty" ng-value="1"/>是
+                                    <input type="radio" name="landlordDuty" ng-model="data.landlordDuty" ng-value="0"/>否
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>房东身份证号码:</td>
+                                <td colspan="5"><input type="text" name="landlordNumber" ng-model="data.landlordNumber" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 300px;"></td>
+                            </tr>
+                            <tr>
+                                <td>代理人姓名:</td>
+                                <td><input type="text" name="agentName" ng-model="data.agentName" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 85px;"/></td>
+                                <td>联系电话:</td>
+                                <td><input type="text" name="agentPhone" ng-model="data.agentPhone" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 110px;"/></td>
+                                <td>是否签订治安责任书:</td>
+                                <td><input type="radio" name="agentDuty" ng-model="data.agentDuty" ng-value="1"/>是
+                                    <input type="radio" name="agentDuty" ng-model="data.agentDuty" ng-value="0"/>否
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>代理人身份证号码:</td>
+                                <td colspan="5"><input type="text" name="agentNumber" ng-model="data.agentNumber" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..." style="width: 300px;"></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td><div style="border: 1px solid black; width: 100px; height: 25px;"><center style="color: red;">房屋类型:</center></div></td>
+                    <td>
+                    <span ng-repeat="x in houseTypes">
+                        <input type="radio" name="houseType" ng-model="data.houseType" ng-value="x.id"/>{{x.name}}&nbsp;&nbsp;
+                    </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><div style="border: 1px solid black; width: 100px; height: 25px;"><center style="color: red;">房屋用途:</center></div></td>
+                    <td>
+                    <span ng-repeat="x in houseUses">
+                        <input type="radio" name="houseUse" ng-model="data.houseUse" ng-value="x.id"/>{{x.name}}&nbsp;&nbsp;
+                    </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><div style="border: 1px solid black; width: 100px; height: 25px;"><center style="color: red;">信息采集员:</center></div></td>
+                    <td>
+                        <input type="text" name="message" ng-model="data.message" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入..."/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--<div style="width: 100px;height: 750px;border: 2px solid black; margin-left: 10%;">
+        <div align="center" style="margin-top: 350px;">个人信息</div>
+    </div>-->
 </body>
 </html>
