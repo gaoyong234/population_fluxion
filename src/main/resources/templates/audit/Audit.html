@@ -49,7 +49,6 @@
                 $scope.userMessage.pageNum = pageNum;
                 $scope.userMessage.pageSize = items;
                 var user = $scope.userMessage;
-                console.log(user)
                 $http({
                     url: "/userLogin/findAllUser",
                     method: "post",
@@ -97,22 +96,25 @@
                     }
                 }
                 var auditList = $scope.auditList;
-                console.log(auditList);
-                $http({
-                    url: "/AuditRegister/AuditUser",
-                    method: "post",
-                    params: {"auditList":auditList,"auditStatus":auditStatus}
-                }).success(function (response) {
-                    $scope.showModalButton1(response.slogan)
-                    $scope.find($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage)
-                })
+                if(auditList.length>0){
+                    $http({
+                        url: "/AuditRegister/AuditUser",
+                        method: "post",
+                        params: {"auditList":auditList,"auditStatus":auditStatus}
+                    }).success(function (response) {
+                        $scope.showModalButton1(response.slogan)
+                        $scope.find($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage)
+                    })
+                }else{
+                    $scope.showModalButton1("请选择相关数据")
+                }
             }
         })
     </script>
 </head>
 <body  ng-app="myApp" ng-controller="myController">
 <div>
-    <h4 class="alert alert-infoalert alert-info">填写就业信息</h4>
+    <h4 class="alert alert-infoalert alert-info">注册信息审核</h4>
 </div>
 <table class="table table-bordered table-striped">
     <tr>

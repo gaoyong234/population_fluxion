@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,7 +121,9 @@ public class UserController {
             User user,HttpSession session){
         User admin = (User) session.getAttribute("admin");
         user.setRoleId(admin.getRoleId());
-        System.out.println(user.getAuditStatus());
+        user.setUserProvince(admin.getUserProvince());
+        user.setUserCity(admin.getUserCity());
+        user.setUserArea(admin.getUserArea());
         return userService.findAllUser(pageNum,pageSize,user);
     }
 
@@ -133,5 +136,30 @@ public class UserController {
     @ResponseBody
     public UserVO findOneUser(Integer userId){
         return userService.findOneUser(userId);
+    }
+
+    /**
+     *  账户管理，只显示比自己角色小的用户
+     * @param pageNum
+     * @param pageSize
+     * @param user
+     * @param session
+     * @return
+     */
+    @RequestMapping("/findUserByRoleId")
+    @ResponseBody
+    public PageInfo<UserVO> findUserByRoleId(
+            @RequestParam(value = "pageNum",defaultValue = "1")Integer pageNum,
+            @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
+            User user,
+            HttpSession session
+    ){
+        User admin = (User) session.getAttribute("admin");
+        Integer roleId = admin.getRoleId();
+        user.setRoleId(roleId);
+        user.setUserProvince(admin.getUserProvince());
+        user.setUserCity(admin.getUserCity());
+        user.setUserArea(admin.getUserArea());
+        return userService.findUserByRoleId(pageNum,pageSize,user);
     }
 }

@@ -48,4 +48,6 @@ public class UserVO {
     private String cityName;
     //县名称
     private String areaName;
+    //角色
+    private String roleName;
 }
