@@ -115,7 +115,7 @@ public class UserController {
      */
     @RequestMapping("/findAllUser")
     @ResponseBody
-    public PageInfo<User> findAllUser(
+    public PageInfo<UserVO> findAllUser(
             @RequestParam(value = "pageNum",defaultValue = "1")Integer pageNum,
             @RequestParam(value ="pageSize",defaultValue = "10")Integer pageSize,
             User user,HttpSession session){
@@ -161,5 +161,11 @@ public class UserController {
         user.setUserCity(admin.getUserCity());
         user.setUserArea(admin.getUserArea());
         return userService.findUserByRoleId(pageNum,pageSize,user);
+    }
+
+    @RequestMapping("logOut")
+    public String logOut(HttpSession httpSession){
+        httpSession.removeAttribute("admin");
+        return "index";
     }
 }

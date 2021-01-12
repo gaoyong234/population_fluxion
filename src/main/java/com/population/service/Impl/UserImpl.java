@@ -59,10 +59,10 @@ public class UserImpl implements UserService {
     }
 
     @Override
-    public PageInfo<User> findAllUser(Integer pageNum, Integer pageSize, User user) {
+    public PageInfo<UserVO> findAllUser(Integer pageNum, Integer pageSize, User user) {
         PageHelper.startPage(pageNum,pageSize);
-        List<User> userList = userDaoMapper.selectAllUser(user);
-        PageInfo<User> pageInfo = new PageInfo<>(userList);
+        List<UserVO> userList = userDaoMapper.selectAllUser(user);
+        PageInfo<UserVO> pageInfo = new PageInfo<>(userList);
         return pageInfo;
     }
 

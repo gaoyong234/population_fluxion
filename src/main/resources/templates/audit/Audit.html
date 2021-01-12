@@ -54,6 +54,7 @@
                     method: "post",
                     params: user
                 }).success(function (response) {
+                    console.log(response);
                     $scope.lists = response.list;
                     $scope.paginationConf.totalItems = response.total;
                 })
@@ -157,6 +158,7 @@
         <th>单位名称</th>
         <th>手机号</th>
         <th>提交时间</th>
+        <th>角色名称</th>
         <th>详情</th>
         <th>审核状态</th>
     </tr>
@@ -169,6 +171,7 @@
         <td>{{us.userUnit}}</td>
         <td>{{us.userPhone}}</td>
         <td>{{us.gmtCreate}}</td>
+        <td>{{us.roleName}}</td>
         <td>
             <button class="btn btn-success" data-toggle="modal" data-target="#detailed" ng-click="examineMassage(us.userId)">详细</button>
         </td>

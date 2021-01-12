@@ -41,19 +41,22 @@
     user_id, user_phone, user_password, user_unit,user_city, user_province, user_area,
     role_id, del_id, audit_status, gmt_create, gmt_modifile, spare_str, spare_int
   </sql>
-  <select id="selectAllUser" parameterType="com.population.pojo.User" resultMap="BaseResultMap">
+  <select id="selectAllUser" parameterType="com.population.pojo.User" resultMap="BaseMap">
     select
-    <include refid="Base_Column_List" />
-    from user
+    user_id, user_phone, user_password, user_unit,user_city, user_province, user_area,
+    us.role_id, us.del_id, audit_status, us.gmt_create, us.gmt_modifile, us.spare_str,
+    us.spare_int,r.role_name
+    from user us
+    left join role r on r.role_id=us.role_id
     <where>
       <if test="userUnit != null and userUnit != ''">
-        and user_unit like CONCAT("%",#{userUnit},"%")
+        and us.user_unit like CONCAT("%",#{userUnit},"%")
       </if>
       <if test="auditStatus != null ">
         and audit_status=#{auditStatus}
       </if>
       <if test="roleId != null and roleId != ''">
-        and role_id>#{roleId}
+        and us.role_id>#{roleId}
       </if>
       <if test="roleId==2">
         and user_province =#{userProvince}

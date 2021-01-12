@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserDaoMapper {
 
     //查询权限管理内的用户数据
-    List<User> selectAllUser(User user);
+    List<UserVO> selectAllUser(User user);
 
     //用户审核
     Integer updateUserAudit(@Param(value = "userId") Integer userId,@Param(value = "auditStatus") Integer auditStatus);
