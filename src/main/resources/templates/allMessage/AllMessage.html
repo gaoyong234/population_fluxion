@@ -19,18 +19,19 @@
         app.controller("myController", function ($scope, $http) {
             var  userId= $("#userId").val();
 
+            //查询全部并显示
             $http({
                 url: "/AllMessage/findAllMessage",
                 method: "post",
                 params: {"userId":userId}
             }).success(function (response) {
-                console.log(response);
+                //console.log(response);
                 $scope.personal = response.personal;//个人信息
                 $scope.mate = response.mate;//配偶信息
                 $scope.list = response.familyVOList;//同住家庭信息
                 $scope.child = response.child;//计生信息
                 $scope.employing=response.employingVO;//就业信息
-                $scope.dwell = response.dwellVO;
+                $scope.dwell = response.dwellVO;//居住信息
                 setTimeout($scope.SaveCheck,500);
                 $scope.findCity();
                 $scope.province();
@@ -40,7 +41,6 @@
                 $scope.nowprovince();
                 $scope.nowarea();
                 $scope.nowfindvillage();
-
                 $scope.getProvince();
                 $scope.getCity();
                 $scope.getCounty();
@@ -61,6 +61,7 @@
                 }
             }
 
+            //查询字典表数据显示
             $http({
                 url:"/personal/findDic",
                 method:"get",
@@ -286,7 +287,7 @@
 
     <!--个人信息-->
     <div style="width: 100%;height: 100%;">
-        <div style="width: 100px;height: 750px;border: 2px solid black;float: left;margin-left: 15%;">
+        <div style="width: 90px;height: 750px;border: 2px solid black;float: left;margin-left: 1%;">
             <div align="center" style="margin-top: 350px;">个人信息</div>
         </div>
         <div style="float: left;margin-left: 50px;">
@@ -448,7 +449,7 @@
     </div>
     <!--配偶信息-->
     <div style="width: 100%;height: 37%;">
-        <div style="width: 100px;height: 275px;border: 2px solid black;float: left;margin-left: 15%;">
+        <div style="width: 90px;height: 275px;border: 2px solid black;float: left;margin-left: 1%;">
             <div align="center" style="margin-top: 130px;">配偶信息</div>
         </div>
         <div style="float: left;margin-left: 50px;margin-top: 20px;">
@@ -508,7 +509,7 @@
     </div>
     <!--同住家庭-->
     <div style="width: 100%;height: 37%;">
-        <div style="width: 100px;height: 275px;border: 2px solid black;float: left;margin-left: 15%;">
+        <div style="width: 90px;height: 275px;border: 2px solid black;float: left;margin-left: 1%;">
             <div align="center" style="margin-top: 130px;">同住家庭</div>
         </div>
         <div style="float: left;margin-left: 50px;margin-top: 20px;">
@@ -558,7 +559,7 @@
     </div>
     <!--计生信息-->
     <div style="width: 100%;height: 37%;">
-        <div style="width: 100px;height: 275px;border: 2px solid black;float: left;margin-left: 15%;">
+        <div style="width: 90px;height: 275px;border: 2px solid black;float: left;margin-left: 1%;">
             <div align="center" style="margin-top: 130px;">计生信息</div>
         </div>
         <div style="float: left;margin-left: 50px;margin-top: 40px;">
@@ -653,7 +654,7 @@
     </div>
     <!--就业信息-->
     <div style="width: 100%;height: 67%;">
-        <div style="width: 100px;height: 500px;border: 2px solid black;float: left;margin-left: 15%;">
+        <div style="width: 90px;height: 500px;border: 2px solid black;float: left;margin-left: 1%;">
             <div align="center" style="margin-top: 250px;">就业信息</div>
         </div>
         <div style="float: left;margin-left: 50px;margin-top: 50px;">
@@ -753,7 +754,7 @@
     </div>
     <!--居住信息-->
     <div style="width: 100%;height: 50%;">
-        <div style="width: 100px;height: 390px;border: 2px solid black;float: left;margin-left: 15%;">
+        <div style="width: 90px;height: 390px;border: 2px solid black;float: left;margin-left: 1%;">
             <div align="center" style="margin-top: 200px;">居住信息</div>
         </div>
         <div style="float: left;margin-left: 50px;margin-top: 25px;">

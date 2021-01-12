@@ -9,15 +9,15 @@
 </head>
 <style>
         .parent {
-            width: 300px;
+            width: 200px;
             height: 600px;
             background-color: darkgray;
             float: left;
         }
         .child {
-            border: 3px solid black;
+            border: 2px solid black;
             background-color: white;
-            width: 200px;
+            width: 150px;
             height: 25px;
             margin-top: 70px;
         }
@@ -46,14 +46,18 @@
             $scope.query(1);
         })
         $scope.fuzzyQuery = {
-            pageNum:0,
+            pageNum:1,
             pageSize:5
         }
         //查询
         $scope.query = function(pageNum){
             $scope.fuzzyQuery.pageNum = pageNum;
+            var gmtCreate = document.getElementById("gmtCreate").value;
+            var endCreate = document.getElementById("endCreate").value;
+            $scope.fuzzyQuery.gmtCreate = gmtCreate;
+            $scope.fuzzyQuery.endCreate = endCreate;
             var dataList = $scope.fuzzyQuery;
-            console.log(dataList)
+            //console.log(dataList);
             $http({
                 method:"GET",
                 url:"/population/findPersonalInfo",
@@ -66,7 +70,6 @@
                     totalNum: response.data.pages, // 总页码
                     totalList: response.data.total, // 记录总数量
                     callback: function (pageNum) { //回调函数
-                        //console.log(pageNum);
                         $scope.query(pageNum);
                     }
                 });
@@ -75,9 +78,45 @@
             }
         }
 
+        //查看详情
         $scope.toAllMessage = function (userId) {
             window.location.href="/AllMessage/toAllMessage?userId="+userId;
+        }
 
+        //提交
+        $scope.submit =function () {
+            var obj = document.getElementsByName("c1");
+            var checkArr = [];
+            var poId = {poId:checkArr}
+            for (var i = 0; i < obj.length; i++) {
+                if (obj[i].checked)
+                    checkArr.push(obj[i].value);
+            }
+            if(checkArr == null || checkArr == ''){
+                alert("请选择数据！！！")
+            }else if(checkArr != null && checkArr != ''){
+                alert(checkArr);
+            }
+
+        }
+
+        //跳转到注册信息审核
+        $scope.toAudit = function () {
+            window.location.href="/AuditRegister/toAudit";
+        }
+        //跳转到账号管理
+        $scope.toAccountManagement = function () {
+            window.location.href="/AccountManagementController/toAccountManagement";
+        }
+        //登记信息审核
+
+        //流动人口信息管理
+        $scope.toPopulation = function () {
+            window.location.href="/population/toPopulationInfo";
+        }
+        //流动人口信息统计
+        $scope.toMessage = function () {
+            window.location.href="/statistics/message";
         }
 
     })
@@ -137,19 +176,19 @@
     <div><center><h1>流动人口服务管理系统</h1></center></div>
     <div class="parent">
         <center>
-            <div ng-click="toa()" class="child">注册信息审核</div>
-            <div class="child">账号管理</div>
-            <div class="child">登记信息审核</div>
-            <div class="child">流动人口信息管理</div>
-            <div class="child">流动人口信息统计</div>
+            <button ng-click="toAudit()" class="child">注册信息审核</button>
+            <button ng-click="toAccountManagement()" class="child">账号管理</button>
+            <button ng-click="" class="child">登记信息审核</button>
+            <button ng-click="toPopulation()" class="child">流动人口信息管理</button>
+            <button ng-click="toMessage()" class="child">流动人口信息统计</button>
         </center>
     </div>
-    <div style="float: left; width: 1200px; height: 600px">
+    <div style="float: left; width: 1000px; height: 600px">
         <div align="center" style="margin-top: 10px">
             <table>
                 <tr>
                     <td>
-                        从<input type="date" ng-model="fuzzyQuery.gmtCreate"/>至<input type="date" ng-model="fuzzyQuery.endCreate"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                        从<input type="date" id="gmtCreate" name="gmtCreate" value=""/>至<input type="date" id="endCreate" name="endCreate" value=""/>&nbsp;&nbsp;&nbsp;&nbsp;
                         <button style="width: 80px; height: 50px;" ng-click="query()">搜索</button>
                     </td>
                 </tr>
@@ -178,7 +217,7 @@
                     <td>详情</td>
                 </tr>
                 <tr ng-repeat="x in list">
-                    <td><input type="checkbox" name="c1"></td>
+                    <td><input type="checkbox" name="c1" value="{{x.userId}}"></td>
                     <td>{{x.userId}}</td>
                     <td>{{x.employingName}}</td>
                     <td>{{x.personalName}}</td>
@@ -186,7 +225,6 @@
                     <td>{{x.gmtCreate}}</td>
                     <td>
                         <button ng-click="toAllMessage(x.userId)" class="btn btn-success">查看详情</button>
-
                     </td>
                 </tr>
             </table>
