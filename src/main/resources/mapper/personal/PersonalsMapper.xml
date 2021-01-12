@@ -53,8 +53,11 @@
     FROM personal p
 	LEFT JOIN employing e on e.spare_int = p.user_id
 	<where>
-        <if test="gmtCreate != null and endCreate != null">
-            p.gmt_create &gt;= #{gmtCreate} and p.gmt_create &lt;= #{endCreate}
+        <if test="gmtCreate != null">
+          and p.gmt_create &gt;= #{gmtCreate}
+        </if>
+        <if test="endCreate != null">
+          and p.gmt_create &lt;= #{endCreate}
         </if>
         <if test="employingName != null and employingName != ''">
             and e.employing_name like CONCAT("%",#{employingName},"%")

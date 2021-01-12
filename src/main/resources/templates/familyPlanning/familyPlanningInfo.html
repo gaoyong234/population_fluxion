@@ -32,7 +32,6 @@
             method:"GET",
             url:"/familyPlanning/findFamilyPlanningInfo"
         }).then(function success(response) {
-            console.log(response);
             $scope.list = response.data;
         }),function error(response){
             console.log(response);

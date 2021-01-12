@@ -29,7 +29,6 @@
                 method:"GET",
                 url:"/residence/findResidenceInfo"
             }).then(function success(response) {
-                console.log(response);
                 $scope.data = response.data;
             }),function error(response){
 
@@ -37,7 +36,7 @@
 
             //验证
             $scope.verification = function(data){
-                //console.log(data);
+                console.log(data);
                 var msg = true;
                 var dwellWay = data.dwellWay;
                 var dwellWhy = data.dwellWhy;

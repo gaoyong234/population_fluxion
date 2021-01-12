@@ -27,9 +27,9 @@ public class PopulationController {
 
     /**
      *  查询所有流动人口信息+模糊查询+分页
-     * @param pageNum
-     * @param pageSize
-     * @param personalVO
+     * @param pageNum   从第几页显示
+     * @param pageSize 一页显示多少条
+     * @param personalVO 接收条件查询的参数实体类vo
      * @return
      */
     @ResponseBody
@@ -39,6 +39,5 @@ public class PopulationController {
                                                  PersonalVO personalVO){
         return populationService.findPersonalInfo(pageNum,pageSize,personalVO);
     }
-
 
 }
