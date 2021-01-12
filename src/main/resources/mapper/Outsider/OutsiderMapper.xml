@@ -25,10 +25,10 @@
         AND per.now_living_vill = #{censusVill}
       </if>
       <if test="gmtCreate != null">
-        AND per.gmt_modified &lt; #{gmtCteate}
+        AND per.gmt_modified &gt; #{gmtCreate}
       </if>
       <if test="gmtModifile != null">
-        AND per.gmt_modifile &gt; #{gmtModifile}
+        AND per.gmt_modified &lt; #{gmtModifile}
       </if>
     </where>
     GROUP BY per.census_provine

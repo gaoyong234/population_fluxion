@@ -17,7 +17,7 @@ public interface UserService {
 
     List<power> findAllPorwer(Integer userId);
 
-    PageInfo<User> findAllUser(Integer pageNum,Integer pageSize,User user);
+    PageInfo<UserVO> findAllUser(Integer pageNum,Integer pageSize,User user);
 
     Message changeUserAudit(List<Integer> auditList,Integer auditStatus);
 

@@ -58,7 +58,9 @@ public class StatisticsController {
     @ResponseBody
     public User findUser(HttpSession httpSession){
         User admin = (User)httpSession.getAttribute("admin");
-        return admin;
+        User user = new User();
+        user.setUserProvince(admin.getUserProvince());
+        return user;
     }
 
 

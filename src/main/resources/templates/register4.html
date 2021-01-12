@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册界面</title>
+    <link rel="stylesheet" href="../static/css/common.css">
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/reset.css">
+
+    <script src="../static/plugins/angularjs/angular.min.js"></script>
+    <script src="../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../static/js/login/common.js"></script>
+    <script src="../static/js/showLoading.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        function regis() {
+            var userPassword = $("#userPassword").val();
+            var userUnit = $("#userUnit").val();
+            var userPhone = $("#userPhone").val();
+            var userArea = $("#userArea").val();
+            var reg=/^(13[0-9]|14[01456879]|15[0-3,5-9]|16[2567]|17[0-8]|18[0-9]|19[0-3,5-9])\d{8}$/;
+            var judge = true;
+            if (!reg.test(userPhone)){
+                alert("请填写正确的手机号码");
+                judge = false;
+            }else
+            if (userPhone==""){
+                alert("请填写手机号");
+                judge = false;
+            }else
+            if (userUnit==""){
+                alert("请填写单位名称");
+                judge = false;
+            }else
+            if (userPassword==""){
+                alert("请填写密码");
+                judge = false;
+            }else
+            if (userArea==""){
+                alert("请选择地址");
+                judge = false;
+            }else
+            if (userArea==null){
+                alert("请选择地址");
+                judge = false;
+            }
+            console.log("userArea:"+userArea)
+            var use=$("toAddForm").serialize();
+            console.log("user----------------->"+use)
+            if (judge) {
+                var user = $("#toAddForm").serialize();
+                $.ajax({
+                    url:"/userLogin/userRecur",
+                    data:user,
+                    dataType:"JSON",
+                    type:"post",
+                    success:function (data) {
+                        if (data.estimate){
+                            alert(data.slogan)
+                            window.location = "/userLogin/inindex";
+                        }else {
+                            alert(data.slogan)
+                        }
+
+                    }
+                })
+            }
+        }
+
+    </script>
+    <script>
+        var app= angular.module("myApp",[]);
+        app.controller("myContr",function ($scope,$http) {
+        $scope.findCity=function () {
+            $http({
+                url: "/Province/findProvince",
+                method: "post",
+            }).success(function (response) {
+               $scope.city=response;
+            })
+        }
+        $scope.province=function () {
+            var provinceId=$scope.userProvince;
+            $http({
+                url: "/Province/findCity",
+                method: "post",
+                params: {"provinceId":provinceId}
+            }).success(function (response) {
+                console.log(response)
+                $scope.provi=response;
+            })
+
+        }
+
+
+            $scope.area=function () {
+                var provinceId=$scope.userProvince;
+                var cityId=$scope.userCity;
+
+                $http({
+                    url: "/Province/findCounty",
+                    method: "post",
+                    params: {"provinceId":provinceId,"cityId":cityId}
+                }).success(function (response) {
+                    $scope.userare=response;
+                })
+
+            }
+
+        })
+
+
+
+
+    </script>
+</head>
+<body ng-app="myApp" ng-controller="myContr" ng-init="findCity()">
+<div class="wrap login_wrap">
+    <div class="content">
+
+        <div class="logo"></div>
+
+        <div class="login_box">
+
+            <div class="login_form">
+                <div class="login_title">
+                    欢迎注册
+                </div>
+                <form id="toAddForm">
+                    <div class="form_text_ipt">
+                        <input name="userPhone"  id="userPhone" type="text" placeholder="手机号">
+                    </div>
+                    <div class="form_text_ipt">
+                        <input name="userPassword" id="userPassword" type="password" placeholder="密码">
+                    </div>
+                    <div class="form_text_ipt">
+                        <input id="userUnit" name="userUnit"  placeholder="单位名称">
+                    </div>
+                    <div class="form_text_ipt">
+                        <select  ng-model="userProvince" name="userProvince"  type="text" style="width: 95px; height: 40px" ng-click="province()">
+                            <option ng-repeat="ci in city"  ng-value="ci.id">{{ci.name}}</option></select>
+
+                        <select style="width: 95px; height: 40px" ng-click="area()" name="userCity" ng-model="userCity">
+                            <option ng-repeat="pr in provi"  ng-value="pr.id">{{pr.name}}</option>
+                        </select >
+
+                        <select style="width: 100px; height: 40px" name="userArea" id="userArea">
+                            <option ng-repeat="re in userare" ng-value="re.id">{{re.name}}</option>
+                        </select>
+                    </div>
+                    <input name="roleId" value="4" type="hidden">
+                    <div class="form_btn" align="center">
+                        <button type="button" onclick="regis()">立即注册</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
