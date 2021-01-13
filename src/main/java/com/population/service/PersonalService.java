@@ -8,4 +8,6 @@ public interface PersonalService {
     personal findUser(Integer userId);
 
     Integer updatePersonal(personal personal);
+
+    Integer findPersonalIdByUserId(Integer userId);
 }
