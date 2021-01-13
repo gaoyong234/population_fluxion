@@ -62,6 +62,7 @@ public class UserImpl implements UserService {
     public PageInfo<UserVO> findAllUser(Integer pageNum, Integer pageSize, User user) {
         PageHelper.startPage(pageNum,pageSize);
         List<UserVO> userList = userDaoMapper.selectAllUser(user);
+        System.out.println(user);
         PageInfo<UserVO> pageInfo = new PageInfo<>(userList);
         return pageInfo;
     }
