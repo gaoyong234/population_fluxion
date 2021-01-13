@@ -24,19 +24,21 @@
     <script>
         var app = angular.module("myApp",[]);
         app.controller("myCtrl",function ($scope,$http) {
-
             $http({
                 method:"GET",
                 url:"/residence/findResidenceInfo"
             }).then(function success(response) {
                 $scope.data = response.data;
+                if($scope.data == ''){
+                    $scope.data = {};
+                }
             }),function error(response){
 
             }
 
             //验证
             $scope.verification = function(data){
-                console.log(data);
+                //console.log(data);
                 var msg = true;
                 var dwellWay = data.dwellWay;
                 var dwellWhy = data.dwellWhy;
@@ -197,15 +199,15 @@
 
             //提交
             $scope.save = function(){
-                var obj = $scope.data;
-                var msg = $scope.verification(obj);
+                var data = $scope.data;
+                var msg = $scope.verification(data);
                 if (msg){
                     $http({
                         method:"POST",
                         url:"/residence/saveResidenceInfo",
-                        params:obj
+                        params:data
                     }).then(function success(response) {
-                        console.log(response);
+                        //console.log(response);
                         if (response.data>0){
                             alert("提交成功！！！")
                             location.reload();
@@ -299,7 +301,7 @@
                 <td><div style="border: 1px solid black; width: 100px; height: 25px;"><center style="color: red;">居住方式:</center></div></td>
                 <td>
                     <span ng-repeat="x in dwellWays">
-                        <input type="radio" name="dwellWay" ng-model="data.dwellWay" ng-value="x.id"/>{{x.name}}&nbsp;&nbsp;
+                        <input type="radio" name="dwellWay" id="dwellWay" ng-model="data.dwellWay" ng-value="x.id"/>{{x.name}}&nbsp;&nbsp;
                     </span>
                 </td>
             </tr>

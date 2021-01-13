@@ -148,13 +148,27 @@
                     type: "post",
                     data: addform,
                     success: function (res) {
-                        console.log("res:"+res)
+                        //console.log("res:"+res)
                         var name=[];
                         var date=[]
                         for (var i = 0; i < res.length; i++) {
                             name.push(res[i].site)
                             date.push(res[i].outnumber)
                         }
+                        /*表格省份*/
+                        var str = "";
+                        str += '<td>省份：</td>'
+                        for (var i = 0; i <name.length ; i++) {
+                            str += '<td>'+ name[i] +'</td>'
+                        }
+                        $("#aa").html(str);
+                        /*表格人数*/
+                        var str1 = "";
+                        str1 += '<td>人数：</td>'
+                        for (var i = 0; i <date.length ; i++) {
+                            str1 += '<td>'+ date[i] +'</td>'
+                        }
+                        $("#bb").html(str1);
                         //获取数据后，隐藏loading动画
                         myContainer.setOption(option = {
                             title: {
@@ -216,6 +230,9 @@
     </div>
 </div>
 </form>
-    <table></table>
+    <table border="1" align="center" style="border-collapse:collapse;">
+        <tr id="aa" align="center"></tr>
+        <tr id="bb" align="center"></tr>
+    </table>
 </body>
 </html>
