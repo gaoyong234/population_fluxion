@@ -54,7 +54,6 @@
                     method: "post",
                     params: user
                 }).success(function (response) {
-                    console.log(response);
                     $scope.lists = response.list;
                     $scope.paginationConf.totalItems = response.total;
                 })

@@ -55,20 +55,20 @@
       <if test="auditStatus != null ">
         and audit_status=#{auditStatus}
       </if>
-      <if test="roleId != null and roleId != ''">
-        and us.role_id>#{roleId}
-      </if>
       <if test="roleId==2">
         and user_province =#{userProvince}
+        and us.role_id=3
       </if>
       <if test="roleId==3">
         and user_province =#{userProvince}
         and user_city = #{userCity}
+        and us.role_id=4
       </if>
       <if test="roleId==4">
         and user_province =#{userProvince}
         and user_city = #{userCity}
         and user_area =#{userArea}
+        and us.role_id=5
       </if>
     </where>
     order by gmt_create DESC
@@ -95,21 +95,23 @@
     from user us
     left join role r on r.role_id=us.role_id
     <where>
-      and us.role_id>#{roleId}
       <if test="userUnit != null and userUnit != ''">
         and user_unit like CONCAT("%",#{userUnit},"%")
       </if>
       <if test="roleId==2">
         and user_province =#{userProvince}
+        and us.role_id=3
       </if>
       <if test="roleId==3">
         and user_province =#{userProvince}
         and user_city = #{userCity}
+        and us.role_id=4
       </if>
       <if test="roleId==4">
         and user_province =#{userProvince}
         and user_city = #{userCity}
         and user_area =#{userArea}
+        and us.role_id=5
       </if>
       and us.del_id=0
     </where>

@@ -163,6 +163,11 @@ public class UserController {
         return userService.findUserByRoleId(pageNum,pageSize,user);
     }
 
+    /**
+     * 用户注销
+     * @param httpSession
+     * @return
+     */
     @RequestMapping("logOut")
     public String logOut(HttpSession httpSession){
         httpSession.removeAttribute("admin");
