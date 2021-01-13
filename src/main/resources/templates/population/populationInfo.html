@@ -8,20 +8,6 @@
     <script type="text/javascript" src="../../static/pagejs/pageMe.js"></script>
 </head>
 <style>
-        .parent {
-            width: 200px;
-            height: 600px;
-            background-color: darkgray;
-            float: left;
-        }
-        .child {
-            border: 2px solid black;
-            background-color: white;
-            width: 150px;
-            height: 25px;
-            margin-top: 70px;
-        }
-
         label { float: left; width: 10em; margin-right: 1em; text-align: right; }
 
         /*分页样式*/
@@ -175,29 +161,20 @@
 </script>
 <body ng-app="myApp" ng-controller="myCtrl">
     <div><center><h1>流动人口服务管理系统</h1></center></div>
-    <div class="parent">
-        <center>
-            <button ng-click="toAudit()" class="child">注册信息审核</button>
-            <button ng-click="toAccountManagement()" class="child">账号管理</button>
-            <button ng-click="" class="child">登记信息审核</button>
-            <button ng-click="toPopulation()" class="child">流动人口信息管理</button>
-            <button ng-click="toMessage()" class="child">流动人口信息统计</button>
-        </center>
-    </div>
-    <div style="float: left; width: 1000px; height: 600px">
+    <div style="float: left; width: 100%; height: 100%">
         <div align="center" style="margin-top: 10px">
             <table>
                 <tr>
                     <td>
-                        从<input type="date" id="gmtCreate" name="gmtCreate" value=""/>至<input type="date" id="endCreate" name="endCreate" value=""/>&nbsp;&nbsp;&nbsp;&nbsp;
+                        从<input type="date" id="gmtCreate" name="gmtCreate" value="" style="height: 20px;"/>至<input type="date" id="endCreate" name="endCreate" value="" style="height: 20px;"/>&nbsp;&nbsp;&nbsp;&nbsp;
                         <button style="width: 80px; height: 50px;" ng-click="query()">搜索</button>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <input type="text" ng-model="fuzzyQuery.employingName" placeholder="xx公司"/>&nbsp;&nbsp;&nbsp;
-                        <input type="text" ng-model="fuzzyQuery.personalName" placeholder="姓名"/>&nbsp;&nbsp;&nbsp;
-                        <input type="text" ng-model="fuzzyQuery.personalPhone" placeholder="手机号"/>&nbsp;&nbsp;&nbsp;
+                        <input type="text" ng-model="fuzzyQuery.employingName" style="height: 20px;" placeholder="xx公司"/>&nbsp;&nbsp;&nbsp;
+                        <input type="text" ng-model="fuzzyQuery.personalName" style="height: 20px;" placeholder="姓名"/>&nbsp;&nbsp;&nbsp;
+                        <input type="text" ng-model="fuzzyQuery.personalPhone" style="height: 20px;" placeholder="手机号"/>&nbsp;&nbsp;&nbsp;
                     </td>
                 </tr>
             </table>
