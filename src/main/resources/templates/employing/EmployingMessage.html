@@ -49,6 +49,7 @@
     <script>
         var app = angular.module("myApp", []);
         app.controller("myController", function ($scope, $http) {
+            $scope.employing={}
             $http({
                 url:"/Employing/findEmploying",
                 method:"post"
@@ -136,6 +137,7 @@
             //数据验证
             $scope.formVerify = function(employing){
                 var judge = true;
+                console.log(employing);
                 var employingName = employing.employingName;
                 var unitType = employing.unitType;
                 var unitSiteProvine = employing.unitSiteProvine;

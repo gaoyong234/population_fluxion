@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>账户管理</title>
+    <script src="../../static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <link rel="stylesheet" href="../../static/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../static/plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../../static/plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="stylesheet" href="../../static/plugins/angularjs/toaster.min.css">
+    <script src="../../static/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="../../static/plugins/angularjs/angular.min.js"></script>
+    <link rel="stylesheet" href="../../static/plugins/angularjs/pagination.css">
+    <script type="text/javascript" src="../../static/plugins/angularjs/pagination.js"></script>
+    <script src="../../static/js/showLoading.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        var app = angular.module("myApp", ["pagination"]);
+        app.controller("myController", function ($scope, $http) {
+            $scope.entity = {};
+            $scope.paginationConf = {
+                currentPage: 1,  				//当前页
+                totalItems: 10,					//总记录数
+                itemsPerPage: 10,				//每页记录数
+                perPageOptions: [5, 10, 20, 30, 40, 50], //分页选项，下拉选择一页多少条记录
+                onChange: function () {
+                    $scope.find($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage)
+                }
+            }
+            $scope.registerAuditMessage = {
+                pageNum: 0,
+                pageSize: 10
+            }
+            //返回结果提示
+            $scope.showModalButton1 = function (slogan) {
+                showModal({
+                    title: "温馨提示",  //提示的标题
+                    content: slogan,  //提示的内容
+                    showCancel: false,  //是否显示取消按钮，默认为 true
+                    cancelText: '取消',  //取消按钮的文字，默认为"取消"，最多 4 个字符
+                    cancelColor: "#fff",  //取消按钮的文字颜色，默认为"#000000"
+                    cancelBgColor: '#4c4c4c',  //取消按钮的背景颜色
+                    confirmText: '确定',
+                    confirmColor: '#fff',
+                    confirmBgColor: '#ff130a',
+                    success: function () {
+
+                    }
+                });
+            }
+            //获取全部信息
+            $scope.find = function (pageNum, items) {
+                if (pageNum == null || pageNum == "") {
+                    pageNum = 1;
+                }
+                $scope.registerAuditMessage.pageNum = pageNum;
+                $scope.registerAuditMessage.pageSize = items;
+                var registerAudit = $scope.registerAuditMessage;
+                $http({
+                    url: "/RegisterAudit/findAllRegisterAudit",
+                    method: "post",
+                    params: registerAudit
+                }).success(function (response) {
+                    $scope.lists = response.list;
+                    $scope.paginationConf.totalItems = response.total;
+                })
+            }
+            $scope.audit = function (registerAuditStatus) {
+
+                $scope.auditList=[];
+                var checkBoxs=document.getElementsByName("pitchOn");
+                for (var i = 0; i <checkBoxs.length ; i++) {
+                    if (checkBoxs[i].checked){
+                        $scope.auditList.push(checkBoxs[i].value);
+                    }
+                }
+                var auditList = $scope.auditList;
+                console.log(auditList)
+                console.log(registerAuditStatus)
+                if(auditList.length>0){
+                    $http({
+                        url: "/RegisterAudit/changeRegisterAudit",
+                        method: "post",
+                        params: {"auditList":auditList,"registerAuditStatus":registerAuditStatus}
+                    }).success(function (response) {
+                        $scope.showModalButton1(response.slogan)
+                        $scope.find($scope.paginationConf.currentPage, $scope.paginationConf.itemsPerPage)
+                    })
+                }else{
+                    $scope.showModalButton1("请选择相关数据")
+                }
+            }
+            //查看详情
+            $scope.toAllMessage = function (userId) {
+                window.location.href="/AllMessage/toAllMessage?userId="+userId;
+            }
+        })
+    </script>
+</head>
+<body  ng-app="myApp" ng-controller="myController">
+<div>
+    <h4 class="alert alert-infoalert alert-info">账户管理</h4>
+</div>
+<table class="table table-bordered table-striped">
+    <tr>
+        <td>公司名称:</td>
+        <td >
+            <input ng-model="registerAuditMessage.employingName" class="form-control bbb">
+        </td>
+
+    </tr>
+    <tr>
+        <td></td>
+        <td><button type="button" class="btn btn-info" ng-click="find()">查询</button></td>
+    </tr>
+</table>
+<div>
+    <button type="button" class="btn btn-primary" style="margin-left: 35px"
+            ng-click="audit(2)">通过审核
+    </button>
+    <button type="button" class="btn btn-primary" style="margin-left: 35px"
+            ng-click="audit(3)">不通过审核
+    </button>
+</div>
+<div>
+    <table id="dataList" class="table">
+        <thead>
+        <tr>
+            <th></th>
+            <th>编号</th>
+            <th>单位名称</th>
+            <th>姓名</th>
+            <th>联系方式</th>
+            <th>提交时间</th>
+            <th>详细</th>
+            <th>审核状态</th>
+        </tr>
+        </thead>
+
+        <tbody id="tbody">
+        <tr ng-repeat="ra in lists">
+            <td><input type="checkbox" name="pitchOn" ng-value="ra.registerId"></td>
+            <td>{{ra.registerId}}</td>
+            <td>{{ra.employingName}}</td>
+            <td>{{ra.personalName}}</td>
+            <td>{{ra.personalPhone}}</td>
+            <td>{{ra.gmtCreate}}</td>
+            <td><button ng-click="toAllMessage(ra.userId)" class="btn btn-success">查看详情</button</td>
+            <td>
+                <span ng-if="ra.registerAuditStatus==1">未审核</span>
+                <span ng-if="ra.registerAuditStatus==2">审核通过</span>
+                <span ng-if="ra.registerAuditStatus==3">审核未通过</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <tm-pagination conf="paginationConf"></tm-pagination>
+</div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.population.service.Impl;
 
+import com.population.dao.personalDao.PersonalsMapper;
 import com.population.dao.personalMapper;
 import com.population.pojo.personal;
 import com.population.service.PersonalService;
@@ -13,6 +14,8 @@ import java.util.Date;
 public class PersonalImpl implements PersonalService {
     @Autowired
     private personalMapper personalMapper;
+    @Autowired
+    private PersonalsMapper personalsMapper;
 
     @Override
     public Integer inserPersonal(personal personal) {
@@ -37,5 +40,11 @@ public class PersonalImpl implements PersonalService {
     public Integer updatePersonal(personal personal) {
         Integer integer= personalMapper.updatePersonal(personal);
         return integer;
+    }
+
+    @Override
+    public Integer findPersonalIdByUserId(Integer userId) {
+
+        return personalsMapper.selectPersonalId(userId);
     }
 }
