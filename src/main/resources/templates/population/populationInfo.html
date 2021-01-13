@@ -87,15 +87,16 @@
         $scope.submit =function () {
             var obj = document.getElementsByName("c1");
             var checkArr = [];
-            var poId = {poId:checkArr}
+            var personal = {personal:checkArr}
             for (var i = 0; i < obj.length; i++) {
-                if (obj[i].checked)
+                if (obj[i].checked) {
                     checkArr.push(obj[i].value);
+                }
             }
             if(checkArr == null || checkArr == ''){
                 alert("请选择数据！！！")
             }else if(checkArr != null && checkArr != ''){
-                alert(checkArr);
+                alert("提交成功"+checkArr);
             }
 
         }
@@ -217,8 +218,8 @@
                     <td>详情</td>
                 </tr>
                 <tr ng-repeat="x in list">
-                    <td><input type="checkbox" name="c1" value="{{x.userId}}"></td>
-                    <td>{{x.userId}}</td>
+                    <td><input type="checkbox" name="c1" value="{{x.personal}}"></td>
+                    <td>{{x.personal}}</td>
                     <td>{{x.employingName}}</td>
                     <td>{{x.personalName}}</td>
                     <td>{{x.personalPhone}}</td>
