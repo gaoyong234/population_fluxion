@@ -109,6 +109,25 @@
     })
 </script>
 <script type="text/javascript">
+    /*button 按钮全选*/
+    var  i=0;
+    $(function(){
+            $("#alll").click(
+                function (){
+                    $("input[name='c1']").prop("checked","checked");
+                    //这个地方只能用prop实现多次点击切换全选和全不选的效果，用attr的话不会多次实现。
+                    // 因为attr不会记录当前checkbox的选中状态，所以这个地方只能使用prop
+                    if(i==1){
+                        $("input[name='c1']").prop("checked",false);
+                    }
+                    i++;
+                    if(i>1){
+                        i=0;
+                    }
+                }
+            );
+        }
+    );
     //获取checkbox按钮组
     var allpro = document.getElementsByName("c1");
     //全选方法
@@ -184,7 +203,8 @@
             <table border="1" width="700">
                 <tr>
                     <td>
-                        <input type="checkbox" name="c0" id="all" value="全选" onclick="change()">
+                        <!--<input type="checkbox" name="c0" id="all" value="全选" onclick="change()">-->
+                        <!--<button id="all">全选</button>-->
                         <!--<input type="checkbox" name="r0" id="revcheck" value="反选" onclick="revs()">反-->
                     </td>
                     <td>编号</td>
@@ -208,6 +228,7 @@
             </table>
             <!--分页-->
             <div id="pages" class="page_div"></div>
+            <button id="alll">全选</button>
             <button style="width: 150px" ng-click="submit()">提交</button>
         </div>
     </div>
