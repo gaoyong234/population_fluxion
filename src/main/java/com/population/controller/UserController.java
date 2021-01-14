@@ -63,8 +63,35 @@ public class UserController {
     }
 
     /**
+     * 派出所注册
+     * @return 返回派出所注册页面
+     */
+    @RequestMapping("toRegister4")
+    public String toRegister4(){
+        return "register4";
+    }
+
+    /**
+     * 分局注册
+     * @return 返回分局注册页面
+     */
+    @RequestMapping("toRegister3")
+    public String toRegister3(){
+        return "register3";
+    }
+
+    /**
+     * 总局注册
+     * @return 返回总局注册页面
+     */
+    @RequestMapping("toRegister2")
+    public String toRegister2(){
+        return "register2";
+    }
+
+    /**
      * 页面跳转到 主页
-     * @return
+     * @return 返回登录成功的页面
      */
     @RequestMapping("inindex")
     public String inindex(){
