@@ -32,19 +32,39 @@
                 $scope.child = response.child;//计生信息
                 $scope.employing=response.employingVO;//就业信息
                 $scope.dwell = response.dwellVO;//居住信息
-                setTimeout($scope.SaveCheck,500);
-                $scope.findCity();
-                $scope.province();
-                $scope.area();
-                $scope.findvillage();
-                $scope.nowfindCity();
-                $scope.nowprovince();
-                $scope.nowarea();
-                $scope.nowfindvillage();
-                $scope.getProvince();
-                $scope.getCity();
-                $scope.getCounty();
-                $scope.getArea();
+                if($scope.employing != null){
+                    setTimeout($scope.SaveCheck,500);
+                }
+                if ($scope.personal.censusProvine != null){
+                    $scope.findCity();
+                }
+                if ($scope.personal.censusCity != null){
+                    $scope.province();
+                }
+                if ($scope.personal.censusCounty != null){
+                    $scope.area();
+                }
+                if ($scope.personal.censusVill != null){
+                    $scope.findvillage();
+                }
+                if ($scope.personal.nowLivingProvine != null){
+                    $scope.nowfindCity();
+                }
+                if ($scope.personal.nowLivingCity != null){
+                    $scope.nowprovince();
+                }
+                if ($scope.personal.nowLivingCounty != null){
+                    $scope.nowarea();
+                }
+                if ($scope.personal.nowLivingVill != null){
+                    $scope.nowfindvillage();
+                }
+                if($scope.mate != null){
+                    $scope.getProvince();
+                    $scope.getCity();
+                    $scope.getCounty();
+                    $scope.getArea();
+                }
             })
 
             //复选框显示截取
