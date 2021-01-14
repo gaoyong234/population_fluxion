@@ -75,9 +75,11 @@ public class PersonalController {
      */
     @RequestMapping("updatePersonal")
     @ResponseBody
-    public Integer updatePersonal(personal personal){
+    public Integer updatePersonal(personal personal,HttpSession httpSession){
         personal.setGmtModified(new Date());
-       Integer integer= personalService.updatePersonal(personal);
+        User admin =(User) httpSession.getAttribute("admin");
+        personal.setUserId(admin.getUserId());
+        Integer integer= personalService.updatePersonal(personal);
        return integer;
     }
 
