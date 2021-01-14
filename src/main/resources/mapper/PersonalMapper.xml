@@ -111,7 +111,7 @@
         personal,
       </if>
       <if test="userId != null">
-        user_id
+        user_id,
       </if>
       <if test="personalName != null">
         personal_name,
