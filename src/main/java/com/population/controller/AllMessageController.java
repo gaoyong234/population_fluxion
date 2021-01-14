@@ -41,13 +41,15 @@ public class AllMessageController {
     public AllMessage findAllMessage(Integer userId){
         AllMessage allMessage = allMessageService.findAllMessage(userId);
         EmployingVO employing = allMessage.getEmployingVO();
-        String[] param = employing.getInsurance().split(",");
-        List<Integer> list=new ArrayList<>();
-        for (int i = 0; i < param.length; i++) {
-            String s = param[i];
-            list.add(Integer.parseInt(s));
+        if(employing != null){
+            String[] param = employing.getInsurance().split(",");
+            List<Integer> list=new ArrayList<>();
+            for (int i = 0; i < param.length; i++) {
+                String s = param[i];
+                list.add(Integer.parseInt(s));
+            }
+            employing.setInsuranceId(list);
         }
-        employing.setInsuranceId(list);
         allMessage.setEmployingVO(employing);
         return allMessage;
     }
